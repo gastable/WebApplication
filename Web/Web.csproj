@@ -108,6 +108,7 @@
     <Content Include="38HW2.html" />
     <Content Include="AudioPlayerJS.js" />
     <Content Include="AudioPlayerStyle.css" />
+    <Content Include="GitHubTest.html" />
     <Content Include="music\Along Braver.mp3" />
     <Content Include="music\Dance Monkey.mp3" />
     <Content Include="music\Double me.mp3" />
