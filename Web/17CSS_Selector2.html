@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+
+        table {
+            border: 5px double black;
+
+            width: 400px;
+            text-align: center;
+        }
+        th {
+            border: 1px solid black;
+        }
+        td {
+            border: 1px solid black;
+   
+        }
+
+        .bottom {
+            text-align: left
+        }
+
+        .red{
+            color:red;
+        }
+
+        /*table tfoot>tr:last-child > td {
+            text-align: left;
+        }*/
+    </style>
+
+</head>
+<body>
+
+    <table>
+        <caption>成績單</caption>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>國文</th>
+                <th>數學</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <td>張三</td>
+            <td>85</td>
+            <td class="red">48</td>
+        </tr>
+        <tr>
+            <td>李四</td>
+            <td>64</td>
+            <td>74</td>
+        </tr>
+        <tr>
+            <td>王五</td>
+            <td class="red">58</td>
+            <td>78</td>
+        </tr>
+        <tr>
+            <td>趙六</td>
+            <td>93</td>
+            <td>92</td>
+        </tr>
+
+
+        <tfoot>
+            <tr>
+                <td colspan="3" class="bottom">製表人:大雄</td>
+
+            </tr>
+        </tfoot>
+
+    </table>
+</body>
+</html>

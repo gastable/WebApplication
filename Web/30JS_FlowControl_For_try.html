@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="text" id="sum" name="sum" />
+    <input type="text" id="foot" name="foot" />
+    <input type="text" id="fibo" name="fibo" />
+    <script>
+
+        //雞兔同籠
+        //已知雞兔共35隻,雞兔的腳共94支,請問籠子裡雞兔各有幾隻?
+
+        //設雞為x隻, 兔為y隻
+        //x+y=35      x=35-y , y=35-x
+        //2x+4y=94
+        for (var x = 0, y = 35; x <= 35, y >= 0; x++, y -= 1) {
+            if (2 * x + 4 * y == 94)
+                document.write("雞有" + x + "隻，兔子有" + y + "隻")
+        }
+
+
+
+        //費氏數列
+        //1,1,2,3,5,8,13,21
+        //已知第一個數和第二個數為1
+        //第n為第n-1+第n-2
+        //請撰寫一個程式,能找出第n數為數列上的哪一個數字
+        var m = prompt("請輸入您要找第幾個數")
+        var n, x = 1, y = 0;
+        if (m == 1)
+            n = 1;
+        else {
+            for (var i = 1; i < m; i++) {
+                n = x + y;
+                y = x;
+                x = n;
+
+            }
+        }
+        document.write("第" + m + "個數是" + n)
+
+        //您想要幾排星星
+        var m = prompt("您想要幾排星星？")
+        var n = "";
+        for (i = 1; i <= m; i++) {
+            n = n + "*";
+            document.write("<div style='text-align:center'>" + n + "</div><br>");
+        }
+
+
+        document.write("<hr>");
+
+        ///九九乘法表
+        for (var j = 1; j <= 9; j++) {
+            for (var i = 1; i <= 9; i++) {
+                document.write(j + "*" + i + "=" + i*j);
+                document.write("<br>");
+
+            }
+        }
+        
+    </script>
+</body>
+</html>

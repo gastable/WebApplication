@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <label for="score">Input Score</label>
+    <input type="text" name="score" />
+    <input type="submit" value="Submit"/>
+    <hr />
+    <script>
+        //多條件流程控制 switch...case....
+        //1.信用卡付款 2.現金付款 3.轉帳付款 4.Line Pay 5.貨到付款
+        var intPayType = 1;
+
+        switch (intPayType) {
+            case 1:
+                document.write("信用卡付款!!");
+                break;
+            case 2:
+                document.write("現金付款!!");
+                break;
+            case 3:
+                document.write("轉帳付款!!");
+                break;
+            case 4:
+                document.write("Line Pay!!");
+                break;
+            case 5:
+                document.write("貨到付款!!");
+                break;
+        }
+
+
+        document.write("<hr>");
+        //y:黃色 g:綠色 r:紅色
+        var strColor = "t";
+
+        switch (strColor) {
+            case "y":
+                document.write("黃色");
+                break;
+            case "g":
+                document.write("綠色");
+                break;
+            case "r":
+                document.write("紅色");
+                break;
+            default:
+                document.write("這不是黃綠紅");
+        }
+        document.write("<hr>");
+        //////////////////////////////////////
+
+        //區分等第
+        //90分以上為優等, 80~89分為甲等, 70~79分為乙等
+        //60~69分為丙等, 60分以下為丁等
+        //只能用switch
+
+        var score = document.getElementByName("score")
+        score = parseInt(score / 10);
+        switch (score) {
+            case 10:
+            case 9:
+                document.write("優等");
+                break;
+            case 8:
+                document.write("甲等");
+                break;
+            case 7:
+                document.write("乙等");
+                break;
+            case 6:
+                document.write("丙等");
+                break;
+            default:
+                document.write("丁等")
+        }
+    </script>
+</body>
+</html>

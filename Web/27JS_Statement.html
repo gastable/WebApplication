@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <script>
+        //運算敘述句
+        var a = 10;  //做指定運算
+        a = 20; //做指定運算, a的值為20
+        a = a + 10;  //加法算術指定運算, a的值為30 (20+10)
+        a += 10; //加法算術指定運算, a的值為40 (30+10)
+        a -= 8;  //減法算術指定運算, a的值為32 (40-8)
+        a *= 10;  //乘法算術指定運算, a的值為320 (32*10)
+        a /= 32;  //除法算術指定運算, a的值為10 (320/10)
+        a %= 3;  //除法算術指定運算, a的值為1 (10%3)
+
+        a++;//a+=1,a=a+1  //加法算術指定運算, a的值為2 (1+1)
+
+        document.write(a);
+        document.write("<hr>");
+         //////////////////////////////////////////////
+        //隨堂練習-兩數交換
+        //宣告變數ｘ與ｙ為任意數，並將兩數的值交換，不可以再宣告任何變數
+        var x = 545567; var y = 46786;
+        document.write("未交換前 x=" + x + ", y=" + y);
+        document.write("<br>");
+
+        x = x + y;  //5
+        y = x - y;  //2
+        x = x - y;  //3
+
+        document.write("交換後 x=" + x + ", y=" + y);
+        document.write("<hr>");
+         //////////////////////////////////////////////
+        //觀察以下輸出值的變化
+
+        document.write(3.0);
+        document.write("<br>");
+        document.write(3.5);
+        document.write("<br>");
+
+        //parseInt()  //將值轉型為整數型態
+    
+        document.write(parseInt(3.5));
+        document.write("<br>");
+        document.write(100/3);
+        document.write("<br>");
+        document.write(parseInt(100/3));
+        document.write("<br>");
+        document.write(parseInt("3.5"));
+        document.write("<br>");
+        document.write(parseInt("3.0"));
+        document.write("<br>");
+
+        document.write("<hr>");
+        //typeof() 看出某個值的資料型態
+       
+        document.write(typeof (25));
+        document.write("<br>");
+
+        document.write(typeof (25.123));
+        document.write("<br>");
+        document.write(typeof(parseInt(100 / 3)));
+        document.write("<br>");
+
+        document.write(typeof ("3.0"));
+        document.write("<br>");
+        document.write(typeof (parseInt("3.0")));
+        document.write("<br>");
+
+
+        //有變化的
+        document.write(parseInt("334833.33434alfjlsflsa"));
+        document.write("<br>");
+
+
+        document.write(parseInt("334833alfjlsflsa"));
+        document.write("<br>");
+
+        document.write(parseInt("alfjlsflsa334833"));
+        document.write("<br>");
+
+        document.write(parseInt("12e22"));
+        document.write("<br>");
+        document.write(parseInt(12232e22));
+        document.write("<br>");
+
+        document.write(parseInt("55",8));
+        document.write("<br>");
+
+        document.write(parseInt("5c", 16));
+        document.write("<br>");
+
+
+        document.write(parseFloat(5));
+        document.write("<br>");
+        document.write(typeof(parseFloat(5)));
+        document.write("<br>");
+
+
+        document.write("<hr>");
+        ///////////////////////////////////////////////
+        //做運算
+        var strName = "Jack", intNumber = 123, blnGender = true;
+        var result = "";  //初始化result變數為空字串
+
+        result = strName + blnGender;  //string+boolean=>string 
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof(result));
+        document.write("<br>");
+
+
+        result = strName + intNumber;  //string+number=>string 
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof (result));
+        document.write("<br>");
+
+        result = intNumber + blnGender;  //number+boolean=>number
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof (result));
+        document.write("<br>");
+        /////////////////////////////////////////////////////////
+
+        result = blnGender + strName;  //boolean+string=>string 
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof (result));
+        document.write("<br>");
+
+
+        result = intNumber + strName;  //number+string=>string 
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof (result));
+        document.write("<br>");
+
+
+        result = blnGender + intNumber;  //boolean+number=>number
+        document.write(result);
+        document.write("<br>");
+        document.write(typeof (result));
+        document.write("<br>");
+
+        //變數還有全域性與區域性的問題
+    </script>
+</body>
+</html>

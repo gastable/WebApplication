@@ -1,0 +1,39 @@
+//判斷質數
+        public void CheckPrime(int n) { 
+        int c = 0;
+        for (int i = 1; i <= n; i++) {
+            if (n % i == 0)
+                c++;                
+        }
+        if (c > 2)
+            Response.Write(n + "不是質數");
+        else Response.Write(n + "是質數");}
+
+//最大公因數
+        public void Gcd(int a, int b)
+        {
+            int x = a;
+            int y = b;
+            if (a > b)
+            {
+                var c = a % b;
+                while (c > 0)
+                {
+                    a = b;
+                    b = c;
+                    c = a % b;
+                }
+                Response.Write(x + "及" + y + "的最大公因數為" + b);
+            }
+            else
+            {
+                int c = b % a;
+                while (c > 0)
+                {
+                    b = a;
+                    a = c;
+                    c = b % a;
+                }
+                Response.Write(x + "及" + y + "的最大公因數為" + a);
+            }
+        }

@@ -1,0 +1,142 @@
+﻿#controlPanel {
+    border: 5px groove black;
+    width: 1000px;
+    margin: auto;
+    box-shadow: 0px 0px 5px black;
+    border-radius: 10px;
+    /*padding: 20px;*/
+}
+
+#btnArea {
+    padding: 10px;
+    text-align: center;
+}
+
+    #btnArea > span {
+        font-family: Webdings;
+        cursor: pointer;
+        font-size: 4rem;
+        border: 3px solid black;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+.btnVol {
+    border-radius: 50%;
+    border: 1px groove white;
+    box-shadow: 0px 0px 1px #000000;
+}
+
+
+#setVolValue {
+    width: 900px;
+    height: 10px;
+    border: 3px solid;
+    /*background-color: #ef7d2c*/
+
+    appearance: none;
+}
+
+    #setVolValue::-webkit-slider-thumb {
+        appearance: none;
+        background-color: #272727;
+        border-radius: 5px;
+        width: 35px;
+        height: 25px;
+    }
+
+    #setVolValue::-moz-range-thumb {
+        border: 3px solid #272727;
+        background-color: #272727;
+        width: 30px;
+        height: 20px;
+    }
+
+#volValue {
+    width: 25px;
+    text-align: center;
+    background-color: black;
+    color: yellow;
+}
+
+#info > div {
+    text-align: center;
+}
+
+#progress {
+    width: 99.5%;
+    height: 5px;
+    appearance: none;
+    margin-bottom: 10px;
+    background-color: #a5ffff;
+}
+
+    #progress::-webkit-slider-thumb {
+        appearance: none;
+        background-color: #b40000;
+        cursor: pointer;
+        width: 10px;
+        height: 5px;
+        transition: .5s;
+    }
+
+        #progress::-webkit-slider-thumb:hover {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+    #progress::-moz-range-thumb {
+        background-color: #b40000;
+        cursor: pointer;
+        width: 10px;
+        height: 5px;
+        transition: .5s;
+    }
+
+        #progress::-moz-range-thumb:hover {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+#music, #info {
+    width: inherit;
+    font-size: 2rem;
+    background-color: black;
+    color: chartreuse;
+    text-align: center;
+}
+
+#book {
+    background-color: black;
+    color: yellow;
+}
+
+    #book > div {
+        border: 3px groove;
+        width: 494px;
+        height: 200px;
+        float: left;
+    }
+
+        #book > div > div {
+            font-size: 1.2rem;
+            border-bottom: 1px solid;
+            padding: 2px;
+        }
+
+    #book > button {
+        clear: both;
+        width: 100%;
+        background-color: #000000;
+        font-size: 1.4rem;
+        text-align: center;
+        border: 3px groove white;
+        color: white;
+        font-weight: 900;
+    }
+
+.hide {
+    display: none;
+}

@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<link href="~/AudioPlayerStyle.css" rel="stylesheet" />
+<body>
+        <audio controls="controls">
+            <source src="~/music/Along%20Braver.mp3" type="audio/mpeg" />
+        </audio>
+
+    <hr />
+    <div id="controlPanel">
+        <select id="music" oninput="chngMusic(0)">
+        </select>
+        <hr />
+        <div id="btnArea">
+            <span onclick="playSong()">4</span>
+            <span onclick="stopSong()"><</span>
+            <span onclick="chngMusic(-1)">9</span>
+            <span onclick="chngTime(-10)">7</span>
+            <span onclick="chngTime(10)">8</span>
+            <span onclick="chngMusic(1)">:</span>
+            <span onclick="sameSong()">q</span>
+            <span onclick="cycleSong()">`</span>
+            <span onclick="randomSong()">s</span>
+            <span onclick="setMuted()">V</span>
+            <span onclick="showBook()">i</span>
+
+        </div>
+        <hr />
+        <input id="progress" type="range" value="0" oninput="setProgress()" />
+        <input id="setVolValue" type="range" oninput="setVol()" value="50" />
+        <button onclick="adjVol(-1)">-</button>
+        <button onclick="adjVol(1)">+</button>
+        <input id="volValue" type="text" readonly />
+
+        <hr />
+        <div id="info">
+            <marquee>請按下播放鍵</marquee>
+            <div>00:00/00:00</div>
+            <div>正常模式</div>
+        </div>
+        <div id="book" class="hide">
+            <div ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div title="music/Along Braver.mp3">陳亦迅-孤勇者</div>
+                <div title="music/Dance Monkey.mp3">Tone And I-Dance Money</div>
+                <div title="music/Double Me.mp3">鄧紫棋-兩個自己</div>
+                <div title="music/Memories.mp3">Maroon 5-Memories</div>
+                <div title="music/Nothing.mp3">Nothing Gonna Change My Love For You</div>
+            </div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)">
+
+
+            </div>
+            <button onclick="updateMusic()">更新歌單</button>
+        </div>
+    </div>
+    <script src="~/AudioPlayerJS.js"></script>
+</body>
+</html>

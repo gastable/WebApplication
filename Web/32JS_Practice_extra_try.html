@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <label for="mth">出生月份</label>
+    <input id="mth" name="mth" /><br />
+    <label for="date">出生日期</label>
+    <input id="date" name="date" />
+    <button onclick="myFunction()">執行</button><br />
+
+    <script>
+
+        //1、百錢買百雞
+        ///公雞價格5元 / 只，母雞價格3元 / 只，小雞1元能夠買三隻，現在有100塊錢，需要買100隻雞，求出所有的組合。
+        var x, y;
+
+        for (x = 0; x <= 20; x++) {
+            for (y = 0; y <= 34; y++) {
+                var z = 100 - x - y;
+                if (5 * x + 3 * y + z / 3 == 100 && x + y + z == 100) {
+
+                    document.write("可買公雞" + x + "隻、母雞" + y + "隻、小雞" + 3 * z + "隻<br>")
+                }
+
+            }
+        }
+    </script>
+    <div style="text-align:center">
+        <script>
+            //2、菱形輸出
+            //菱形輸出主要是使用 * 符號構成菱形並對菱形進行輸出顯示，重點考察對循環嵌套的理解與使用，輸出菱形格式要求如下：
+            var m = prompt("您要做邊長幾層星星的菱形");
+            for (i = 1; i <= 2 * m - 1; i++) {
+                if (i <= m) {
+                    for (j = 1; j <= 2 * i - 1; j++) {
+                        document.write("*")
+                    }
+                    document.write("<br>")
+                }
+                else {
+                    for (j = 1; j <= (2 * m - 1) * 2 - (2 * i - 1); j++) {
+                        document.write("*")
+                    }
+                    document.write("<br>")
+                }
+
+            }
+            //星座判斷器
+            function myFunction() {
+                var mth = document.getElementById("mth").value;
+                var date = document.getElementById("date").value;
+                var zoc = ""
+                switch (mth) {
+                    case "1":
+                        if (date >= 20) {
+                            zoc = "水瓶座";
+                        } else { zoc = "摩羯座"; }
+                        break;
+                    case "2":
+                        if (date >= 19) {
+                            zoc = "雙魚座";
+                        } else { zoc = "水瓶座"; }
+                        break;
+                    case "3":
+                        if (date >= 21) {
+                            zoc = "牡羊座";
+                        } else { zoc = "雙魚座"; }
+                        break;
+                    case "4":
+                        if (date >= 20) {
+                            zoc = "金牛座";
+                        } else { zoc = "牡羊座"; }
+                        break;
+                    case "5":
+                        if (date >= 21) {
+                            zoc = "雙子座";
+                        } else { zoc = "金牛座"; }
+                        break;
+                    case "6":
+                        if (date >= 22) {
+                            zoc = "巨蟹座";
+                        } else { zoc = "雙子座"; }
+                        break;
+                    case "7":
+                        if (date >= 23) {
+                            zoc = "獅子座";
+                        } else { zoc = "巨蟹座"; }
+                        break;
+                    case "8":
+                        if (date >= 23) {
+                            zoc = "處女座";
+                        } else { zoc = "獅子座"; }
+                        break;
+                    case "9":
+                        if (date >= 23) {
+                            zoc = "天秤座 ";
+                        } else { zoc = "處女座"; }
+                        break;
+                    case "10":
+                        if (date >= 24) {
+                            zoc = "天蠍座";
+                        } else { zoc = "天秤座"; }
+                        break;
+                    case "11":
+                        if (date >= 23) {
+                            zoc = "射手座";
+                        } else { zoc = "天蠍座"; }
+                        break;
+                    case "12":
+                        if (date >= 22) {
+                            zoc = "摩羯座";
+                        } else { zoc = "射手座"; }
+                        break;
+                }
+                document.write("您是" + zoc)
+
+
+            }
+
+        </script>
+    </div>
+</body>
+</html>

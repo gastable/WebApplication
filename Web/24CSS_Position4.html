@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #container {
+            width: 770px;
+            margin: auto;
+            /*position: relative;*/
+        }
+       header{
+        
+         
+       }
+        nav {
+   
+            width:210px;
+            float:left;
+         
+        }
+        section {
+      
+            width: 560px;
+            float: right;
+          
+        }
+        footer {
+          
+            clear:both;
+          
+        }
+        #ad1{
+            position:absolute;
+            top:0;
+            left:75px;
+        }
+        #ad2 {
+            position: fixed;
+            top: 0;
+            right: 50px;
+        }
+        #ad3 {
+            position: absolute;
+            top: 30px;
+            left: 124px;
+        }
+        .hide{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <header>
+            <img src="images/top.jpg" />
+        </header>
+        <nav>
+            <img src="images/left.jpg" />
+        </nav>
+        <section>
+            <img src="images/right.jpg" />
+        </section>
+        <footer>
+            <img src="images/bottom.jpg" />
+        </footer>
+        <img src="images/ad.jpg" id="ad3" />
+    </div>
+
+    <img src="images/banner1.jpg" id="ad1" />
+    <img src="images/banner2.jpg" id="ad2" />
+
+   <script>
+       var ad3 = document.getElementById("ad3");
+       ad3.addEventListener('click', function () {
+           ad3.className = "hide";
+       });
+   </script>
+</body>
+</html>

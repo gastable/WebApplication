@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <script>
+        //陣列(Array)
+        //一種資料結構
+
+        //var a = 123;
+
+        //var itemNo = "S001";
+        //var itemName = "王小明";
+        //var itemPhone = "07-8210171";
+
+        //var item = ["S001", "王小明", "07-8210171"];
+        //var item2 = ["S002", "陳小華", "07-7845478"];
+
+
+        //document.write(item);
+        //document.write("<br>");
+        //document.write(item2);
+        //document.write("<hr>");
+
+
+        //var Rainbow = ["紅", "橙", "黃", "綠", "藍", "靛", "紫"];
+        //document.write(Rainbow);
+        //document.write(Rainbow[2]);
+
+        //document.write(Rainbow[5]);
+
+        //document.write("<hr>");
+        //document.write(Rainbow[0]);
+        //document.write(Rainbow[1]);
+        //document.write(Rainbow[2]);
+        //document.write(Rainbow[3]);
+        //document.write(Rainbow[4]);
+        //document.write(Rainbow[5]);
+        //document.write(Rainbow[6]);
+        //document.write("<hr>");
+        //for (var i = 0; i < Rainbow.length; i++) {
+        //    document.write(Rainbow[i]);
+
+        //}
+
+        document.write("<hr>");
+
+        var RainbowColor = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"];
+
+        for (var item in RainbowColor) {
+            document.write(RainbowColor[item]);
+        }
+        document.write("<hr>");
+
+        for (var item of RainbowColor) {
+            document.write(item);
+        }
+        document.write("<hr>");
+
+        //for (var item of Rainbow) {
+        //    document.write(item);
+        //}
+
+        //document.write("<hr>");
+
+        //用本身的顏色來顯示字
+        for (var i = 0; i < Rainbow.length; i++) {
+            
+            //document.write('<span style="color:' + RainbowColor[i] + '">' + Rainbow[i] + '</span>');
+
+            //document.write("<span style='color:" + RainbowColor[i] + "'>" + Rainbow[i] + "</span>");
+
+            document.write(`<span style="color:${RainbowColor[i]}">${Rainbow[i]}</span>`);
+
+        }
+
+
+    </script>
+
+    <!--<span style="color:red">紅</span>
+    <span style="color:orange">橙</span>
+    <span style="color:yellow">黃</span>-->
+</body>
+</html>

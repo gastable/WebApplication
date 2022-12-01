@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>傳個檔案！</title>
+</head>
+<body>
+    請選擇欲上傳的檔案
+    <form action="/MyPractice/Create" method="post" enctype="multipart/form-data">
+        <input id="photo" type="file" name="photo"/>
+        <input id="Submit1" type="submit" value="上傳" />
+        <hr />
+        @ViewBag.message
+        <hr />
+        <a href="/MyPractice/showUpdate">點我看上傳的照片</a>
+    </form>
+</body>
+</html>

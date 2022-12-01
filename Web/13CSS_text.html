@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Welcome My Homepage</h1>
+    <h1 style="text-decoration:underline">Welcome My Homepage</h1>
+    <h1 style="text-decoration:overline">Welcome My Homepage</h1>
+    <h1 style="text-decoration:line-through">Welcome My Homepage</h1>
+    <h1 style="text-decoration:none">Welcome My Homepage</h1>
+
+    <a href="#" style="text-decoration:none;font-size:2rem;">前往google</a>
+    <hr />
+    <h1 style="color:#b02525">Welcome My Homepage</h1>
+    <h1 style="color:rgb(99, 54, 54);background-color:antiquewhite">Welcome My Homepage</h1>
+    <h1 style="text-align:center">Welcome My Homepage</h1>
+    <h1 style="text-align:right">Welcome My Homepage</h1>
+    <h1 style="text-align:left">Welcome My Homepage</h1>
+    <hr />
+
+    <h1 style="text-transform:uppercase">Welcome My Homepage</h1>
+    <h1 style="text-transform:lowercase">Welcome My Homepage</h1>
+    <h1 style="text-transform:capitalize">welcome my homepage</h1>
+    <h1 style="text-transform:capitalize">WELCOME MY HOMEPAGE</h1>
+    <hr />
+
+
+    <h1 style="text-shadow:5px 5px 10px black">Welcome My Homepage</h1>
+
+    <h1 style="color: white; text-shadow: 0px 0px 7px black;">Welcome My Homepage</h1>
+
+    <h1 style="text-shadow:3px 3px 5px red, 5px 5px 5px yellow, 7px 7px 5px green">Welcome My Homepage</h1>
+
+    <hr />
+    <input type="button" value="放大" id="btn1" />
+    <input type="button" value="還原" id="btn2" />
+    <input type="button" value="縮小" id="btn3"  />
+    <div id="news">
+        全球電源與能源管理廠台達(2308)與歐美主要充電營運商夥伴合作，協助加油站轉型為充電站及複合商場，並導入台灣社區住宅，旗下DeltaGrid EVM電動車充電管理系統已導入台灣超過100個社區住宅，亦搭配台達充電椿全球銷售佈局，積極於歐美及東南亞市場推動充電站管理。
+
+
+        在大多數建築因建置之初並未預留可供充電樁使用的電力容量而動彈不得之際，台達從能源管理面著手，DeltaGrid EVM電動車充電管理系統透過AI智慧調度為既有建築解套。系統涵蓋智慧充電、能源調度、充電站管理及數位化維運服務四大功能。藉由充電椿群組化、排程與即時負載調配功能，可分散充電尖峰並確保所有電動車都能完成充電；搭配時間電價及彈性費率引導充電行為、整合儲能調度尖離峰及太陽能餘電，可降低超約罰款與意外風險，同時兼顧營運效益並舒緩電網衝擊，讓既有建築不需大幅變更電力配置，也能在不過載、不超過契約容量的前提下提供充電服務，大幅提升各種場域裝置充電樁的可能性。
+
+        台達DeltaGrid 事業主管賴宏仁博士表示，隨著充電樁走入城市、改變人們的用電行為，未來不僅個別場站的耗電量增加，用電尖峰也更難預測，電網的挑戰有增無減，整合太陽能、儲能與充電的能源基礎設施會是未來發展的大方向。同時，ESG議題發酵，企業用戶在導入充電樁時也會同步考量太陽能與儲能設備的裝置，藉此提升再生能源使用效率、全面降低碳排放，也將市場對充電應用的期待從單純的設備監控推升到能源管理層面。
+
+        DeltaGrid EVM系統為台達DeltaGrid能源管理平台旗下的解決方案，協助用戶有效消除集合住宅、商辦大樓對用電安全、計費、日常管理的疑慮，同時也響應台電針對社區充電需求所推行的電動車充電專用電表(專設一戶供電)方案；此外，台達獨步業界，將太陽能電力與儲能納入單一平台，搭配時間電價削峰填谷、調度太陽能餘電，進一步優化能源使用效率與電費支出。DeltaGrid EVM近期已陸續在全球各地完成包含社區、集合住宅、停車場、廠辦、商場及加油站等實績專案。
+
+        此外，系統也包含充電站營運所需的會員帳務、權限管控與金流支付等功能，搭配數位化維運服務，可以調適最佳系統運行時間，協助場站管理者透過較低的轉換成本無痛接軌電動交通，讓能源管理與商業模式一次到位。
+
+        台達電表示，公司投入電動車充電設備的開發超過十年，結合多年來與歐美主要充電營運商夥伴合作、協助加油站轉型為充電站及複合商場等豐沛經驗，充分了解充電站涉及之管理層面與服務需求，DeltaGrid EVM除了已導入台灣社區住宅，亦搭配台達充電椿全球銷售佈局，積極於歐美及東南亞市場推動充電站管理。
+    </div>
+
+
+
+    <hr />
+    <script>
+        var btn1 = document.getElementById("btn1");
+        var btn2 = document.getElementById("btn2");
+        var btn3 = document.getElementById("btn3");
+        var news = document.getElementById("news");
+
+
+        btn1.addEventListener('click', function () {
+            news.style.fontSize = "2rem";
+        })
+        btn2.addEventListener('click', function () {
+            news.style.fontSize = "1rem";
+        })
+        btn3.addEventListener('click', function () {
+            news.style.fontSize = "0.8rem";
+        })
+
+    </script>
+</body>
+</html>

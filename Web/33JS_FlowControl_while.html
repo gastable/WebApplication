@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <script>
+        //迴圈(loop)敘述
+        //while
+        //用在不知道要執行幾次
+        //while( 條件  )
+
+        //var sum = 0;
+
+        //for (var i = 1; i <= 100; i++) {
+        //    //sum = sum + i;
+        //    sum += i;
+
+        //    console.log("sum=" + sum + ", i=" + i);
+        //}
+        //document.write(sum);
+
+        var sum = 0;
+        var i = 1;
+        while (i <= 100) {
+
+            sum += i;
+            i++;
+        }
+
+        document.write(sum);
+
+        //for (var j = 1; j <= 6; j++)
+        //    document.write("<h"+j+">Hello World!!</h"+j+">")
+        var j = 1;
+        while (j <= 6) {
+            document.write("<h" + j + ">Hello World!!</h" + j + ">");
+            j++;
+        }
+
+        document.write("<hr>");
+
+
+        //var a = "";
+        //for (var i = 0; i < 10; i++) {
+        //    a += "*";
+        //    document.write(a + "<br>");
+        //}
+
+        var a = "";
+        var n = 0;
+        while (n < 10) {
+            a += "*";
+            document.write(a + "<br>");
+            n++;
+        }
+
+        document.write("<hr>");
+
+        //雞兔同籠
+        //已知雞兔共35隻,雞兔的腳共94支,請問籠子裡雞兔各有幾隻?
+        //for (var x = 0; x <= 35; x++) {
+        //    if (2 * x + 4 * (35 - x) == 94)
+        //        document.write("設雞為" + x + "隻,則兔子為" + (35 - x) + "隻<br>");
+        //}
+        var x = 0;
+        while (2 * x + 4 * (35 - x) != 94) {
+            x++;
+        }
+        document.write("雞為" + x + "隻,兔子為" + (35 - x) + "隻<br>");
+        document.write("<hr>");
+
+       
+    </script>
+</body>
+</html>

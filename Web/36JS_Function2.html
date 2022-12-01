@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #car{
+            margin-left:0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="t"></h1>
+
+    X:<input type="text" id="txtX" />
+    Y:<input type="text" id="txtY" />
+    <hr />
+    <img src="car.jpg" width="200" id="car" />
+
+    <script>
+
+        var car = document.getElementById("car");
+        var a = 0;
+        function carMoving() {
+
+            a+=5;
+            car.style.marginLeft = a + "px";
+
+            if (car.offsetLeft < 1720) 
+                setTimeout(carMoving, 10)
+            
+        }
+
+        document.addEventListener("click", carMoving);
+
+        function getXY(evt) {
+            txtX.value = evt.pageX;
+            txtY.value = evt.pageY;
+        }
+
+        document.addEventListener("mousemove", getXY);
+
+        ///////////////////////////////////
+
+        function myTimer() {
+
+            var timer = new Date();
+
+            //document.write(timer);
+            t.innerText = timer;
+            console.log(t);
+            setTimeout(myTimer, 1000);
+
+        }
+
+        myTimer();
+    </script>
+
+
+</body>
+</html>

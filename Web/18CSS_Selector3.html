@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+
+        #table1 {
+            border: 5px double black;
+
+            width: 400px;
+            text-align: center;
+            box-shadow:3px 3px 8px black;
+        }
+            #table1 th, #table1 td {
+                border: 1px solid black;
+            }
+
+
+            #table1 > tbody > tr:first-child > td:last-child,
+            #table1 > tbody > tr:first-child + tr + tr > td:first-child + td {
+                color: red
+            }
+             
+
+            #table1 > tbody >  {
+                color: red
+            }
+
+        #table1 tfoot>tr > td {
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!--container 容器-->
+
+    <table id="table1">
+        <caption>成績單</caption>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>國文</th>
+                <th>數學</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>張三</td>
+                <td>85</td>
+                <td>48</td>
+            </tr>
+            <tr>
+                <td>李四</td>
+                <td>64</td>
+                <td>74</td>
+            </tr>
+            <tr>
+                <td>王五</td>
+                <td>58</td>
+                <td>78</td>
+            </tr>
+            <tr>
+                <td>趙六</td>
+                <td>93</td>
+                <td>92</td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="3">製表人:大雄</td>
+
+            </tr>
+        </tfoot>
+
+    </table>
+
+    <hr />
+
+    <table>
+        <caption>成績單</caption>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>國文</th>
+                <th>數學</th>
+            </tr>
+        </thead>
+
+        <tr>
+            <td>張三</td>
+            <td>85</td>
+            <td class="red">48</td>
+        </tr>
+        <tr>
+            <td>李四</td>
+            <td>64</td>
+            <td>74</td>
+        </tr>
+        <tr>
+            <td>王五</td>
+            <td class="red">58</td>
+            <td>78</td>
+        </tr>
+        <tr>
+            <td>趙六</td>
+            <td>93</td>
+            <td>92</td>
+        </tr>
+
+
+        <tfoot>
+            <tr>
+                <td colspan="3" class="bottom">製表人:大雄</td>
+
+            </tr>
+        </tfoot>
+
+    </table>
+</body>
+</html>
