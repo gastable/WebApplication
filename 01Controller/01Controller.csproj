@@ -111,6 +111,7 @@
     <Compile Include="Controllers\ComplexBindController.cs" />
     <Compile Include="Controllers\FileUpLoadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MultiFileUploadController.cs" />
     <Compile Include="Controllers\MyPracticeController.cs" />
     <Compile Include="Controllers\SimpleBindController.cs" />
     <Compile Include="Global.asax.cs">
@@ -127,6 +128,7 @@
     <Content Include="Views\ComplexBind\Create.cshtml" />
     <Content Include="Views\FileUpLoad\Create.cshtml" />
     <Content Include="Views\MyPractice\Create.cshtml" />
+    <Content Include="Views\MultiFileUpload\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
