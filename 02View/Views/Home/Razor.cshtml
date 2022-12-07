@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Razor";
+}
+
+<h2>Razor</h2>
+
+@*  這裡是註解 *@
+
+@*
+    這裡
+    是
+    區塊
+    註解
+*@
+
+@{
+    string name = "John";
+    var name2 = "Kevin";
+    int Math = 85, Eng = 95, Chi = 95;
+
+    bool flag = true;
+
+    <h3>@name2</h3>
+    <h3>Welcome</h3>
+
+    <h3>@name</h3>
+    @name
+
+    <h2>歡迎@(name2)光臨</h2>
+    <h2>歡迎 @name2 光臨</h2>
+}
+
+
+<h3>@name</h3>
+
+<h1>@Math+@Eng+@Chi=@(Math + Eng + Chi)</h1>
+<hr />
+
+@if (flag)
+{
+    <h2>您已登入本系統</h2>
+}
+else
+{
+    <h2>您尚未登入本系統</h2>
+}
+
+@{ 
+    string[] nm = { "瑞豐夜市", "新堀江商圈", "六合夜市", "青年夜市", "花園夜市", "大東夜市", "武聖夜市" };
+}
+
+
+<ul>
+    @foreach (var item in nm)
+    {
+    <li>@item</li>
+    }
+</ul>
