@@ -57,6 +57,7 @@ function updateMusic() {
         music.appendChild(option);
     }
 
+
     changeMusic(0);
 }
 
@@ -245,3 +246,15 @@ function stopAudio() {
     audio.currentTime = 0;
     info.children[0].innerText = "音樂停止";
 }
+
+
+
+//info.addEventListener('click',
+//    function (evt) {
+
+//    evt.target.id;
+//    }
+
+//)
+
+//info.addEventListener('click', evt => evt.target.id)

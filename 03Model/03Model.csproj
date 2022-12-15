@@ -1,4 +1,5 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -7,12 +8,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{18DB3C19-FA5F-4728-A9DB-00C3048FE337}</ProjectGuid>
+    <ProjectGuid>{D24F2FA0-96A1-455A-B3C5-44AC51DE9A5D}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_02View</RootNamespace>
-    <AssemblyName>02View</AssemblyName>
+    <RootNamespace>_03Model</RootNamespace>
+    <AssemblyName>03Model</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -43,7 +44,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -88,6 +97,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\dbSutdent.mdf" />
+    <Content Include="App_Data\dbSutdent_log.ldf">
+      <DependentUpon>dbSutdent.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Northwind.mdf" />
+    <Content Include="App_Data\Northwind_log.ldf">
+      <DependentUpon>Northwind.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -95,13 +112,26 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="images\A01.jpg" />
-    <Content Include="images\A02.JPG" />
-    <Content Include="images\A03.JPG" />
-    <Content Include="images\A04.jpg" />
-    <Content Include="images\A05.jpg" />
-    <Content Include="images\A06.jpg" />
-    <Content Include="images\A07.jpg" />
+    <Content Include="Models\dbStudentModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbStudentModel.edmx</DependentUpon>
+      <LastGenOutput>dbStudentModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\dbStudentModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbStudentModel.edmx</DependentUpon>
+      <LastGenOutput>dbStudentModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NorthWindModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NorthWindModel.Context.cs</LastGenOutput>
+      <DependentUpon>NorthWindModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\NorthWindModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NorthWindModel.edmx</DependentUpon>
+      <LastGenOutput>NorthWindModel.cs</LastGenOutput>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -110,34 +140,117 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LinqController.cs" />
+    <Compile Include="Controllers\tStudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\NightMarket.cs" />
+    <Compile Include="Models\dbStudentModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbStudentModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dbStudentModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbStudentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dbStudentModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbStudentModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\NorthWindModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NorthWindModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NorthWindModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NorthWindModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NorthWindModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tStudent.cs">
+      <DependentUpon>dbStudentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\供應商.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\員工.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\客戶.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\產品資料.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\產品類別.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\訂貨主檔.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\訂貨明細.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\貨運公司.cs">
+      <DependentUpon>NorthWindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <EntityDeploy Include="Models\NorthWindModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NorthWindModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\NorthWindModel.edmx.diagram">
+      <DependentUpon>NorthWindModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\dbStudentModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dbStudentModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\dbStudentModel.edmx.diagram">
+      <DependentUpon>dbStudentModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Views\Home\OldCreate.cshtml" />
-    <Content Include="Views\Home\Display.cshtml" />
-    <Content Include="Views\Home\Razor.cshtml" />
-    <Content Include="Views\Home\Create.cshtml" />
-    <Content Include="Views\Home\IndexRWD.cshtml" />
+    <Content Include="Views\tStudents\Create.cshtml" />
+    <Content Include="Views\tStudents\Delete.cshtml" />
+    <Content Include="Views\tStudents\Details.cshtml" />
+    <Content Include="Views\tStudents\Edit.cshtml" />
+    <Content Include="Views\tStudents\Index.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\Default\Create.cshtml" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -146,7 +259,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
+    <Folder Include="Views\Linq\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -161,9 +278,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64014</DevelopmentServerPort>
+          <DevelopmentServerPort>60966</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64014/</IISUrl>
+          <IISUrl>http://localhost:60966/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -178,7 +295,10 @@
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
