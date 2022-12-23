@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 如果還有明天股份有限公司</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+
+ @RenderSection("CSS", false)
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("如果還有明天", "Index", "tEmployee", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("部門管理作業", "Index", "tDepartments")</li>
+                    <li>@Html.ActionLink("員工管理作業", "Index", "tEmployee")</li>
+                    @*<li><a href="/tDepartments/Index">部門管理作業</a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        @*把view放在這裡*@
+        <hr />
+        <footer>
+            <p class="text-center">Copyrihgt &copy; @DateTime.Now.ToString("D")-如果還有明天股份有限公司 All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("scripts",false)
+    @*把叫scripts的section放在這裡，false表示如果找不到就算了*@
+</body>
+</html>

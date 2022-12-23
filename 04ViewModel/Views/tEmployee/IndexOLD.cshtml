@@ -1,0 +1,47 @@
+﻿@model _04ViewModel.ViewModels.EmpDee>
+
+@{
+    ViewBag.Title = "員工管理作業";
+}
+
+<h2 class="alert alert-info text-center">員工管理作業</h2>
+
+<p class="text-right">
+    @Html.ActionLink("新增員工資料", "Create", null, new {@class="btn btn-primary"})
+</p>
+<table class="table">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.fName)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.fPhone)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.fDepId)
+        </th>
+        <th class="text-center">
+            管理
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.fName)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.fPhone)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => item.fDepId)
+        </td>
+        <td class="text-center">
+            @Html.ActionLink("修改", "Edit", new { id=item.fEmpId }, new {@class="btn btn-warning"}) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.fEmpId }) |*@
+            @Html.ActionLink("刪除", "Delete", new { id=item.fEmpId }, new { onclick = "return confirm('確定刪除？')", @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
