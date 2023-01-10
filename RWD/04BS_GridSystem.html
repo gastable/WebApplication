@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <!-- 容器 -->
+        <div class="row">
+            <!-- 列 -->
+            <div class="bg-info col">Col 1</div>    <!--欄，沒給數字就平均分配欄寬-->
+            <div class="bg-primary col">Col 2</div> <!--Bootstrap 3版就一定要給數量-->
+            <div class="bg-warning col">Col 3</div>
+        </div>
+        <div class="row">
+            <div class="bg-danger col">Col 4</div>
+            <div class="bg-success col">Col 5</div>
+            <div class="bg-secondary col">Col 6</div>
+            <div class="bg-info col">Col 7</div>
+        </div>
+        <div class="row">
+            <div class="bg-info col-6">Col 8</div>    <!--1列12格，本欄6格寬-->
+            <div class="bg-primary col-4">Col 9</div>
+            <div class="bg-warning col-2">Col 10</div>
+        </div>
+        <div class="row">
+            <div class="bg-danger col">Col 11</div>
+            <div class="bg-success col">Col 12</div>
+            <div class="bg-secondary col">Col 13</div>
+            <div class="bg-info col">Col 14</div>
+            <div class="bg-primary col">Col 15</div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="bg-info col-md">Col 16</div>    <!--有md斷點-->
+            <div class="bg-primary col-md">Col 17</div>
+            <div class="bg-warning col-md">Col 18</div>
+        </div>
+        <div class="row">
+            <div class="bg-danger col-lg-3 col-md-4">Col 4</div>
+            <div class="bg-success col-lg-2 col-md-4">Col 5</div>
+            <div class="bg-secondary col-lg-4 col-md-2">Col 6</div>
+            <div class="bg-info col-lg-3 col-md-2">Col 7</div>
+        </div>
+        <hr />
+        <h3>等寬多行</h3>
+        <div class="row">
+            <div class="bg-danger col">Col 1</div>
+            <div class="bg-success col">Col 2</div>
+            <div class="bg-secondary col">Col 3</div>
+            <div class="w-100"></div>   <!--用w-100可斷行-->
+            <div class="bg-info col">Col 4</div>
+            <div class="bg-warning col">Col 5</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #table1 {
+            border: 1px double black;
+            margin: auto;
+        }
+
+            #table1 > thead {
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            #table1 > tbody > tr:nth-child(2n+1) {
+                border: 1px solid black;
+                background-color: antiquewhite;
+            }
+
+            #table1 td {
+                border: 1px solid black;
+            }
+
+            #table1 tbody > tr:hover {
+                background-color: aquamarine;
+                font-size: 1.2em;
+            }
+            /*#table1>thead>tr>td+td{
+                width:30px;
+            }*/
+    </style>
+</head>
+<body>
+    <table id="table1">
+        <thead>
+            <tr>
+                <td>名稱</td>  <!--實務上不要放<th>比較好調整樣式-->
+                <td width="150px">連絡電話</td>
+                <td>服務時間</td>
+                <td>住址</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
+    </table>
+
+    <script src="Scripts/jquery-3.6.1.min.js"></script>
+    <script>
+        $.ajax({
+            type: 'get',
+            url: 'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=DIS&apikey=XBRCUGRFRDK9P0HJ',
+            success: function (data) {
+                //alert('成功');
+                console.log(data);
+                data.data.forEach((item) => {
+                    row = `<tr>
+                               <td>${item.名稱}</td>
+                               <td>${item.連絡電話}</td>
+                               <td>${item.服務時間}</td>
+                               <td>${item.地址}</td>
+                            </tr>`;
+                    $('#table1>tbody').append(row);
+
+                });
+
+                //for (let i = 0; i < data.data.length;i++) {
+                //    row = `<tr>
+                //               <td>${data.data[i].名稱}</td>
+                //               <td>${data.data[i].連絡電話}</td>
+                //               <td>${data.data[i].服務時間}</td>
+                //               <td>${data.data[i].地址}</td>
+                //            </tr>`;
+                //    $('#table1>tbody').append(row);
+                //    }
+            }
+        });
+    </script>
+
+</body>
+</html>

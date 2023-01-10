@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #container {
+            /*opacity:0;*/
+            display: none;
+        }
+
+            #container > h1 {
+                text-align: center;
+                background-color: #7ecdeb;
+                padding: 5px;
+                color: white;
+                /*            text-shadow: 0 0 3px black;
+        */
+            }
+
+            #container > div {
+                /*   border: 1px solid black;*/
+                width: 595px;
+                height: 570px;
+                border-radius: 5px;
+                float: left;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                box-shadow: 0 0 10px black;
+                padding: 10px;
+            }
+
+                #container > div:hover {
+                    background-color: aquamarine;
+                    cursor: pointer;
+                }
+
+            #container img {
+                width: 100%;
+            }
+
+            #container h2 {
+                text-align: center;
+            }
+
+            #container h3 {
+                text-align: center;
+            }
+
+            #container > div > div ~ div { /*div~div：+號只能抓到下一個兄弟節點，所以用~才能抓到同層的其他div*/
+                text-align: center;
+            }
+
+        #fontButton {
+            text-align: right;
+        }
+
+            #fontButton > span {
+                border: 1px solid gray;
+                padding: 2px;
+                cursor: pointer;
+            }
+        .larger{
+            font-size:1.2em;
+        }
+        .default{
+            font-size:1em;
+        }
+        .smaller{
+            font-size:0.8em;
+        }
+        .selected{
+            background-color:darkkhaki;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div id="fontButton">
+        <span id="smaller">小</span>
+        <span id="default">中</span>
+        <span id="larger">大</span>
+    </div>
+    <div id="container">
+    </div>
+
+    <script src="Scripts/jquery-3.6.1.min.js"></script>
+    <script>
+        //JS寫法
+        //var fontButton = document.getElementById("fontButton");
+        //fontButton.addEventListener('click', function (evt) {
+        $('#container>div').click(function(evt){
+            id = evt.target.id;
+            if (id != "fontButton") {
+                $('#container>div').removeClass().addClass(id);
+                $('#fontButton>span').removeClass('selected');
+                $(evt.target).addClass('selected');
+            }
+        });
+
+        let item = `<h1>全國農業旅遊休閒園區</h1>`;
+        $('#container').append(item);
+
+        function toBlack() {
+            $('#container > h1').css({ 'text- shadow': '0 0 3px black' });
+            setTimeout(toYellow, 300);
+        }
+        function toYellow() {
+            $('#container > h1').css({ 'text- shadow': '0 0 3px yellow' });
+            setTimeout(toBlack, 300);
+        }
+        toYellow();
+        $.ajax({ //async JavaScript and XML
+            type: 'get',
+            url: 'https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAttractions.aspx',
+            success: function (data) {  //成功取得資料後，取名為data使用
+                console.log(data);
+
+                for (let i = 0; i < data.length; i++) {
+                    item = `<div title="${data[i].Introduction}">
+                                            <h2> ${data[i].Name} </h2>
+                                            <div><img src="${data[i].Photo}"  /></div>
+                                            <h3>${data[i].City} ${data[i].Town}</h3>
+                                            <div>
+                                                <span>電話：${data[i].Tel}<span> |
+                                                <span>地址：${data[i].Address}<span> |
+                                                <a href="https://www.google.com.tw/maps/search/${data[i].Address}" target="_blank">地圖</a>
+                                            </div>
+                                     </div>`;
+                    $('#container').append(item);
+                }
+
+            },
+            error: function () {
+                alert('error');
+            }
+        });
+
+        //var n=0;
+        //function fadeIn() {
+        //    n += 0.1
+        //    $('#container').css({ 'opasity': n });
+        //    if(n<=1)
+        //        setTimeout(fadeIn,100)
+        //}
+        //fadeIn();
+        //用jQuery
+        $('#container').fadeIn(1000);
+
+    </script>
+</body>
+</html>

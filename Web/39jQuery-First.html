@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .h:hover{
+            background-color:yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+       
+    </div>
+
+    <script src="Scripts/jquery-3.6.1.min.js"></script>
+    <script>
+        var div = document.getElementById("container");
+
+        for (let i = 1; i <= 6; i++) {
+            var h1 = document.createElement(`h${i}`);
+
+            h1.innerText = "Hello jQuery";
+            //h1.style.backgroundColor = "yellow";
+            //h1.style.color = "red";
+            h1.className = "h";
+            div.appendChild(h1);
+        }
+
+        ///////////////////////////////////////////////////////
+
+        //$('#container').html('<h1 style="color:red;background-color:yellow">Hello jQuery</h1>');
+
+        //for (let i = 1; i <= 6; i++) {
+        //    $('#container').append(`<h${i} class="h">Hello jQuery</h${i}>`);
+        //}
+
+    </script>
+</body>
+</html>
