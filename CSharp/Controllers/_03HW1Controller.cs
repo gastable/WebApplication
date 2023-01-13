@@ -116,5 +116,31 @@ namespace CSharp.Controllers
             Response.Write("第四位玩家的牌:" + player4 + "<hr>");
         }
 
+        ////身份證檢查
+        public bool IDnumber()
+        {
+            string idNumber = "K121925128";
+            string firstChar = idNumber.Substring(0, 1);
+            string[] IDHead = { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" };
+            int n, n1;
+            int[] IDBody = new int[9];
+
+
+            //第一位字母的數字
+            n1 = Array.IndexOf(IDHead, firstChar) + 10;
+            n = (n1 / 10) * 1 + (n1 % 10) * 9;
+            //抓後面數字
+            for (int i = 0; i < 8; i++)
+            {
+                IDBody[i] = int.Parse(idNumber.Substring(i + 1, 1));
+                n += IDBody[i] * (8 - i);
+            }
+            n += int.Parse(idNumber.Substring(9, 1)) * 1;
+            //Response.Write("n=" + n);
+            if (n % 10 == 0)
+                return true;
+
+            return false;
+        }
     }
 }

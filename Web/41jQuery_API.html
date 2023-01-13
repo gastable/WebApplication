@@ -32,10 +32,10 @@
     <table id="table1">
         <thead>
             <tr>
-                <td>編號</td>  <!--實務上不要放<th>比較好調整樣式-->
-                <td>名稱</td>
-                <td>電話</td>
-                <td>住址</td>
+                <td>開盤價</td>  <!--實務上不要放<th>比較好調整樣式-->
+                <td>最高價</td>
+                <td>最低價</td>
+                <td>收盤價</td>
             </tr>
         </thead>
         <tbody>
@@ -47,24 +47,59 @@
     <script src="Scripts/jquery-3.6.1.min.js"></script>
     <script>
         //要使用open data資料介接必須使用ajax
-
-        
+       
         $.ajax({
             type: 'get',
-            url: 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=VWRA.LON&apikey=XBRCUGRFRDK9P0HJ',
+            url: 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=VT&apikey=XBRCUGRFRDK9P0HJ',
             success: function (data) {
-                alert("資料取得成功");
-                console.log(data);
+                //alert("資料取得成功");
+                //console.log(data);
 
-                for (var item of data) {
-                    row = `<tr>
-                               <td>${item.ID}</td>
-                               <td>${item.Name}</td>
-                               <td>${item.Tel}</td>
-                               <td>${item.Address}</td>
-                            </tr>`;
-                $('#table1>tbody').append(row);
-                }
+                var i = 0;
+                $.each(data, function (objectTitle, objects) {
+
+                    if (i >= 1) {
+
+                        $.each(objects, function (objectKey, objectValue) {
+                                row = `<tr>
+                               <td>${objectValue['1. open']}</td>
+                               <td>${objectValue['2. high']}</td>
+                               <td>${objectValue['3. low']}</td>
+                               <td>${objectValue['4. close']}</td>
+                        //    </tr>`;
+                    $('#table1').append(row);
+                            console.log('');
+                            console.log(objectKey);
+                            console.log('OPEN: ' + objectValue['1. open']);
+                            console.log('HIGH: ' + objectValue['2. high']);
+                            console.log('LOW: ' + objectValue['3. low']);
+                            console.log('CLOSE: ' + objectValue['4. close']);
+                        });
+                    }
+
+                    i++;
+                });
+
+                //for (var item of data["Monthly Time Series"]) {
+                    
+                //    //row = `<tr>
+                //    //           <td>${item.open}</td>
+                //    //           <td>${item.high}</td>
+                //    //           <td>${item.low}</td>
+                //    //           <td>${item.close}</td>
+                //    //        </tr>`;
+                //    //$('#table1').append(row);
+                //}
+
+                //for (var item of data.data[1]) {
+                //    row = `<tr>
+                //               <td>${item.open}</td>
+                //               <td>${item.high}</td>
+                //               <td>${item.low}</td>
+                //               <td>${item.close}</td>
+                //            </tr>`;
+                //$('#table1>tbody').append(row);
+                //}
 
                 //for (var item of data)
                 //    document.write(`<div>${item.ID} ${item.Name} ${item.Tel} ${item.Address}</div>`);

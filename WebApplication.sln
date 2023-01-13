@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWD", "RWD\RWD.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCSDD10", "MCSDD10\MCSDD10.csproj", "{C84EFDEC-1E92-49A6-A4A4-330EBAD4CC82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05CustomValidation", "05CustomValidation\05CustomValidation.csproj", "{B3DD0068-85AD-43EA-8517-C9903D94E3C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{C84EFDEC-1E92-49A6-A4A4-330EBAD4CC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C84EFDEC-1E92-49A6-A4A4-330EBAD4CC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C84EFDEC-1E92-49A6-A4A4-330EBAD4CC82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DD0068-85AD-43EA-8517-C9903D94E3C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3DD0068-85AD-43EA-8517-C9903D94E3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3DD0068-85AD-43EA-8517-C9903D94E3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3DD0068-85AD-43EA-8517-C9903D94E3C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

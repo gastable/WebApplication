@@ -110,7 +110,6 @@
     <Content Include="40jQuery-API2.html" />
     <Content Include="40jQuery-DOM.html" />
     <Content Include="40jQuery-DOM1.html" />
-    <Content Include="40practice.html" />
     <Content Include="41jQuery_API.html" />
     <Content Include="AudioPlayerJS.js" />
     <Content Include="AudioPlayerStyle.css" />
