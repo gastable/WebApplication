@@ -1,0 +1,133 @@
+﻿@model IEnumerable<_06ADOnet.Models.Products>
+
+@{
+    ViewBag.Title = "Index";
+    string StockColor = "";
+}
+
+@section css{ 
+<style>
+    #addProduct{
+        display:none;
+    }
+</style>
+}
+
+
+<h2>產品資料管理</h2>
+<p class="text-right">
+    <button class="btn btn-primary" id="showAddForm"><span class="glyphicon glyphicon-plus"></span> 新增產品</button>
+</p>
+<div class="well" id="addProduct">
+    @Html.Action("_Create")
+
+</div>
+
+<table class="table">
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityPerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsInStock)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.UnitsOnOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReorderLevel)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Discontinued)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Categories.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Suppliers.CompanyName)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.UnitsInStock < item.ReorderLevel && item.UnitsOnOrder == 0)
+        {
+            StockColor = "danger";
+        }
+        else if (item.UnitsInStock < item.ReorderLevel && item.UnitsOnOrder != 0)
+        {
+            StockColor = "warning";
+        }
+
+        else
+        {
+            StockColor = "success";
+        }
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td class="bg-@StockColor text-center">
+                @Html.DisplayFor(modelItem => item.UnitsInStock)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderLevel)
+
+                </td>*@
+            <td class="text-center">
+                @*@Html.DisplayFor(modelItem => item.Discontinued)*@
+                @if (@item.Discontinued)
+                {
+                    <span class="glyphicon glyphicon-remove text-danger" title="已下架" data-toggle="tooltip" data-placement="right"></span>
+                }
+                else
+                {
+                    <span class="glyphicon glyphicon-ok text-success" title="上架中" data-toggle="tooltip" data-placement="right"></span>
+                }
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Categories.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Suppliers.CompanyName)
+                </td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+
+        $('#showAddForm').click(function () {
+
+            $('#addProduct').slideToggle(800);
+        });
+    </script>
+}

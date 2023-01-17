@@ -1,0 +1,993 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AMWPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cash">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="bigint" Nullable="false" />
+          <Property Name="MemID" Type="int" Nullable="false" />
+          <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="CCYID" />
+          </Key>
+          <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Daily">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="bigint" Nullable="false" />
+          <Property Name="SecID" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Open" Type="float" Nullable="false" />
+          <Property Name="High" Type="float" Nullable="false" />
+          <Property Name="Low" Type="float" Nullable="false" />
+          <Property Name="Close" Type="float" Nullable="false" />
+          <Property Name="AdjClose" Type="float" Nullable="false" />
+          <Property Name="Dividend" Type="float" Nullable="false" />
+          <Property Name="Volume" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Managements">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="int" Nullable="false" />
+          <Property Name="MemID" Type="int" Nullable="false" />
+          <Property Name="AdminID" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="MemID" />
+          </Key>
+          <Property Name="MemID" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monthly">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="bigint" Nullable="false" />
+          <Property Name="SecID" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Open" Type="float" Nullable="false" />
+          <Property Name="High" Type="float" Nullable="false" />
+          <Property Name="Low" Type="float" Nullable="false" />
+          <Property Name="Close" Type="float" Nullable="false" />
+          <Property Name="AdjClose" Type="float" Nullable="false" />
+          <Property Name="Dividend" Type="float" Nullable="false" />
+          <Property Name="Volume" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="int" Nullable="false" />
+          <Property Name="MemID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Loan" Type="money" Nullable="false" />
+          <Property Name="Term" Type="smallint" Nullable="false" />
+          <Property Name="Principal" Type="money" Nullable="false" />
+          <Property Name="PayDay" Type="smallint" Nullable="false" />
+          <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SecOrders">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="bigint" Nullable="false" />
+          <Property Name="MemID" Type="int" Nullable="false" />
+          <Property Name="SecID" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TrancType" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Share" Type="float" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Fee" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SecTypes">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeID" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Securities">
+          <Key>
+            <PropertyRef Name="SecID" />
+          </Key>
+          <Property Name="SecID" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="TypeID" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="CountryID" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="Symbol" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weekly">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="bigint" Nullable="false" />
+          <Property Name="SecID" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Open" Type="float" Nullable="false" />
+          <Property Name="High" Type="float" Nullable="false" />
+          <Property Name="Low" Type="float" Nullable="false" />
+          <Property Name="Close" Type="float" Nullable="false" />
+          <Property Name="AdjClose" Type="float" Nullable="false" />
+          <Property Name="Dividend" Type="float" Nullable="false" />
+          <Property Name="Volume" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cash_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Cash" Type="Self.Cash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Cash">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cash_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Cash" Type="Self.Cash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Cash">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Daily_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Daily" Type="Self.Daily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Daily">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Managements_Admins">
+          <End Role="Admins" Type="Self.Admins" Multiplicity="1" />
+          <End Role="Managements" Type="Self.Managements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Managements">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Managements_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Managements" Type="Self.Managements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Managements">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Monthly_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Monthly" Type="Self.Monthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Monthly">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Properties_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Properties_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SecOrders_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="SecOrders" Type="Self.SecOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="SecOrders">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SecOrders_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="SecOrders" Type="Self.SecOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="SecOrders">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Securities">
+          <End Role="SecTypes" Type="Self.SecTypes" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SecTypes">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weekly_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Weekly" Type="Self.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AMWPModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cash" EntityType="Self.Cash" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Daily" EntityType="Self.Daily" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Managements" EntityType="Self.Managements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Monthly" EntityType="Self.Monthly" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SecOrders" EntityType="Self.SecOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SecTypes" EntityType="Self.SecTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Securities" EntityType="Self.Securities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Weekly" EntityType="Self.Weekly" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cash_Currencies" Association="Self.FK_Cash_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Cash" EntitySet="Cash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cash_Members" Association="Self.FK_Cash_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Cash" EntitySet="Cash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Daily_Securities" Association="Self.FK_Daily_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Daily" EntitySet="Daily" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Managements_Admins" Association="Self.FK_Managements_Admins">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Managements" EntitySet="Managements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Managements_Members" Association="Self.FK_Managements_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Managements" EntitySet="Managements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Monthly_Securities" Association="Self.FK_Monthly_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Monthly" EntitySet="Monthly" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Currencies" Association="Self.FK_Properties_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Members" Association="Self.FK_Properties_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SecOrders_Members" Association="Self.FK_SecOrders_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="SecOrders" EntitySet="SecOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SecOrders_Securities" Association="Self.FK_SecOrders_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="SecOrders" EntitySet="SecOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Countries" Association="Self.FK_Securities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Currencies" Association="Self.FK_Securities_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Securities" Association="Self.FK_Securities_Securities">
+            <End Role="SecTypes" EntitySet="SecTypes" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weekly_Securities" Association="Self.FK_Weekly_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Weekly" EntitySet="Weekly" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AMWPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Account" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Managements" Relationship="Self.FK_Managements_Admins" FromRole="Admins" ToRole="Managements" />
+        </EntityType>
+        <EntityType Name="Cash">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int64" Nullable="false" />
+          <Property Name="MemID" Type="Int32" Nullable="false" />
+          <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Currencies" Relationship="Self.FK_Cash_Currencies" FromRole="Cash" ToRole="Currencies" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Cash_Members" FromRole="Cash" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="String" MaxLength="2" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Securities_Countries" FromRole="Countries" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="CCYID" />
+          </Key>
+          <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cash" Relationship="Self.FK_Cash_Currencies" FromRole="Currencies" ToRole="Cash" />
+          <NavigationProperty Name="Properties" Relationship="Self.FK_Properties_Currencies" FromRole="Currencies" ToRole="Properties" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Securities_Currencies" FromRole="Currencies" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="Daily">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int64" Nullable="false" />
+          <Property Name="SecID" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Open" Type="Double" Nullable="false" />
+          <Property Name="High" Type="Double" Nullable="false" />
+          <Property Name="Low" Type="Double" Nullable="false" />
+          <Property Name="Close" Type="Double" Nullable="false" />
+          <Property Name="AdjClose" Type="Double" Nullable="false" />
+          <Property Name="Dividend" Type="Double" Nullable="false" />
+          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Daily_Securities" FromRole="Daily" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="Managements">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int32" Nullable="false" />
+          <Property Name="MemID" Type="Int32" Nullable="false" />
+          <Property Name="AdminID" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Admins" Relationship="Self.FK_Managements_Admins" FromRole="Managements" ToRole="Admins" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Managements_Members" FromRole="Managements" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="MemID" />
+          </Key>
+          <Property Name="MemID" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cash" Relationship="Self.FK_Cash_Members" FromRole="Members" ToRole="Cash" />
+          <NavigationProperty Name="Managements" Relationship="Self.FK_Managements_Members" FromRole="Members" ToRole="Managements" />
+          <NavigationProperty Name="Properties" Relationship="Self.FK_Properties_Members" FromRole="Members" ToRole="Properties" />
+          <NavigationProperty Name="SecOrders" Relationship="Self.FK_SecOrders_Members" FromRole="Members" ToRole="SecOrders" />
+        </EntityType>
+        <EntityType Name="Monthly">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int64" Nullable="false" />
+          <Property Name="SecID" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Open" Type="Double" Nullable="false" />
+          <Property Name="High" Type="Double" Nullable="false" />
+          <Property Name="Low" Type="Double" Nullable="false" />
+          <Property Name="Close" Type="Double" Nullable="false" />
+          <Property Name="AdjClose" Type="Double" Nullable="false" />
+          <Property Name="Dividend" Type="Double" Nullable="false" />
+          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Monthly_Securities" FromRole="Monthly" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int32" Nullable="false" />
+          <Property Name="MemID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Loan" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Term" Type="Int16" Nullable="false" />
+          <Property Name="Principal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="PayDay" Type="Int16" Nullable="false" />
+          <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Currencies" Relationship="Self.FK_Properties_Currencies" FromRole="Properties" ToRole="Currencies" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Properties_Members" FromRole="Properties" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="SecOrders">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int64" Nullable="false" />
+          <Property Name="MemID" Type="Int32" Nullable="false" />
+          <Property Name="SecID" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TrancType" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Share" Type="Double" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Fee" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_SecOrders_Members" FromRole="SecOrders" ToRole="Members" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_SecOrders_Securities" FromRole="SecOrders" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="SecTypes">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Securities_Securities" FromRole="SecTypes" ToRole="Securities" />
+        </EntityType>
+        <EntityType Name="Securities">
+          <Key>
+            <PropertyRef Name="SecID" />
+          </Key>
+          <Property Name="SecID" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TypeID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CountryID" Type="String" MaxLength="2" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Symbol" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Securities_Countries" FromRole="Securities" ToRole="Countries" />
+          <NavigationProperty Name="Currencies" Relationship="Self.FK_Securities_Currencies" FromRole="Securities" ToRole="Currencies" />
+          <NavigationProperty Name="Daily" Relationship="Self.FK_Daily_Securities" FromRole="Securities" ToRole="Daily" />
+          <NavigationProperty Name="Monthly" Relationship="Self.FK_Monthly_Securities" FromRole="Securities" ToRole="Monthly" />
+          <NavigationProperty Name="SecOrders" Relationship="Self.FK_SecOrders_Securities" FromRole="Securities" ToRole="SecOrders" />
+          <NavigationProperty Name="SecTypes" Relationship="Self.FK_Securities_Securities" FromRole="Securities" ToRole="SecTypes" />
+          <NavigationProperty Name="Weekly" Relationship="Self.FK_Weekly_Securities" FromRole="Securities" ToRole="Weekly" />
+        </EntityType>
+        <EntityType Name="Weekly">
+          <Key>
+            <PropertyRef Name="SSN" />
+          </Key>
+          <Property Name="SSN" Type="Int64" Nullable="false" />
+          <Property Name="SecID" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Open" Type="Double" Nullable="false" />
+          <Property Name="High" Type="Double" Nullable="false" />
+          <Property Name="Low" Type="Double" Nullable="false" />
+          <Property Name="Close" Type="Double" Nullable="false" />
+          <Property Name="AdjClose" Type="Double" Nullable="false" />
+          <Property Name="Dividend" Type="Double" Nullable="false" />
+          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Securities" Relationship="Self.FK_Weekly_Securities" FromRole="Weekly" ToRole="Securities" />
+        </EntityType>
+        <Association Name="FK_Managements_Admins">
+          <End Role="Admins" Type="Self.Admins" Multiplicity="1" />
+          <End Role="Managements" Type="Self.Managements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Managements">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cash_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Cash" Type="Self.Cash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Cash">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cash_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Cash" Type="Self.Cash" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Cash">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Properties_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="CCYID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="CCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Daily_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Daily" Type="Self.Daily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Daily">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Managements_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Managements" Type="Self.Managements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Managements">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Properties_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SecOrders_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="SecOrders" Type="Self.SecOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemID" />
+            </Principal>
+            <Dependent Role="SecOrders">
+              <PropertyRef Name="MemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Monthly_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Monthly" Type="Self.Monthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Monthly">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SecOrders_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="SecOrders" Type="Self.SecOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="SecOrders">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Securities_Securities">
+          <End Role="SecTypes" Type="Self.SecTypes" Multiplicity="1" />
+          <End Role="Securities" Type="Self.Securities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SecTypes">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Securities">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Weekly_Securities">
+          <End Role="Securities" Type="Self.Securities" Multiplicity="1" />
+          <End Role="Weekly" Type="Self.Weekly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Securities">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="Weekly">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AMWPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admins" />
+          <EntitySet Name="Cash" EntityType="Self.Cash" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" />
+          <EntitySet Name="Daily" EntityType="Self.Daily" />
+          <EntitySet Name="Managements" EntityType="Self.Managements" />
+          <EntitySet Name="Members" EntityType="Self.Members" />
+          <EntitySet Name="Monthly" EntityType="Self.Monthly" />
+          <EntitySet Name="Properties" EntityType="Self.Properties" />
+          <EntitySet Name="SecOrders" EntityType="Self.SecOrders" />
+          <EntitySet Name="SecTypes" EntityType="Self.SecTypes" />
+          <EntitySet Name="Securities" EntityType="Self.Securities" />
+          <EntitySet Name="Weekly" EntityType="Self.Weekly" />
+          <AssociationSet Name="FK_Managements_Admins" Association="Self.FK_Managements_Admins">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Managements" EntitySet="Managements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cash_Currencies" Association="Self.FK_Cash_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Cash" EntitySet="Cash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cash_Members" Association="Self.FK_Cash_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Cash" EntitySet="Cash" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Countries" Association="Self.FK_Securities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Currencies" Association="Self.FK_Properties_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Currencies" Association="Self.FK_Securities_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Daily_Securities" Association="Self.FK_Daily_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Daily" EntitySet="Daily" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Managements_Members" Association="Self.FK_Managements_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Managements" EntitySet="Managements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Members" Association="Self.FK_Properties_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SecOrders_Members" Association="Self.FK_SecOrders_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="SecOrders" EntitySet="SecOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Monthly_Securities" Association="Self.FK_Monthly_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Monthly" EntitySet="Monthly" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SecOrders_Securities" Association="Self.FK_SecOrders_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="SecOrders" EntitySet="SecOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Securities_Securities" Association="Self.FK_Securities_Securities">
+            <End Role="SecTypes" EntitySet="SecTypes" />
+            <End Role="Securities" EntitySet="Securities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Weekly_Securities" Association="Self.FK_Weekly_Securities">
+            <End Role="Securities" EntitySet="Securities" />
+            <End Role="Weekly" EntitySet="Weekly" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AMWPModelStoreContainer" CdmEntityContainer="AMWPEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="AMWPModel.Admins">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cash">
+            <EntityTypeMapping TypeName="AMWPModel.Cash">
+              <MappingFragment StoreEntitySet="Cash">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="MemID" ColumnName="MemID" />
+                <ScalarProperty Name="CCYID" ColumnName="CCYID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="AMWPModel.Countries">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="AMWPModel.Currencies">
+              <MappingFragment StoreEntitySet="Currencies">
+                <ScalarProperty Name="CCYID" ColumnName="CCYID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Daily">
+            <EntityTypeMapping TypeName="AMWPModel.Daily">
+              <MappingFragment StoreEntitySet="Daily">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="AdjClose" ColumnName="AdjClose" />
+                <ScalarProperty Name="Dividend" ColumnName="Dividend" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Managements">
+            <EntityTypeMapping TypeName="AMWPModel.Managements">
+              <MappingFragment StoreEntitySet="Managements">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="MemID" ColumnName="MemID" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="AMWPModel.Members">
+              <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="MemID" ColumnName="MemID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Monthly">
+            <EntityTypeMapping TypeName="AMWPModel.Monthly">
+              <MappingFragment StoreEntitySet="Monthly">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="AdjClose" ColumnName="AdjClose" />
+                <ScalarProperty Name="Dividend" ColumnName="Dividend" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="AMWPModel.Properties">
+              <MappingFragment StoreEntitySet="Properties">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="MemID" ColumnName="MemID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Loan" ColumnName="Loan" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="PayDay" ColumnName="PayDay" />
+                <ScalarProperty Name="CCYID" ColumnName="CCYID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SecOrders">
+            <EntityTypeMapping TypeName="AMWPModel.SecOrders">
+              <MappingFragment StoreEntitySet="SecOrders">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="MemID" ColumnName="MemID" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="TrancType" ColumnName="TrancType" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Share" ColumnName="Share" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SecTypes">
+            <EntityTypeMapping TypeName="AMWPModel.SecTypes">
+              <MappingFragment StoreEntitySet="SecTypes">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Securities">
+            <EntityTypeMapping TypeName="AMWPModel.Securities">
+              <MappingFragment StoreEntitySet="Securities">
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CCYID" ColumnName="CCYID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weekly">
+            <EntityTypeMapping TypeName="AMWPModel.Weekly">
+              <MappingFragment StoreEntitySet="Weekly">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="AdjClose" ColumnName="AdjClose" />
+                <ScalarProperty Name="Dividend" ColumnName="Dividend" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
