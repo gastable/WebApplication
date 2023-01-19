@@ -1,10 +1,11 @@
 ﻿@model AMWP.Models.Admins
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "新增管理員";
 }
 
-<h2>Create</h2>
+<hr />
+<h3>新增管理員</h3>
 
 
 @using (Html.BeginForm()) 
@@ -59,6 +60,6 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

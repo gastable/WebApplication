@@ -11,7 +11,9 @@ namespace AMWP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Securities
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,14 +24,41 @@ namespace AMWP.Models
             this.SecOrders = new HashSet<SecOrders>();
             this.Weekly = new HashSet<Weekly>();
         }
-    
+
+        [DisplayName("證券代碼")]
+        [RegularExpression("[A-Z][0-9]{5}", ErrorMessage = "證券代碼格式錯誤")]
+        [Required(ErrorMessage = "請填寫證券代碼")]
+        [StringLength(6, ErrorMessage = "證券代碼不可超過6個字")]
         public string SecID { get; set; }
+
+        [DisplayName("證券類型代碼")]
+        [RegularExpression("[A-Z]{3}", ErrorMessage = "類型代碼格式錯誤")]
+        [Required(ErrorMessage = "請填寫類型代碼")]
+        [StringLength(3, ErrorMessage = "類型代碼不可超過3個字")]
         public string TypeID { get; set; }
+
+        [DisplayName("國家代碼")]
+        [RegularExpression("[0-9]{2}", ErrorMessage = "格式錯誤，請輸入2碼數字")]
+        [Required(ErrorMessage = "請輸入國家代碼")]
+        [StringLength(2, ErrorMessage = "國家名稱不可超過2個數字")]
         public string CountryID { get; set; }
+
+        [DisplayName("證券代號")]
+        [Required(ErrorMessage = "請輸入證券代號")]
+        [StringLength(20, ErrorMessage = "國家名稱不可超過20個字")]
         public string Symbol { get; set; }
+
+        [DisplayName("證券名稱")]
+        [Required(ErrorMessage = "請輸入證券名稱")]
+        [StringLength(100, ErrorMessage = "國家名稱不可超過100個字")]
         public string Name { get; set; }
+
+        [DisplayName("貨幣代碼")]
+        [Required(ErrorMessage = "請輸入貨幣代碼")]
+        [RegularExpression("[A-Z]{3}", ErrorMessage = "代碼格式錯誤")]
+        [StringLength(3, ErrorMessage = "貨幣代碼不可超過3個字")]
         public string CCYID { get; set; }
-    
+
         public virtual Countries Countries { get; set; }
         public virtual Currencies Currencies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

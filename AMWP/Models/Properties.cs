@@ -11,19 +11,56 @@ namespace AMWP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Properties
     {
         public int SSN { get; set; }
+
+        [DisplayName("會員代碼")]
         public int MemID { get; set; }
+
+        [DisplayName("房產名稱與描述")]
+        [StringLength(50, ErrorMessage = "名稱與描述不可超過100個字")]
+        [Required(ErrorMessage = "請填寫房產名稱與描述")]
         public string Name { get; set; }
+
+        [DisplayName("房產現價預估值")]
+        [Required(ErrorMessage = "請填寫房產現價預估值")]
+        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
         public decimal Price { get; set; }
+
+        [DisplayName("貸款日期")]
+        [Required(ErrorMessage = "請填寫貸款日期")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date, ErrorMessage = "日期格式錯誤")]
+        public System.DateTime Date { get; set; }
+
+        [DisplayName("貸款餘額")]
+        [Required(ErrorMessage = "請填寫貸款餘額")]
+        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
         public decimal Loan { get; set; }
+
+        [DisplayName("貸款期數")]
+        [Required(ErrorMessage = "請填寫貸款期數")]
+        [Range(0, short.MaxValue, ErrorMessage = "期數不可小於0")]
         public short Term { get; set; }
+
+        [DisplayName("每月還款本金")]
+        [Required(ErrorMessage = "請填寫每月還款本金")]
+        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
         public decimal Principal { get; set; }
+
+        [DisplayName("每月還款日")]
+        [Required(ErrorMessage = "請填寫每月還款日")]
+        [Range(1, 31, ErrorMessage = "還款日需介於1-31")]
         public short PayDay { get; set; }
+
+        [DisplayName("貸款幣別")]
+        [Required(ErrorMessage = "請填寫貸款幣別")]
         public string CCYID { get; set; }
-    
+
         public virtual Currencies Currencies { get; set; }
         public virtual Members Members { get; set; }
     }

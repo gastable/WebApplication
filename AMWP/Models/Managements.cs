@@ -11,16 +11,36 @@ namespace AMWP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Managements
     {
         public int SSN { get; set; }
+
+        [DisplayName("會員代碼")]
         public int MemID { get; set; }
+
+        [DisplayName("管理員代碼")]
+        [Required(ErrorMessage = "請填寫處理人員代碼")]
         public string AdminID { get; set; }
+
+        [DisplayName("處置作法")]
+        [StringLength(100, ErrorMessage = "處置作法不可超過100個字")]
+        [Required(ErrorMessage = "請填寫處置作法")]
         public string Action { get; set; }
+
+        [DisplayName("原因")]
+        [StringLength(100, ErrorMessage = "原因不可超過100個字")]
+        [Required(ErrorMessage = "請填寫原因")]
         public string Reason { get; set; }
+
+        [DisplayName("修訂日期")]
+        [DataType(DataType.Date, ErrorMessage = "日期格式錯誤")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "請填寫最後修訂日期")]
         public System.DateTime CreatedDate { get; set; }
-    
+
         public virtual Admins Admins { get; set; }
         public virtual Members Members { get; set; }
     }

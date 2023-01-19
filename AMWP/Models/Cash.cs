@@ -16,8 +16,7 @@ namespace AMWP.Models
 
     public partial class Cash
     {
-        public long SSN { get; set; }
-
+        public int SSN { get; set; }
         [DisplayName("會員代碼")]
         public int MemID { get; set; }
 
@@ -27,9 +26,9 @@ namespace AMWP.Models
 
         [DisplayName("金額")]
         [Required(ErrorMessage = "請輸入金額")]
-        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
+        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]  //用float.MaxValue要確定對不對，因為不能寫decimal.MaxValue
         public decimal Amount { get; set; }
-    
+
         public virtual Currencies Currencies { get; set; }
         public virtual Members Members { get; set; }
     }

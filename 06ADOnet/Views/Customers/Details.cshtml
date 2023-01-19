@@ -1,32 +1,25 @@
 ﻿@model _06ADOnet.Models.Customers
 
 @{
-    ViewBag.Title = "客戶詳細資料";
+    ViewBag.Title = "Details";
 }
 
 <h2>客戶詳細資料</h2>
-
-    <hr />
+<hr />
 <div class="well">
+
     <div class="panel panel-info">
 
-
         <div class="panel-heading">
-            <h3>
-                @Html.DisplayFor(model => model.CompanyName)
-            </h3>
+            <h3>@Html.DisplayFor(model => model.CompanyName)</h3>
         </div>
 
 
-
-        <div class="panel-body text-center">
-            <h2>@Html.DisplayFor(model => model.ContactName)</h2>
-            <p>@Html.DisplayFor(model => model.ContactTitle)</p>
+        <div class="panel-body">
+            <h2 class="text-center">@Html.DisplayFor(model => model.ContactName)</h2>
+            <p class="text-center">@Html.DisplayFor(model => model.ContactTitle)</p>
         </div>
 
-
-
-        <hr />
         <div class="panel-footer">
             <p>
                 @Html.DisplayNameFor(model => model.Address):
@@ -35,18 +28,15 @@
                 @Html.DisplayFor(model => model.PostalCode)
                 @Html.DisplayFor(model => model.Country)
             </p>
-
             <p>
-                @Html.DisplayNameFor(model => model.Phone):@Html.DisplayFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.Phone): @Html.DisplayFor(model => model.Phone)
             </p>
-
             <p>
-                @Html.DisplayNameFor(model => model.Fax):@Html.DisplayFor(model => model.Fax)
+                @Html.DisplayNameFor(model => model.Fax): @Html.DisplayFor(model => model.Fax)
             </p>
         </div>
     </div>
 </div>
 <p>
-    @Html.ActionLink("修改", "Edit", new { id = Model.CustomerID }) |
     @Html.ActionLink("回客戶資料列表", "Index")
 </p>

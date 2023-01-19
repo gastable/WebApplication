@@ -12,6 +12,7 @@ namespace AMWP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Weekly
     {
@@ -21,6 +22,7 @@ namespace AMWP.Models
         public string SecID { get; set; }
 
         [DisplayName("交易日期")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Date { get; set; }
 
         [DisplayName("開盤價")]

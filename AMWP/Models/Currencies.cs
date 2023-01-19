@@ -20,6 +20,7 @@ namespace AMWP.Models
         public Currencies()
         {
             this.Cash = new HashSet<Cash>();
+            this.Members = new HashSet<Members>();
             this.Properties = new HashSet<Properties>();
             this.Securities = new HashSet<Securities>();
         }
@@ -27,18 +28,21 @@ namespace AMWP.Models
         [DisplayName("貨幣代碼")]
         [Required(ErrorMessage = "請輸入貨幣代碼")]
         [RegularExpression("[A-Z]{3}", ErrorMessage = "代碼格式錯誤")]
+        [StringLength(3, ErrorMessage = "貨幣代碼不可超過3個字")]
         public string CCYID { get; set; }
 
         [DisplayName("貨幣名稱")]
         [Required(ErrorMessage = "請輸入貨幣名稱")]
         [StringLength(20, ErrorMessage = "貨幣名稱不可超過20個字")]
         public string Name { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cash> Cash { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Properties> Properties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Securities> Securities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Members> Members { get; set; }
     }
 }

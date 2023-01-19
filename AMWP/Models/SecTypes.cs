@@ -11,7 +11,9 @@ namespace AMWP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SecTypes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,10 +21,18 @@ namespace AMWP.Models
         {
             this.Securities = new HashSet<Securities>();
         }
-    
+
+        [DisplayName("證券類型代碼")]
+        [RegularExpression("[A-Z]{3}", ErrorMessage = "類型代碼格式錯誤")]
+        [Required(ErrorMessage = "請填寫類型代碼")]
+        [StringLength(3, ErrorMessage = "類型代碼不可超過3個字")]
         public string TypeID { get; set; }
+
+        [DisplayName("證券類型名稱")]
+        [Required(ErrorMessage = "請填寫證券類型名稱")]
+        [StringLength(20, ErrorMessage = "類型類型不可超過20個字")]
         public string Name { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Securities> Securities { get; set; }
     }

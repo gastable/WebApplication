@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -22,7 +23,7 @@ namespace _06ADOnet.Controllers
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult _Details(int? id)
         {
             if (id == null)
             {
@@ -33,7 +34,25 @@ namespace _06ADOnet.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employees);
+            return PartialView(employees);
+        }
+
+        public FileResult GetEmployeePhoto(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            Employees employees = db.Employees.Find(id);
+
+            //byte[] photo = new byte[employees.Photo.Length];
+            //byte[] photo = employees.Photo;  因為Photo本來就是byte陣列，所以也能這樣寫
+            byte[] photo = employees.Photo.Skip(78).ToArray();  //因為northwind資料庫有設偏移，要讀取也要偏移後再放進ToArray()才能指定
+
+            //MemoryStream ms = new MemoryStream(photo);  //原本走網址要把照片上傳記憶體，所以鑄造這個物件來用
+
+            return File(photo,"image/bmp");
+
         }
 
         // GET: Employees/Create

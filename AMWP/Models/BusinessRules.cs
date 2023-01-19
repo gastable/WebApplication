@@ -8,6 +8,7 @@ namespace AMWP.Models
 {
     public class BusinessRules
     {
+        //密碼雜湊的演算法method
         public static string getHashPassword(string pw)  //宣告對公開靜態方法，在其他類別就可以不用鑄造物件就使用
         {
             byte[] hashValue;

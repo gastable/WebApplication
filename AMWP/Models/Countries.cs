@@ -23,15 +23,16 @@ namespace AMWP.Models
         }
 
         [DisplayName("國家代碼")]
-        [RegularExpression("[0-9]{2}",ErrorMessage ="格式錯誤，請輸入2碼數字")]
+        [RegularExpression("[0-9]{2}", ErrorMessage = "格式錯誤，請輸入2碼數字")]
         [Required(ErrorMessage = "請輸入國家代碼")]
+        [StringLength(2, ErrorMessage = "國家名稱不可超過2個數字")]
         public string CountryID { get; set; }
 
         [DisplayName("國家名稱")]
         [Required(ErrorMessage = "請輸入國家名稱")]
         [StringLength(20, ErrorMessage = "國家名稱不可超過20個字")]
         public string Name { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Securities> Securities { get; set; }
     }

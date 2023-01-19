@@ -27,7 +27,7 @@ namespace AMWP.Models
         [RegularExpression("[A-C][0-9]{3}", ErrorMessage = "管理員代碼格式錯誤")]
         public string AdminID { get; set; }
 
-        [DisplayName("帳號")]
+        [DisplayName("管理員帳號")]
         [Required(ErrorMessage = "請輸入管理員帳號")]
         [StringLength(20, ErrorMessage = "帳號不得超過20個字")]
         [RegularExpression("[A-Za-z0-9]{5,20}", ErrorMessage = "帳號格式錯誤")]
@@ -35,15 +35,12 @@ namespace AMWP.Models
 
         [DisplayName("管理員姓名")]
         [StringLength(50, ErrorMessage = "姓名不可超過50個字")]
-        [Required(ErrorMessage = ("請填寫管理員姓名"))]
-        public string Name { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Managements> Managements { get; set; }
+        [Required(ErrorMessage = "請填寫管理員姓名")]
+        public string Name { get; set; }        
 
         string password;
         [DisplayName("密碼")]
-        [Required(ErrorMessage = ("請填寫密碼"))]
+        [Required(ErrorMessage = "請填寫密碼")]
         [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage = "密碼最少8碼")]
         public string Password
@@ -57,5 +54,8 @@ namespace AMWP.Models
                 password = BusinessRules.getHashPassword(value);
             }
         }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Managements> Managements { get; set; }
     }
 }

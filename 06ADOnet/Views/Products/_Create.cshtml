@@ -1,7 +1,7 @@
 ﻿@model _06ADOnet.Models.Products
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Products",FormMethod.Post))//要標註資料傳去那裡
 {
     @Html.AntiForgeryToken()
     

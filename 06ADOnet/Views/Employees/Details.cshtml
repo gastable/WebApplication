@@ -1,154 +1,50 @@
 ﻿@model _06ADOnet.Models.Employees
 
-@{
-    ViewBag.Title = "Details";
+@{ 
+    Layout = "";  /*Partial View不套layout*/
 }
+<div class="">
 
-<h2>Details</h2>
+    <div class="panel panel-info">
 
-<div>
-    <h4>Employees</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+        <div class="panel-heading">
+            <h3>@Model.TitleOfCourtesy @Model.FirstName @Model.LastName</h3>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+        <div class="panel-body row">
+            <div class="col-xs-4 text-center">
+                @*@Html.DisplayFor(model => model.Photo)*@
+                <img src="@Url.Action("GetEmployeePhoto", new {id=Model.EmployeeID})" />
+            </div>
+            <div class="col-xs-8">
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                <h4>@Model.Title</h4>
+                <p>@Html.DisplayNameFor(model => model.BirthDate) @Html.DisplayFor(model => model.BirthDate)</p>
+                <p>@Html.DisplayNameFor(model => model.HireDate) @Html.DisplayFor(model => model.HireDate)</p>
+                <p>
+                    @Html.DisplayNameFor(model => model.Address):
+                    @Html.DisplayFor(model => model.Address)
+                    @Html.DisplayFor(model => model.City)
+                    @Html.DisplayFor(model => model.PostalCode)
+                    @Html.DisplayFor(model => model.Country)
+                </p>
+                <p>
+                    @Html.DisplayNameFor(model => model.HomePhone): @Html.DisplayFor(model => model.HomePhone)
+                    分機:@Model.Extension
+                </p>
+                <p>
+                    @*@Html.DisplayNameFor(model => model.Fax): @Html.DisplayFor(model => model.Fax)*@
+                </p>
+            </div>
+            <div class="col-xs-12" style="margin-top:10px">
+                <p>@Html.Raw(Model.Notes.ToString().Replace("\r\n","<br>"))</p>
+                
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TitleOfCourtesy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TitleOfCourtesy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HireDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HireDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Region)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HomePhone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HomePhone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Extension)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Extension)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoPath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhotoPath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Employees2.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Employees2.LastName)
-        </dd>
-
-    </dl>
+        @*<div class="panel-footer">
+           
+        </div>*@
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
