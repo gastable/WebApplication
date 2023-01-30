@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>後台系統登入</h2>
+<hr />
+<form class="form-horizontal" method="post" action="@Url.Action("Login")">
+
+    <div class="form-group">
+
+        <label for="txtAccount" class="col-md-3">帳號</label>
+
+        <div class="col-md-9">
+            <input id="txtAccount" name="txtAccount" type="text" class="form-control" value="@ViewBag.txtAccount"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <label for="txtPassword" class="col-md-3">密碼</label>
+
+        <div class="col-md-9">
+            <input id="txtPassword" name="txtPassword" type="text" class="form-control" value="@ViewBag.txtPassword"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-9 col-md-offset-3">
+            <input id="Button1" type="submit" value="Login" class="btn btn-primary" />
+        </div>
+    </div>
+    <div class="text-danger">
+        @ViewBag.ErrMsg
+    </div>
+</form>

@@ -33,13 +33,13 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(managements);
+            return PartialView(managements);
         }
 
         // GET: Managements/Create
         public ActionResult Create()
         {
-            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Account");
+            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Name");
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
             return View();
         }
@@ -58,7 +58,7 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Account", managements.AdminID);
+            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Name", managements.AdminID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", managements.MemID);
             return View(managements);
         }
@@ -75,7 +75,7 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Account", managements.AdminID);
+            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Name", managements.AdminID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", managements.MemID);
             return View(managements);
         }
@@ -93,7 +93,7 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Account", managements.AdminID);
+            ViewBag.AdminID = new SelectList(db.Admins, "AdminID", "Name", managements.AdminID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", managements.MemID);
             return View(managements);
         }

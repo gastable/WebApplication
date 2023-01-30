@@ -52,7 +52,12 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "SecID,TypeID,CountryID,Symbol,Name,CCYID")] Securities securities)
         {
-            if (ModelState.IsValid)
+            var sec = db.Securities.Find(securities.SecID);
+            if (sec != null)
+            {
+                ViewBag.PKCheck = "證券代碼重覆";
+            }
+            else if (ModelState.IsValid)
             {
                 db.Securities.Add(securities);
                 db.SaveChanges();
@@ -114,19 +119,12 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(securities);
-        }
-
-        // POST: Securities/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Securities securities = db.Securities.Find(id);
             db.Securities.Remove(securities);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

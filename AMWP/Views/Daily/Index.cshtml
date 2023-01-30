@@ -1,92 +1,95 @@
 ﻿@model IEnumerable<AMWP.Models.Daily>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "證券歷史資料";
 }
-
-<h2 class="alert alert-info text-center">Index</h2>
-
+<hr />
+<h3 class="alert alert-info text-center">證券日成交資訊</h3>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Open)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.High)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Low)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Close)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdjClose)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Dividend)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Volume)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Securities.TypeID)
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-striped table-hover text-center">
+    <thead class="thead-dark">
 
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Open)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.High)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Low)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Close)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdjClose)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dividend)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Volume)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Securities.TypeID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SSN }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SSN }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SSN })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Securities.Symbol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Open)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.High)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Low)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Close)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdjClose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dividend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Volume)
+            </th>
+
+            @*<th>資料管理</th>*@
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Securities.Symbol)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Open)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.High)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Low)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Close)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdjClose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dividend)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volume)
+                </td>
 
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.SSN }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.SSN }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.SSN })
+                    </td>*@
+            </tr>
+        }
+    </tbody>
 </table>
-
 
 @section CSS{
     <style>
         .alert-info {
             color: #0c5460;
-            background-color: #efeea4;
+            background-color: #a9f6f6;
             border-color: #bee5eb;
         }
     </style>

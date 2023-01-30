@@ -25,7 +25,7 @@ namespace AMWP.Models
         [DisplayName("國家代碼")]
         [RegularExpression("[0-9]{2}", ErrorMessage = "格式錯誤，請輸入2碼數字")]
         [Required(ErrorMessage = "請輸入國家代碼")]
-        [StringLength(2, ErrorMessage = "國家名稱不可超過2個數字")]
+        [StringLength(2, ErrorMessage = "國家代碼不可超過2個數字")]
         public string CountryID { get; set; }
 
         [DisplayName("國家名稱")]

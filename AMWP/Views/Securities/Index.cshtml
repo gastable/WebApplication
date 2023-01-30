@@ -1,60 +1,68 @@
 ﻿@model IEnumerable<AMWP.Models.Securities>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "證券管理";
 }
+<hr />
+<h3 class="alert alert-info text-center">證券列表</h3>
 
-<h2  class="alert alert-info text-center">Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p class="text-right">
+    @Html.ActionLink("新增證券", "Create", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Symbol)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Countries.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Currencies.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SecTypes.Name)
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-striped table-hover text-center">
+    <thead class="thead-dark">
 
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Symbol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Countries.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currencies.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecTypes.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SecID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SecID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SecID })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.SecID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Symbol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCYID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeID)
+            </th>
+            <th>資料管理</th>
         </tr>
-    }
-
+        </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symbol)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Countries.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currencies.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecTypes.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("修改", "Edit", new { id = item.SecID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("刪除", "Delete", new { id = item.SecID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的證券嗎？')" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 
@@ -62,8 +70,9 @@
     <style>
         .alert-info {
             color: #0c5460;
-            background-color: #efeea4;
+            background-color: #dabef5;
             border-color: #bee5eb;
         }
     </style>
 }
+    

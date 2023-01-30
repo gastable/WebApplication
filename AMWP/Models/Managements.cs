@@ -18,11 +18,11 @@ namespace AMWP.Models
     {
         public int SSN { get; set; }
 
-        [DisplayName("會員代碼")]
+        [DisplayName("會員帳號")]
         public int MemID { get; set; }
 
-        [DisplayName("管理員代碼")]
-        [Required(ErrorMessage = "請填寫處理人員代碼")]
+        [DisplayName("處理人員")]
+        [Required(ErrorMessage = "請填寫處理人員姓名")]
         public string AdminID { get; set; }
 
         [DisplayName("處置作法")]
@@ -30,9 +30,9 @@ namespace AMWP.Models
         [Required(ErrorMessage = "請填寫處置作法")]
         public string Action { get; set; }
 
-        [DisplayName("原因")]
-        [StringLength(100, ErrorMessage = "原因不可超過100個字")]
-        [Required(ErrorMessage = "請填寫原因")]
+        [DisplayName("事件經過")]
+        [StringLength(100, ErrorMessage = "事件經過不可超過100個字")]
+        [Required(ErrorMessage = "請填寫事件經過")]
         public string Reason { get; set; }
 
         [DisplayName("修訂日期")]

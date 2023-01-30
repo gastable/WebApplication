@@ -1,36 +1,49 @@
 ﻿@model IEnumerable<AMWP.Models.Currencies>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "其他資料管理";
 }
+<hr />
+<h3 class="alert alert-info text-center">交易幣別 </h3>
 
-<h2 class="alert alert-info text-center">Index</h2>
+<div class="row">
+    <h4 class="col-md-9 text-right text-danger">@TempData["ForeignKey"]</h4>
+    <div class="col-md-3 text-right mb-3">
+        @Html.ActionLink("新增幣別", "Create", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<table class="table table-striped table-hover text-center">
+    <thead class="thead-dark">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CCYID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CCYID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.CCYID })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.CCYID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>資料管理</th>
+            <th></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCYID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("修改", "Edit", new { id = item.CCYID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("刪除", "Delete", new { id = item.CCYID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的交易幣別嗎？')" })
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 
@@ -38,7 +51,7 @@
     <style>
         .alert-info {
             color: #0c5460;
-            background-color: #efeea4;
+            background-color: #e3f5b8;
             border-color: #bee5eb;
         }
     </style>

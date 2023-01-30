@@ -20,20 +20,7 @@ namespace AMWP.Controllers
             return View(db.Admins.ToList());
         }
 
-        // GET: Admins/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Admins admins = db.Admins.Find(id);
-            if (admins == null)
-            {
-                return HttpNotFound();
-            }
-            return View(admins);
-        }
+        
 
         // GET: Admins/Create
         public ActionResult Create()
@@ -48,7 +35,12 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AdminID,Account,Password,Name")] Admins admins)
         {
-            if (ModelState.IsValid)
+            var adm = db.Admins.Find(admins.AdminID);
+            if (adm != null)
+            {
+                ViewBag.PKCheck = "管理員代碼重覆";
+            }
+            else if(ModelState.IsValid)
             {
                 db.Admins.Add(admins);
                 db.SaveChanges();
@@ -70,7 +62,7 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(admins);
+            return PartialView(admins);
         }
 
         // POST: Admins/Edit/5
@@ -85,8 +77,8 @@ namespace AMWP.Controllers
                 db.Entry(admins).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            return View(admins);
+            }            
+            return PartialView(admins);
         }
 
         // GET: Admins/Delete/5
@@ -101,19 +93,19 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(admins);
-        }
-
-        // POST: Admins/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Admins admins = db.Admins.Find(id);
-            db.Admins.Remove(admins);
-            db.SaveChanges();
+            try
+            {
+                db.Admins.Remove(admins);
+                db.SaveChanges();
+            }
+            catch
+            {
+                TempData["ForeignKey"] = "該管理員已有處理紀錄，無法刪除！";
+            }
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

@@ -1,58 +1,64 @@
 ﻿@model AMWP.Models.Managements
 
 @{
-    ViewBag.Title = "Details";
+    Layout = "";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Managements</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Action)
-        </dt>
+<div class="container-md">
+    <div class="card-header">
+        <div class="card-title">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="m-2">
+                        @Html.DisplayNameFor(model => model.Members.Account)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(model => model.Members.Account)
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Action)
-        </dd>
+                <div class="col-md-4">
+                    <div class="m-2">
+                        @Html.DisplayNameFor(model => model.Action)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(model => model.Action)
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Reason)
-        </dt>
+                <div class="col-md-4">
+                    <div class="m-2">
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Reason)
-        </dd>
+                    <div>
+                        @Html.DisplayFor(model => model.CreatedDate)
+                    </div>
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Admins.Account)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Admins.Account)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Members.Account)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Members.Account)
-        </dd>
-
-    </dl>
+        <hr />
+        <div class="row">
+            <div class="col-md-2 m-2">
+                @Html.DisplayNameFor(model => model.Reason)
+            </div>
+            <div class="col-md-10 m-2">
+                @Html.DisplayFor(model => model.Reason)
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-10 text-md-right text-center">
+                @Html.DisplayNameFor(model => model.AdminID)
+            </div>
+            <div class="col-md-2 text-md-left text-center">
+                @Html.DisplayFor(model => model.Admins.Name)
+            </div>
+        </div>
+    </div>
+   
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SSN }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

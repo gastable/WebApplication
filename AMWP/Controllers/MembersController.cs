@@ -106,19 +106,12 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(members);
-        }
-
-        // POST: Members/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Members members = db.Members.Find(id);
             db.Members.Remove(members);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {

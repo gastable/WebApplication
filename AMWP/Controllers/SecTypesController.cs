@@ -48,7 +48,12 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TypeID,Name")] SecTypes secTypes)
         {
-            if (ModelState.IsValid)
+            var sec = db.SecTypes.Find(secTypes.TypeID);
+            if (sec != null)
+            {
+                ViewBag.PKCheck = "類別代碼重覆";
+            }
+            else if (ModelState.IsValid)
             {
                 db.SecTypes.Add(secTypes);
                 db.SaveChanges();
@@ -101,19 +106,19 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(secTypes);
-        }
-
-        // POST: SecTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            SecTypes secTypes = db.SecTypes.Find(id);
-            db.SecTypes.Remove(secTypes);
-            db.SaveChanges();
+            try
+            {
+                db.SecTypes.Remove(secTypes);
+                db.SaveChanges();
+            }
+            catch
+            {
+                TempData["ForeignKey"] = "已有證券使用此類別，請先修改證券之類別！";
+            }
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

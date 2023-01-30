@@ -20,20 +20,7 @@ namespace AMWP.Controllers
             return View(db.Countries.ToList());
         }
 
-        // GET: Countries/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Countries countries = db.Countries.Find(id);
-            if (countries == null)
-            {
-                return HttpNotFound();
-            }
-            return View(countries);
-        }
+        
 
         // GET: Countries/Create
         public ActionResult Create()
@@ -48,7 +35,12 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CountryID,Name")] Countries countries)
         {
-            if (ModelState.IsValid)
+            var coun = db.Countries.Find(countries.CountryID);
+            if (coun != null)
+            {
+                ViewBag.PKCheck = "國家代碼重覆";
+            }
+            else if (ModelState.IsValid)
             {
                 db.Countries.Add(countries);
                 db.SaveChanges();
@@ -101,19 +93,19 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(countries);
-        }
-
-        // POST: Countries/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Countries countries = db.Countries.Find(id);
-            db.Countries.Remove(countries);
-            db.SaveChanges();
+            try
+            {
+                db.Countries.Remove(countries);
+                db.SaveChanges();
+            }
+            catch
+            {
+                TempData["ForeignKey"] = "已有證券使用此註冊國家，請先修改註冊國家！";
+            }
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

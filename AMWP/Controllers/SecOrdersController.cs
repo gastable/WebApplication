@@ -76,7 +76,7 @@ namespace AMWP.Controllers
                 return HttpNotFound();
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID", secOrders.SecID);
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
             return View(secOrders);
         }
 
@@ -94,7 +94,7 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID", secOrders.SecID);
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
             return View(secOrders);
         }
 

@@ -15,20 +15,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Members.Account)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reason)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Action)
-            </th>            
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Admins.Account)
+                @Html.DisplayNameFor(model => model.AdminID)
             </th>
 
-            <th></th>
+            <th>資料管理</th>
         </tr>
     </thead>
     <tbody>
@@ -38,9 +36,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Members.Account)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reason)
-                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Action)
                 </td>
@@ -48,19 +44,40 @@
                     @Html.DisplayFor(modelItem => item.CreatedDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Admins.Account)
+                    @Html.DisplayFor(modelItem => item.Admins.Name)
                 </td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.SSN }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.SSN }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.SSN })
+                    @Html.ActionLink("修改", "Edit", new { id = item.SSN }, new { @class = "btn btn-warning" })
+                    @*@Html.ActionLink("詳細內容", "Details", new { id = item.SSN }, new { @class = "btn btn-info", onclick = "" })*@
+                    <button type="button" id="@item.SSN" class="btn btn-info" data-toggle="modal" data-target="#showDetailModal" onclick="getSSN(event)">
+                        詳細內容
+                    </button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<!-- Modal -->  
+<div class="modal fade" id="showDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-info">
+                <h4 class="modal-title">詳細內容</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section CSS{
     <style>
@@ -70,4 +87,13 @@
             border-color: #bee5eb;
         }
     </style>
+}
+
+@section scripts{
+    <script>
+        function getSSN(evt) {
+            id=evt.target.id;
+            $('#showDetailModal .modal-body').load("/Managements/Details/" + id);
+        }
+    </script>
 }

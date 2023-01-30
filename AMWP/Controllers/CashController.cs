@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -17,7 +17,7 @@ namespace AMWP.Controllers
         // GET: Cash
         public ActionResult Index()
         {
-            var cash = db.Cash.Include(c => c.Currencies).Include(c => c.Members);
+            var cash = db.Cash.Include(c => c.Members).Include(c => c.Currencies);
             return View(cash.ToList());
         }
 
@@ -39,8 +39,8 @@ namespace AMWP.Controllers
         // GET: Cash/Create
         public ActionResult Create()
         {
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
             return View();
         }
 
@@ -58,8 +58,8 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             return View(cash);
         }
 
@@ -75,8 +75,8 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             return View(cash);
         }
 
@@ -93,8 +93,8 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
             return View(cash);
         }
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
         .table-hover > tbody > tr:hover {
@@ -27,12 +27,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("客戶資料管理","Index","Customers")</li>
+                    @if (Session["emp"]!=null) 
+                    {
+                    <li>@Html.ActionLink("客戶資料管理", "Index", "Customers")</li>
                     <li>@Html.ActionLink("員工資料管理", "Index", "Employees")</li>
                     <li>@Html.ActionLink("產品資料管理", "Index", "Products")</li>
                     <li>@Html.ActionLink("產品類別管理", "Index", "Categories")</li>
                     <li>@Html.ActionLink("送貨方式管理", "Index", "Customers")</li>
-
+                    }
                 </ul>
             </div>
         </div>

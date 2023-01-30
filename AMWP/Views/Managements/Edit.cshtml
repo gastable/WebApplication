@@ -1,24 +1,23 @@
 ﻿@model AMWP.Models.Managements
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "修改處理紀錄";
 }
-
-<h2>Edit</h2>
+<hr />
+<h3 class="alert alert-info text-center">修改處理紀錄</h3>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Managements</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.SSN)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MemID, "MemID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MemID, "會員帳號", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("MemID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MemID, "", new { @class = "text-danger" })
@@ -26,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AdminID, "AdminID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AdminID, "處理人員", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("AdminID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AdminID, "", new { @class = "text-danger" })
@@ -59,15 +58,24 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="確定修改" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回帳號管理列表", "Index", null, new {@class="btn btn-info"})
 </div>
+@section CSS{
+    <style>
+        .alert-info {
+            color: #0c5460;
+            background-color: #acf2d4;
+            border-color: #bee5eb;
+        }
+    </style>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

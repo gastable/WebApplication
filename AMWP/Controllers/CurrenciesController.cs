@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -48,7 +49,12 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CCYID,Name")] Currencies currencies)
         {
-            if (ModelState.IsValid)
+            var cur = db.Currencies.Find(currencies.CCYID);
+            if (cur != null)
+            {
+                ViewBag.PKCheck = "貨幣代碼重覆";
+            }
+            else if (ModelState.IsValid)
             {
                 db.Currencies.Add(currencies);
                 db.SaveChanges();
@@ -101,19 +107,18 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(currencies);
-        }
-
-        // POST: Currencies/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            Currencies currencies = db.Currencies.Find(id);
+            try { 
             db.Currencies.Remove(currencies);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["ForeignKey"]="已有證券使用此幣別，請先修改證券幣別！";
+            }
+                return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

@@ -22,7 +22,7 @@ namespace AMWP.Models
         public int MemID { get; set; }
 
         [DisplayName("房產名稱與描述")]
-        [StringLength(50, ErrorMessage = "名稱與描述不可超過100個字")]
+        [StringLength(50, ErrorMessage = "名稱與描述不可超過50個字")]
         [Required(ErrorMessage = "請填寫房產名稱與描述")]
         public string Name { get; set; }
 

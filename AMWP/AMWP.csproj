@@ -168,6 +168,7 @@
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
     <Compile Include="Controllers\DailyController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagementsController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Models\Daily.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\Managements.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
@@ -478,6 +480,8 @@
     <Content Include="Views\Securities\Details.cshtml" />
     <Content Include="Views\Securities\Edit.cshtml" />
     <Content Include="Views\Securities\Index.cshtml" />
+    <Content Include="Views\DashBoard\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_MemberLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

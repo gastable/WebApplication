@@ -49,7 +49,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SSN,MemID,Name,Date,Price,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
+        public ActionResult Create([Bind(Include = "SSN,MemID,Name,Price,Date,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SSN,MemID,Name,Date,Price,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
+        public ActionResult Edit([Bind(Include = "SSN,MemID,Name,Price,Date,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
         {
             if (ModelState.IsValid)
             {
