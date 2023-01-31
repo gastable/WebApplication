@@ -14,9 +14,11 @@
 
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.MemID)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Account)
             </th>
-            
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -37,9 +39,11 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.MemID)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Account)
                 </td>
-               
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -62,8 +66,8 @@
                     @Html.DisplayFor(modelItem => item.Currencies.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("修改", "Edit", new { id = item.MemID }, new {@class="btn btn-warning"}) 
-                    @Html.ActionLink("帳號管理", "Index","Managements", new { id = item.MemID }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("修改", "Edit", new { id = item.MemID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("帳號管理", "Index", "Managements", new { id = item.MemID }, new { @class = "btn btn-info" })
                 </td>
             </tr>
         }
