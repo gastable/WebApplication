@@ -55,7 +55,8 @@ namespace AMWP.Controllers
             {
                 db.Properties.Add(properties);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Redirect("/Properties/Index");
             }
 
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", properties.CCYID);
@@ -91,7 +92,8 @@ namespace AMWP.Controllers
             {
                 db.Entry(properties).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Redirect("/Properties/Index");
             }
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", properties.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", properties.MemID);
@@ -121,7 +123,8 @@ namespace AMWP.Controllers
             Properties properties = db.Properties.Find(id);
             db.Properties.Remove(properties);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Redirect("/Properties/Index");
         }
 
         protected override void Dispose(bool disposing)

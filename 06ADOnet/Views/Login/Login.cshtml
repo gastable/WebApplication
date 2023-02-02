@@ -1,36 +1,47 @@
-﻿
+﻿@model _06ADOnet.Models.VMLogin
+
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "後台管理系統登入";
 }
 
-<h2>後台系統登入</h2>
-<hr />
-<form class="form-horizontal" method="post" action="@Url.Action("Login")">
+<h2>後台管理系統登入</h2>
 
-    <div class="form-group">
 
-        <label for="txtAccount" class="col-md-3">帳號</label>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-        <div class="col-md-9">
-            <input id="txtAccount" name="txtAccount" type="text" class="form-control" value="@ViewBag.txtAccount"/>
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="登入" class="btn btn-primary" />
+                <div class="text-danger">@ViewBag.ErrMsg</div>
+            </div>
         </div>
     </div>
+}
 
-    <div class="form-group">
 
-        <label for="txtPassword" class="col-md-3">密碼</label>
 
-        <div class="col-md-9">
-            <input id="txtPassword" name="txtPassword" type="text" class="form-control" value="@ViewBag.txtPassword"/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-9 col-md-offset-3">
-            <input id="Button1" type="submit" value="Login" class="btn btn-primary" />
-        </div>
-    </div>
-    <div class="text-danger">
-        @ViewBag.ErrMsg
-    </div>
-</form>
+@section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

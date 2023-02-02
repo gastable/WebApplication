@@ -119,8 +119,15 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            db.Securities.Remove(securities);
-            db.SaveChanges();
+            try
+            {
+                db.Securities.Remove(securities);
+                db.SaveChanges();
+            }
+            catch
+            {
+                TempData["ForeignKey"] = "已有會員交易此證券，無法刪除！";
+            }
             return RedirectToAction("Index");
         }
 
