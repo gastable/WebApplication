@@ -26,7 +26,9 @@ namespace AMWP.Models
 
         [DisplayName("金額")]
         [Required(ErrorMessage = "請輸入金額")]
-        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]  //用float.MaxValue要確定對不對，因為不能寫decimal.MaxValue
+        [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
+
         public decimal Amount { get; set; }
 
         public virtual Currencies Currencies { get; set; }

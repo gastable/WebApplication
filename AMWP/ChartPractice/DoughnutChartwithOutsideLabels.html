@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(54, 162, 235, 1);
+        }
+
+            .chartMenu p {
+                padding: 10px;
+                font-size: 20px;
+            }
+
+        .chartCard {
+            width: 100vw;
+            height: calc(100vh - 40px);
+            background: rgba(54, 162, 235, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chartBox {
+            width: 400px;
+            padding: 20px;
+            border-radius: 20px;
+            border: solid 3px rgba(54, 162, 235, 1);
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="chartMenu">
+        <p>WWW.CHARTJS3.COM (Chart JS 4.2.0)</p>
+    </div>
+    <div class="chartCard">
+        <div class="chartBox">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script>
+        // setup
+        const data = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Weekly Sales',
+                data: [18, 12, 6, 9, 12, 3, 9],
+                backgroundColor: [
+                    'rgba(255, 26, 104, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(0, 0, 0, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 26, 104, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1,
+                cutout: '50%', //從pie chart的中心剪出多少%
+               /* borderRadius: 20*/
+            }]
+        };
+
+        ////自訂plugins[doughnutLabelsLine]
+        const doughnutLabelsLine = {
+            id: 'doughnutLabelsLine',
+            afterDraw(chart, args, options) {
+                //定義什麼時候執行自訂plugins，beforeDraw是畫圖之前，afterDraw是畫圖之後，裡面的參數是Chart.js要求的固定用法
+                const { ctx, chartArea: { top, bottom, left, right, width, height } } = chart; //將圖的部份屬性放進常數物件
+                chart.data.datasets.forEach((dataset, i) => {
+                    chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+                        const { x, y } = datapoint.tooltipPosition();
+                        //抓doughnut的中心
+
+                        const doughnutCenterX = chart.getDatasetMeta(i).data[i].x;
+                        const doughnutCenterY = chart.getDatasetMeta(i).data[i].y;
+
+                        const halfwidth = width / 2;
+                        const halfheight = height / 2;
+
+                        const xLineAdj = (x - doughnutCenterX) / 3;
+                        const yLineAdj = (y - doughnutCenterY) / 3;
+                        const xLine = x >= halfwidth ? x + xLineAdj : x + xLineAdj;
+                        const yLine = y >= halfheight ? y + yLineAdj : y + yLineAdj;
+
+                        //資料標籤
+                        const textWidth = ctx.measureText(chart.data.labels[index]).width;
+                        const extraLine = x >= halfwidth ? textWidth : -textWidth;
+                        
+                        ctx.font = '12px Arial';
+
+                        //畫線
+                        ctx.beginPath();                       
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(xLine, yLine);
+                        ctx.lineTo(xLine + extraLine, yLine);
+                        ctx.strokeStyle = dataset.borderColor[index];
+                        ctx.stroke();
+
+                        //控制標籤位置
+                        const textXPosition = x >= halfwidth ? 'left' : 'right';
+                        const plusYPx = y >= halfwidth ? halfheight / 15 : -halfheight / 15;
+                        ctx.textAlign = textXPosition;
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = dataset.borderColor[index];
+                        ctx.fillText(chart.data.labels[index], xLine , yLine + plusYPx);
+                    })
+                })
+            }
+        }
+
+
+
+        // config
+        const config = {
+            type: 'doughnut',
+            data,
+            options: {
+                layout: {
+                    padding:20
+                    },
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
+            plugins: [doughnutLabelsLine]   //自訂plugins
+        };
+
+        // render init block
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+
+</body>
+</html>

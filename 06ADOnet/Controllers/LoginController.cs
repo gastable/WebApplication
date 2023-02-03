@@ -19,52 +19,63 @@ namespace _06ADOnet.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult Login(VMLogin vMLogin) //假設員工lastname是帳號firstname是密碼
-        //{
-        //    var emp=db.Employees.Where(e => e.LastName == vMLogin.Account && e.FirstName == vMLogin.Password).FirstOrDefault();
-        //    if(emp == null)
-        //    {
-        //        ViewBag.ErrMsg = "帳號或密碼錯誤";
-        //        ViewBag.txtAccount= vMLogin.Account;
-        //        ViewBag.txtPassword= vMLogin.Password;
-        //        return View();
-        //    }
-        //    //若帳號密碼正確，則登入成功，跳轉至後台管理首頁
-        //    Session["emp"]=emp;  //登入成功的狀態保留在Session物件中
-
-        //    return RedirectToAction("Index","Customers");
-        //}
+    //    [HttpPost]
+    //    public ActionResult Login(string txtAccount, string txtPassword) //假設員工lastname是帳號firstname是密碼
+    //    {
+    //        var emp = db.Employees.Where(e => e.LastName == txtAccount && e.FirstName == txtPassword).FirstOrDefault();
+    //        if (emp == null)
+    //        {
+    //            ViewBag.ErrMsg = "帳號或密碼錯誤";
+    //            ViewBag.txtAccount = txtAccount;  //保留輸入狀態
+    //            ViewBag.txtPassword = txtPassword;
+    //            return View();
+    //        }
+    //        //若帳號密碼正確，則登入成功，跳轉至後台管理首頁
+    //        Session["emp"] = emp;  //登入成功的狀態保留在Session物件中
+    //        return RedirectToAction("Index", "Customers");
+    //    }
+    //}
 
         [HttpPost]
         public ActionResult Login(VMLogin vMLogin) //用Login的Action來示範怎麼寫ADO.net
         {
-            string sql = "select * from Employees where LastName='"+ vMLogin.Account + "' and FirstName='"+ vMLogin.Password + "'";
+            //string sql = "select * from Employees where LastName='"+ vMLogin.Account + "' and FirstName='"+ vMLogin.Password + "'";
             //但是這種寫法會造成SQL Injection：帳號隨便打，只要在密碼欄位打「' or 1=1--」就能登入
+            //應該用
+            string sql = "select * from Employees where LastName=@id and FirstName=@pw";
 
-            //1.建立資料庫連線物件
-            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["NorthwindConnection"].ConnectionString); 
-            //運用組態管理員物件去找ConnectionStrings，再用name當索引後，找到屬性ConnectionString的值
-            
-            //2.建立SQL命令物件
-            SqlCommand cmd = new SqlCommand(sql,conn); //最少給2個屬性參數：sql指令字串(提出去用sql指定)，連線物件
-            
-            //3.建立資料讀取物件
-            SqlDataReader rd; //先不初始化，因為下面要寫參數
+            //建立SQL Parameters物件，參數(sql的參數名稱，值從model來取得)
+            //SqlParameter id = new SqlParameter("id",vMLogin.Account);
+            //SqlParameter pw = new SqlParameter("pw", vMLogin.Password);
 
-            conn.Open();//打開連線，另外記得後面要再先寫Close()
-            rd = cmd.ExecuteReader();//讀取cmd執行後的資料放入rd，
-            if (rd.Read())   //目前只會讀1筆，如果多筆資料就放while迴圈巡覽
+            //但是不確定登入系統需要輸入幾個參數，所以用list泛型物來放比較合適
+            List<SqlParameter> list = new List<SqlParameter>
             {
-                Session["emp"] = rd[0];  //讀第1筆資料放入Session
-                conn.Close();
+                new SqlParameter("id",vMLogin.Account),
+                new SqlParameter("pw", vMLogin.Password)
+            };
+
+            //建立GetData物件，使用LoginQuery登入方法
+            GetData gd = new GetData();   //如果controller內有很多Action要用，就在外面new
+            
+            var rd = gd.LoginQuery(sql, list);
+            if(rd == null)
+            {
+                return View();
+            }
+
+            if (rd.HasRows)
+            {
+                Session["emp"] = rd;
+                rd.Close();  //關閉讀取器，連帶關閉連線
                 return RedirectToAction("Index", "Customers");
             }
-                ViewBag.ErrMsg = "帳號或密碼錯誤";
-                ViewBag.txtAccount = vMLogin.Account;
-                ViewBag.txtPassword = vMLogin.Password;
-                conn.Close();
-                return View();            
+           
+            ViewBag.ErrMsg = "帳號或密碼錯誤";
+            ViewBag.txtAccount = vMLogin.Account;
+            ViewBag.txtPassword = vMLogin.Password;
+            rd.Close();      //關閉讀取器，連帶關閉連線
+            return View();            
         }
 
         public ActionResult Logout()

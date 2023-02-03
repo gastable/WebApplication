@@ -6,21 +6,27 @@
 }
 
 <div class="">
-    <div class="row row-cols-4 justify-content-around">
-        <div class="col rounded m-3">
-            <canvas id="assetDoughnutChart"  @*height="150"*@ aria-label="各類資產配置" role="img"></canvas>
-        <div class="text-center">各類資產配置</div>
+    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around">
+        <div class="col rounded chart-container mt-3">
+            <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
+            <div class="text-center">各類資產配置</div>
         </div>
-        <div class="col bg-info rounded m-3"">
+        <div class="col rounded chart-container mt-3">
             <canvas id="chrtSecAlloc"></canvas>
 
             <div class="text-center">證券資產配置</div>
 
         </div>
-        <div class="col bg-info rounded m-3"">
+        <div class="col rounded chart-container mt-3">
             <canvas id="chrtAllocType"></canvas>
 
             <div class="text-center">證券類別佔比</div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <canvas id="symbolLineChart" aria-label="資產股價圖" role="img"></canvas>
+
         </div>
     </div>
 
@@ -30,48 +36,41 @@
 
 @section dashboardCSS{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
+    <style>
+        .chart-container {
+            position: relative;
+            width: 80vw;
+        }
+    </style>
+
 
 }
 
 @section dashboradJS{
-   <script>
-       const data = {
-            labels: ['證券', '房產', '現金','虛擬貨幣','汽車'],
-            datasets: [{
-           label: ['資產現值'],
-                data: [1500000, 5000000, 1600000,200000,600000],                
-                hoverOffset: 4
-            }]
-        };
+    <script src="~/Scripts/AMWPCharts.js"></script>
+    <script>
+    //getCircleChart(id,chartType,dataLegend,dataset,tooltipON)
+        const chartType1 ='doughnut'
+        const dataLegend1 = ['證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金'];
+        const dataset1 = [1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000];
+        getCircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1,true);
 
-        const config = {
-            type: 'doughnut',
-            data,
-            options: {
-                scales: {
-                },
-                plugins: {
-                    //tooltip: {enabled:false},
-                    datalabels: {
-                        align: 'center',
-                        formatter: (value, context) => {
-                            const datapoints = context.chart.config.data.datasets[0].data;
-                            //console.log(context);
-                            const assets = context.chart.config.data.labels[context.dataIndex];       
-                            const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
-                                0);
-                            const percentageValue = (value / totalvalue * 100).toFixed(2);
-                            const display = [`${assets}：${percentageValue}%`]
-                            return display;
-                        }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        };
+        const chartType2 = 'doughnut'
+        const dataLegend2 = ['VT', 'SPY', 'BND'];
+        const dataset2 = [1500000, 5000000, 1600000];
+        getCircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2,true);
 
-        const myChart = new Chart(document.getElementById('assetDoughnutChart'),
-            config);
+        const chartType3 = 'doughnut'
+        const dataLegend3 = ['VT', 'SPY', 'BND'];
+        const dataset3 = [1500000, 5000000, 1600000];
+        getCircleChart('chrtAllocType', chartType3, dataLegend3, dataset3, true);
+    //getTimeSeries(symbol, interval)
+        const symbol = "VT";
+        const interval = "monthly";
+        var api = getAPI(symbol, interval);
+        var api = getAPI(symbol, interval);
+        var date = getAPIDates(api);
+        console.log(date)
 
     </script>
-    }
+}

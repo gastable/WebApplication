@@ -31,7 +31,7 @@
         var interval = "WEEKLY";
         $.ajax({
             type: 'get',
-            url: 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=IBM&apikey=XBRCUGRFRDK9P0HJ',
+            url: 'https://www.alphavantage.co/query?function=TIME_SERIES_'+interval+'_ADJUSTED&symbol='+symbol+'&apikey=XBRCUGRFRDK9P0HJ',
             success: function (data) {
                 console.log(data);
                 var chartLegends = [];
@@ -61,7 +61,8 @@
                         datasets: [{
                             label: data['Meta Data']['2. Symbol'],
                             data: dataPoints,
-                            borderWidth: 1
+                            borderWidth: 1,
+                            pointRadius:0
                         }]
                     },
                     options: {
