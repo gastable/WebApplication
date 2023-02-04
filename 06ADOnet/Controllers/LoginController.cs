@@ -66,7 +66,7 @@ namespace _06ADOnet.Controllers
 
             if (rd.HasRows)
             {
-                Session["emp"] = rd;
+                Session["emp"] = rd[0];
                 rd.Close();  //關閉讀取器，連帶關閉連線
                 return RedirectToAction("Index", "Customers");
             }

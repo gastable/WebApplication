@@ -40,15 +40,18 @@ namespace AMWP.Models
         [DisplayName("交易股數")]
         [Required(ErrorMessage = "請輸入交易股數")]
         [Range(0, double.MaxValue, ErrorMessage = "交易股數不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public double Share { get; set; }
 
         [DisplayName("交易價格")]
         [Required(ErrorMessage = "請輸入交易價格")]
         [Range(0, double.MaxValue, ErrorMessage = "交易價格不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
 
         [DisplayName("手續費")]
         [Range(0, double.MaxValue, ErrorMessage = "手續費不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal Fee { get; set; }
 
         public virtual Members Members { get; set; }

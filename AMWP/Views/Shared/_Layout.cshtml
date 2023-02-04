@@ -13,13 +13,14 @@
 <body>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #efeea4">
-            <a class="navbar-brand" href="#">MY資產管理</a>
+            <a class="navbar-brand" href="/AdminLogin/Login">MY資產管理</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                @if(Session["admin"]!=null){
                     <li class="nav-item">
                         <a class="nav-link" href="/Admins/Index">管理員 <span class="sr-only">(current)</span></a>
                     </li>
@@ -70,11 +71,18 @@
                             <a class="dropdown-item" href="/Currencies/Index">交易幣別</a>
                         </div>
                     </li>
+                }
                 </ul>
                 @*<form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>*@
+                <div>
+                    @if (Session["admin"] != null)
+                    {
+                    @Html.ActionLink("登出", "Logout", "AdminLogin", null, new { @class = "btn btn-info" })
+                    }
+                </div>
             </div>
         </nav>
     </div>

@@ -39,7 +39,7 @@ namespace AMWP.Controllers
         // GET: Monthly/Create
         public ActionResult Create()
         {
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID");
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID", monthly.SecID);
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", monthly.SecID);
             return View(monthly);
         }
 
@@ -73,7 +73,7 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID", monthly.SecID);
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", monthly.SecID);
             return View(monthly);
         }
 
@@ -90,7 +90,7 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.SecID = new SelectList(db.Securities, "SecID", "TypeID", monthly.SecID);
+            ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", monthly.SecID);
             return View(monthly);
         }
 

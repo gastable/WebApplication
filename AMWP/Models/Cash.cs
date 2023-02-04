@@ -27,7 +27,7 @@ namespace AMWP.Models
         [DisplayName("金額")]
         [Required(ErrorMessage = "請輸入金額")]
         [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
-        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
 
         public decimal Amount { get; set; }
 

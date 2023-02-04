@@ -1,15 +1,110 @@
-﻿@model IEnumerable<AMWP.Models.Dashboard>
+﻿@model AMWP.ViewModels.Dashboard
 
 @{
     ViewBag.Title = "會員資產管理";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+    //int memberID = Convert.ToInt32(Request.QueryString["id"]);
+
+    // Model.cash.Where(m => m.MemID==memberID);
+
+    int memberID = 1;
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+    }
+
+    decimal cashTotal = 0;
+    decimal secTotal = 0;
+    decimal proTotal = 0;
+    decimal total = 0;
+
+    //下面資產的計算都還有問題
+    foreach (var item in Model.cash.Where(m => m.MemID == memberID))
+    {
+        cashTotal += item.Amount;
+    }
+    foreach (var item in Model.secOrders.Where(m => m.MemID == memberID))
+    {
+        secTotal += Convert.ToDecimal(item.Share) * item.Price;
+    }
+    foreach (var item in Model.properties.Where(m => m.MemID == memberID))
+    {
+        proTotal += item.Loan;
+    }
+    total = cashTotal + secTotal + proTotal;
 }
 
 <div class="">
-    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around">
+    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around align-items-center">
         <div class="col rounded chart-container mt-3">
             <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
             <div class="text-center">各類資產配置</div>
+        </div>
+        <div id="assetList" class="col mt-3 ">
+            <table class="table table-striped table-hover text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">
+                            資產類別
+                        </th>
+                        <th scope="col">
+                            目前現值
+                        </th>
+
+                        <th scope="col">
+                            類別佔比
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            現金
+                        </td>
+                        <td>
+                            @cashTotal.ToString("0.00")
+                        </td>
+
+                        <td>
+                            
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            證券
+                        </td>
+                        <td>
+                            @secTotal.ToString("0.00")
+                        </td>
+
+                        <td>
+                             
+                            @{ 
+                                ((secTotal / total) * 100).ToString("0.0");
+                            }
+                            %
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            房產
+                        </td>
+                        <td>
+                            @proTotal.ToString("0.00")
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => model.secOrders.FirstOrDefault().Share)
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
         <div class="col rounded chart-container mt-3">
             <canvas id="chrtSecAlloc"></canvas>
@@ -23,6 +118,7 @@
             <div class="text-center">證券類別佔比</div>
         </div>
     </div>
+
     <div>
         <div>
             <canvas id="symbolLineChart" aria-label="資產股價圖" role="img"></canvas>
@@ -49,28 +145,31 @@
 @section dashboradJS{
     <script src="~/Scripts/AMWPCharts.js"></script>
     <script>
-    //getCircleChart(id,chartType,dataLegend,dataset,tooltipON)
-        const chartType1 ='doughnut'
+        //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
+        const chartType1 = 'doughnut'
         const dataLegend1 = ['證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金'];
         const dataset1 = [1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000];
-        getCircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1,true);
+        CircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1, true);
 
         const chartType2 = 'doughnut'
         const dataLegend2 = ['VT', 'SPY', 'BND'];
         const dataset2 = [1500000, 5000000, 1600000];
-        getCircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2,true);
+        CircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2, true);
 
         const chartType3 = 'doughnut'
         const dataLegend3 = ['VT', 'SPY', 'BND'];
         const dataset3 = [1500000, 5000000, 1600000];
-        getCircleChart('chrtAllocType', chartType3, dataLegend3, dataset3, true);
-    //getTimeSeries(symbol, interval)
-        const symbol = "VT";
-        const interval = "monthly";
-        var api = getAPI(symbol, interval);
-        var api = getAPI(symbol, interval);
-        var date = getAPIDates(api);
-        console.log(date)
+        CircleChart('chrtAllocType', chartType3, dataLegend3, dataset3, true);
+        //symbolLineChart(symbol, interval)
 
-    </script>
+
+
+        const symbol = "VT";
+        const interval = "weekly";
+        symbolLineChart(symbol, interval);
+
+        
+        console.log(@memberID);
+
+    </script>  
 }

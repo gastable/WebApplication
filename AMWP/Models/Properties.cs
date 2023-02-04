@@ -29,6 +29,8 @@ namespace AMWP.Models
         [DisplayName("房產現價預估值")]
         [Required(ErrorMessage = "請填寫房產現價預估值")]
         [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
+
         public decimal Price { get; set; }
 
         [DisplayName("貸款日期")]
@@ -37,9 +39,10 @@ namespace AMWP.Models
         [DataType(DataType.Date, ErrorMessage = "日期格式錯誤")]
         public System.DateTime Date { get; set; }
 
-        [DisplayName("貸款餘額")]
-        [Required(ErrorMessage = "請填寫貸款餘額")]
+        [DisplayName("貸款金額")]
+        [Required(ErrorMessage = "請填寫貸款金額")]
         [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal Loan { get; set; }
 
         [DisplayName("貸款期數")]
@@ -50,6 +53,7 @@ namespace AMWP.Models
         [DisplayName("每月還款本金")]
         [Required(ErrorMessage = "請填寫每月還款本金")]
         [Range(0, float.MaxValue, ErrorMessage = "金額不可小於0")]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal Principal { get; set; }
 
         [DisplayName("每月還款日")]

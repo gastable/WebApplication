@@ -163,6 +163,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdminLoginController.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\CashController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagementsController.cs" />
+    <Compile Include="Controllers\MemberLoginController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\MonthlyController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
@@ -213,6 +215,7 @@
     <Compile Include="Models\Daily.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetData.cs" />
     <Compile Include="ViewModels\Dashboard.cs" />
     <Compile Include="Models\Managements.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
@@ -239,6 +242,8 @@
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AdminLogin.cs" />
+    <Compile Include="ViewModels\MemberLogin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChartPractice\AdvanceDoughnutChart.html" />
@@ -484,8 +489,10 @@
     <Content Include="Views\Securities\Details.cshtml" />
     <Content Include="Views\Securities\Edit.cshtml" />
     <Content Include="Views\Securities\Index.cshtml" />
-    <Content Include="Views\DashBoard\Dashboard.cshtml" />
     <Content Include="Views\Shared\_MemberLayout.cshtml" />
+    <Content Include="Views\DashBoard\Dashboard.cshtml" />
+    <Content Include="Views\AdminLogin\Login.cshtml" />
+    <Content Include="Views\MemberLogin\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

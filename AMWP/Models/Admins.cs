@@ -42,7 +42,7 @@ namespace AMWP.Models
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請填寫密碼")]
         [DataType(DataType.Password)]
-        [MinLength(8, ErrorMessage = "密碼最少8碼")]
+        //[MinLength(8, ErrorMessage = "密碼最少8碼")]
         public string Password
         {
             get
