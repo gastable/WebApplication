@@ -49,7 +49,7 @@ namespace AMWP.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
-        {
+        {           
             if (ModelState.IsValid)
             {
                 db.Members.Add(members);

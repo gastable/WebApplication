@@ -36,7 +36,7 @@
 }
 
 <div class="">
-    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around align-items-center">
+    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around align-items-center shadow">
         <div class="col rounded chart-container mt-3">
             <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
             <div class="text-center">各類資產配置</div>
@@ -143,7 +143,7 @@
 }
 
 @section dashboradJS{
-    <script src="~/Scripts/AMWPCharts.js"></script>
+    <script src="~/Scripts/AMWP.js"></script>
     <script>
         //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
         const chartType1 = 'doughnut'
@@ -160,16 +160,15 @@
         const dataLegend3 = ['VT', 'SPY', 'BND'];
         const dataset3 = [1500000, 5000000, 1600000];
         CircleChart('chrtAllocType', chartType3, dataLegend3, dataset3, true);
-        //symbolLineChart(symbol, interval)
+        
 
 
-
-        const symbol = "VT";
-        const interval = "weekly";
-        symbolLineChart(symbol, interval);
 
         
-        console.log(@memberID);
+       /* symbolLineChart(symbol, interval);*/
+
+        
+       
 
     </script>  
 }

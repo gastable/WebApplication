@@ -1,0 +1,36 @@
+﻿@using System.Data;  @*要用到DataSet，先using*@
+
+@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>  @*因為要一直讀1列，所以是Model.Rows，抓出來的物件型態是DataRow，所以原寫var要改掉*@
+<table class="table">
+    <thead>
+        <tr>
+            <td>@Model.Columns[0].ColumnName</td>
+            <td>@Model.Columns[3].ColumnName</td>
+            <td>@Model.Columns[8].ColumnName</td>
+            <td>訂購人姓名</td>
+            <td>查看</td>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["OrderID"]</td>
+                <td>@Convert.ToDateTime(row["OrderDate"]).ToShortDateString()</td>
+                @*自訂顯示時間格式*@
+                <td>@row["收件人姓名"]</td>
+                <td>@row["CompanyName"]</td>
+                <td>@Html.ActionLink("詳細訂單資料", "Display", new { id = row["OrderID"] }, new {@class="btn btn-success"})</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+    

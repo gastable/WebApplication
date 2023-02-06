@@ -14,11 +14,41 @@ namespace _06ADOnet.Models
         static SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["NorthwindConnection"].ConnectionString);
         //運用組態管理員物件去找ConnectionStrings，再用name當索引後，找到屬性ConnectionString的值
 
-        //2.建立SQL命令物件
+        //2.建立SQL DML命令物件
         SqlCommand cmd = new SqlCommand("", conn); //最少給2個屬性參數(sql指令字串CommandText(提出去用sql指定)，跟連線物件)
 
-        //3.建立資料讀取物件
+        //3.建立資料讀取物件，逐筆讀取
         SqlDataReader rd; //先不初始化，因為下面要寫參數
+
+        
+        SqlDataAdapter adp = new SqlDataAdapter("", conn);//等於 SqlCommand+SqlDataReader，但只能讀(不能增刪修)，而且比較佔記憶體
+        DataSet ds = new DataSet();  //建立資料集物件
+        DataTable dt = new DataTable();  //建立資料表物件
+
+        public DataTable TableQuery(string sql)  //從db讀資料後，存進記憶體的datatable物件
+        {
+            adp.SelectCommand.CommandText = sql;  //指定 SelectCommand
+            adp.Fill(ds);  //把取到的Table填入DataSet，第一張表索引值Tables[0]
+
+            dt = ds.Tables[0];  
+
+            return dt;
+        }
+
+        public DataTable TableQuery(string sql, List<SqlParameter> para)  //多載
+        {
+            adp.SelectCommand.CommandText = sql;
+            foreach (SqlParameter p in para)
+            {
+                adp.SelectCommand.Parameters.Add(p);  //餵參數
+            }
+            adp.Fill(ds);  
+
+            dt = ds.Tables[0];
+
+            return dt;
+        }
+
 
         //建立Login打開連線的方法，要傳SQL指令，及SqlParameter的要輸入進SQL的參數過來
         public SqlDataReader LoginQuery(string sql,List<SqlParameter> para)

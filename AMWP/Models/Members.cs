@@ -60,6 +60,7 @@ namespace AMWP.Models
         public System.DateTime CreatedDate { get; set; }
 
         [DisplayName("帳號狀態")]
+        [DefaultValue(true)]
         public bool Status { get; set; }
 
         [DisplayName("預設幣別")]

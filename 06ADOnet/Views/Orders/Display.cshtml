@@ -1,0 +1,65 @@
+﻿@using System.Data;
+
+@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Display";
+}
+
+@foreach (DataRow row in Model.Rows)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="text-center">訂單詳細資料</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>訂單編號</td>
+
+                    <td><strong>@row["OrderID"]</strong></td>
+
+                    <td>客戶</td>
+                    <td>@row["CompanyName"] (@row["CustomerID"])</td>
+                </tr>
+                <tr>
+                    <td>訂單日期</td>
+                    <td><strong>@Convert.ToDateTime(row["OrderDate"]).ToShortDateString()</strong></td>
+                    <td>聯絡人</td>
+                    <td>@row["ContactName"] @row["ContactTitle"]</td>
+                </tr>
+                <tr>
+                    <td>需用日期</td>
+                    <td><strong>@Convert.ToDateTime(row["RequiredDate"]).ToShortDateString()</strong></td>
+                    <td>負責員工</td>
+                    <td>@row["LastName"] @row["FirstName"] (@row["EmployeeID"])</td>
+                </tr>
+                <tr>
+                    <td>收件人</td>
+                    <td>@row["ShipName"]</td>
+
+                    <td>運費</td>
+                    <td>@row["Freight"]</td>
+                </tr>
+                <tr>
+                    <td>收件人地址</td>
+                    <td colspan="3">@row["ShipAddress"] @row["ShipCity"] @row["ShipRegion"] @row["ShipPostalCode"] @row["ShipCountry"]</td>
+
+                </tr>
+                <tr>
+                    <td>貨運公司</td>
+                    <td>@row["ShipCompany"]</td>
+                    <td>貨運電話</td>
+                    <td>@row["Phone"]</td>
+                </tr>
+                <tr>
+                    <td>出貨日期</td>
+                    <td colspan="3"><strong>@Convert.ToDateTime(row["ShippedDate"]).ToShortDateString()</strong></td>
+                 
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+
+
