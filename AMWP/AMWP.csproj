@@ -175,6 +175,7 @@
     <Compile Include="Controllers\MemberLoginController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\MonthlyController.cs" />
+    <Compile Include="Controllers\PerformanceController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\SecOrdersController.cs" />
     <Compile Include="Controllers\SecTypesController.cs" />
@@ -249,6 +250,7 @@
     <Content Include="ChartPractice\AdvanceDoughnutChart.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="ChartPractice\DoughnutChartwithOutsideLabels.html" />
+    <Content Include="Content\AMWPStyle.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -499,6 +501,7 @@
     <Content Include="Views\MemberLogin\Login.cshtml" />
     <Content Include="Scripts\moment.min.js.map" />
     <Content Include="Scripts\moment-with-locales.min.js.map" />
+    <Content Include="Views\Performance\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

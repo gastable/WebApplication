@@ -9,21 +9,26 @@
     // Model.cash.Where(m => m.MemID==memberID);
 
     int memberID = 1;
+    string CCY = "USD";
+    string symbol = "SPY";
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
     }
 
     decimal cashTotal = 0;
     decimal secTotal = 0;
     decimal proTotal = 0;
     decimal total = 0;
+    decimal usdCash = 0;
 
     //下面資產的計算都還有問題
     foreach (var item in Model.cash.Where(m => m.MemID == memberID))
     {
-        cashTotal += item.Amount;
+        usdCash += item.Amount;
     }
+    var usd = Json.Encode(usdCash);
     foreach (var item in Model.secOrders.Where(m => m.MemID == memberID))
     {
         secTotal += Convert.ToDecimal(item.Share) * item.Price;
@@ -36,87 +41,93 @@
 }
 
 <div class="">
-    <div class="row row-cols-lg-4 row-cols-md-2 justify-content-around align-items-center shadow">
-        <div class="col rounded chart-container mt-3">
-            <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
-            <div class="text-center">各類資產配置</div>
+    <div class="row justify-content-around align-items-center">
+        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
+            <div class="col">
+                <h4 class="text-center">資產淨值</h4>
+                <table class="table table-sm text-center">
+                    <thead class="thead">
+                        <tr>
+                            <th>
+                                類別
+                            </th>
+                            <th>
+                                現值
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="btn btn-cash">現金</span>
+                            </td>
+                            <td class="align-middle">
+                                @cashTotal.ToString("0.00")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="btn btn-securities">證券</span>
+                            </td>
+                            <td class="align-middle">
+                                @secTotal.ToString("0.00")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="btn btn-property">房產</span>
+                            </td>
+                            <td class="align-middle">
+                                @proTotal.ToString("0.00")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
+                <div class="text-center">各類資產配置</div>
+            </div>
         </div>
-        <div id="assetList" class="col mt-3 ">
-            <table class="table table-striped table-hover text-center">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">
-                            資產類別
-                        </th>
-                        <th scope="col">
-                            目前現值
-                        </th>
+        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
+            <div class="col">
+                <h4 class="text-center">證券庫存</h4>
+                <table class="table table-sm text-center">
+                    <thead class="thead">
+                        <tr>
+                            <th>
+                                代號
+                            </th>
+                            <th>
+                                股數
+                            </th>
+                            <th>
+                                現值
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.ActionLink(symbol, "Show", "Performance", new { symbol = symbol }, new {@class="btn btn-cash"})
+                            </td>
+                            <td class="align-middle">
+                                500
+                            </td>
+                            <td class="align-middle">
+                                50000
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col ">
+                <canvas id="chrtAllocType"></canvas>
 
-                        <th scope="col">
-                            類別佔比
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            現金
-                        </td>
-                        <td>
-                            @cashTotal.ToString("0.00")
-                        </td>
-
-                        <td>
-                            
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            證券
-                        </td>
-                        <td>
-                            @secTotal.ToString("0.00")
-                        </td>
-
-                        <td>
-                             
-                            @{ 
-                                ((secTotal / total) * 100).ToString("0.0");
-                            }
-                            %
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            房產
-                        </td>
-                        <td>
-                            @proTotal.ToString("0.00")
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(model => model.secOrders.FirstOrDefault().Share)
-                        </td>
-
-                    </tr>
-
-                </tbody>
-            </table>
+                <div class="text-center">證券類別佔比</div>
+            </div>
         </div>
-        <div class="col rounded chart-container mt-3">
-            <canvas id="chrtSecAlloc"></canvas>
 
-            <div class="text-center">證券資產配置</div>
-
-        </div>
-        <div class="col rounded chart-container mt-3">
-            <canvas id="chrtAllocType"></canvas>
-
-            <div class="text-center">證券類別佔比</div>
-        </div>
     </div>
 
     <div>
@@ -127,48 +138,61 @@
     </div>
 
 </div>
-
-
+<input type="hidden" id="sendCCY" runat='server' />
 
 @section dashboardCSS{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
     <style>
-        .chart-container {
-            position: relative;
-            width: 80vw;
+        .btn-securities {
+            color: #1f1a1a;
+            background-color: #b2e061;
+            border-color: #b2e061;
+        }
+
+        .btn-property {
+            color: #1f1a1a;
+            background-color: #bd7ebe;
+            border-color: #bd7ebe;
+        }
+
+        .btn-cash {
+            color: #1f1a1a;
+            background-color: #ffb55a;
+            border-color: #ffb55a;
         }
     </style>
 
 
 }
 
-@section dashboradJS{
-    <script src="~/Scripts/AMWP.js"></script>
+@section scripts{
     <script>
         //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
         const chartType1 = 'doughnut'
-        const dataLegend1 = ['證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金', '證券', '房產', '現金'];
-        const dataset1 = [1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000, 1500000, 5000000, 1600000];
-        CircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1, true);
+        const dataLegend1 = ['證券', '房產', '現金'];
+        const dataset1 = [1500000, 5000000, 1600000];
+        CircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1);
 
         const chartType2 = 'doughnut'
         const dataLegend2 = ['VT', 'SPY', 'BND'];
         const dataset2 = [1500000, 5000000, 1600000];
-        CircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2, true);
+        CircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2);
 
         const chartType3 = 'doughnut'
         const dataLegend3 = ['VT', 'SPY', 'BND'];
         const dataset3 = [1500000, 5000000, 1600000];
-        CircleChart('chrtAllocType', chartType3, dataLegend3, dataset3, true);
-        
+        CircleChart('chrtAllocType', chartType3, dataLegend3, dataset3);
+
+        //取得網址CCY參數
+        const url = window.location.href;
+        const queryArr1 = url.split('?');
+        const queryArr2 = queryArr1[1].split('=');
+        //傳到後端
+        var usdCash = toUSD(10000, 0, 0);
+        @*var usdCash = @Html.Raw(usdCash)*;*@
+        //console.log(usdCash)
 
 
-
-        
        /* symbolLineChart(symbol, interval);*/
-
-        
-       
-
-    </script>  
+    </script>
 }

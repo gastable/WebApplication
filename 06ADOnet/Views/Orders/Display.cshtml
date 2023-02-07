@@ -55,11 +55,24 @@
                 <tr>
                     <td>出貨日期</td>
                     <td colspan="3"><strong>@Convert.ToDateTime(row["ShippedDate"]).ToShortDateString()</strong></td>
-                 
+
                 </tr>
             </table>
+            <hr />
+            <h3 class="text-center">商品明細</h3>
+            <hr />
+            @Html.Action("_DisplayDetail")
         </div>
     </div>
 }
 
 
+@section css{
+    <style>
+
+        .table > tbody > tr > td {
+       
+            border-top: none;
+        }
+    </style>
+    }

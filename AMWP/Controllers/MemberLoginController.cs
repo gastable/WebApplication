@@ -37,9 +37,10 @@ namespace AMWP.Controllers
 
             if (rd.HasRows)
             {
-                Session["mem"] = rd[0];               
-                rd.Close();
-                return RedirectToAction("Dashboard", "Dashboard", new {id= Session["mem"] });
+                Session["mem"] = rd[0];
+                Session["CCY"] = rd[6];
+                rd.Close();                
+                return RedirectToAction("Dashboard", "Dashboard", new {id= Session["mem"],ccy= Session["CCY"] });
             }
 
             ViewBag.ErrMsg = "帳號或密碼錯誤";
@@ -52,6 +53,7 @@ namespace AMWP.Controllers
         public ActionResult Logout()
         {
             Session["mem"] = null;  //記錄為訪客狀態
+            Session["CCY"] = null;
 
             return RedirectToAction("Login");
         }

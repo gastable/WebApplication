@@ -82,6 +82,12 @@
     <Content Include="12BS_table.html" />
     <Content Include="14BS_Form.html" />
     <Content Include="15BS_Form_Validation.html" />
+    <Content Include="16BS_Alert.html" />
+    <Content Include="17BS-Badge.html" />
+    <Content Include="18BS-BreadCrumb.html" />
+    <Content Include="19BS-Button.html" />
+    <Content Include="20BS-ListGroup.html" />
+    <Content Include="21BS-DropDown.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />

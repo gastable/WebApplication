@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+
+<h2>Show</h2>
+<div class="container" id="container">
+    <canvas id="symbolLineChart" aria-label="" role="img">
+    </canvas>
+    <div class="table-responsive">
+        <table class="table text-center" id="dataTable">
+            <thead>
+                <tr>
+                    <th>交易日</th>
+                    <th>成交價</th>
+                    <th>漲跌額</th>
+                    <th>漲跌幅</th>
+                    <th>區間最高</th>
+                    <th>區間最低</th>
+                    <th>年化報酬率</th>
+                    <th>標準差</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.1/math.min.js" integrity="sha512-WwbnWc5N0epFy5Ba2RfPttV7TvJX8/OfdXyAzmCrzdhcpAsO8jfo/IOJIW6gzgXcGiPyv5w2d2vnWgHV/IXCGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        //取得網址CCY參數
+        const url = window.location.href;
+        const queryArr1 = url.split('?');
+        const queryArr2 = queryArr1[1].split('=');
+        const symbolstr = queryArr2[1].toString();
+
+        symbolLineChart(symbolstr,"monthly");
+        var lastPrice = closes[closes.length - 1];
+        var change = (lastPrice - closes[closes.length - 2]).toFixed(2);
+        var changePer = (change / lastPrice * 100).toFixed(2);
+        var fcloses = closes.map(str => {
+            return parseFloat(str);
+        });
+        const ans = getCAGR(dates, adjCloses).toFixed(2);
+        const std = math.round(math.std(fcloses), 2);
+        
+        $('#dataTable tbody>tr').append(`<td>${dates[dates.length - 1]}</td>
+                                             <td>${lastPrice}</td>
+                                             <td>${change}</td>
+                                             <td>${changePer}%</td>
+                                             <td>${Math.max(...fcloses) }</td>
+                                             <td>${Math.min(...fcloses)}</td>
+                                             <td>${ans}%</td>
+                                             <td>${std}%</td>
+                                            `);
+
+            //取得網址CCY參數
+            //const url = window.location.href;
+            //const queryArr1 = url.split('?');
+            //const queryArr2 = queryArr1[1].split('=');
+
+
+    </script>
+} 

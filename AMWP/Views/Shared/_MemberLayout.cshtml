@@ -23,17 +23,17 @@
                 <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
             </div>*@
         @*<ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
-            </li>
-        </ul>*@
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="#">Sign out</a>
+                </li>
+            </ul>*@
     </nav>
 
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-2 col-lg-1 d-md-block bg-light sidebar collapse">
                 <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">                        
+                    <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:1 })">
                                 <i class="bi bi-graph-up-arrow"></i>
@@ -69,43 +69,43 @@
                                 <i class="bi bi-calculator"></i>
                                 財務目標分析
                             </a>
-                        </li>                        
+                        </li>
                     </ul>
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span class="h6"><i class="bi bi-person-gear"></i>帳號管理</span>
-                        
+
                     </h6>
                     <ul class="nav flex-column mb-2 h6">
                         @if (Session["mem"] == null)
                         {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/MemberLogin/Login">
-                                <span data-feather="file-text"></span>
-                                <i class="bi bi-box-arrow-in-right"></i>登入會員帳號
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/MemberLogin/Login">
+                                    <span data-feather="file-text"></span>
+                                    <i class="bi bi-box-arrow-in-right"></i>登入會員帳號
+                                </a>
+                            </li>
                         }
                         @if (Session["mem"] != null)
                         {
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                
-                                Last quarter
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                
-                                Social engagement
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/MemberLogin/Logout">
-                                <i class="bi bi-box-arrow-left"></i>
-                                登出
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+
+                                    Last quarter
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+
+                                    Social engagement
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/MemberLogin/Logout">
+                                    <i class="bi bi-box-arrow-left"></i>
+                                    登出
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -114,18 +114,18 @@
                 @RenderBody()
                 <hr />
                 <footer>
-                    <p>Copyright &copy; @DateTime.Now.Year - MY資產管理顧問股份有限公司</p>
+                    <p class="text-center">Copyright &copy; @DateTime.Now.Year - MY資產管理顧問股份有限公司</p>
                 </footer>
             </div>
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    @RenderSection("dashboradJS", required: false)
+    <script src="~/Scripts/AMWP.js"></script>
+    @RenderSection("scripts", required: false)
     <script>
         $('#sidebarMenu a').click(function (evt) {
             //active = evt.target;

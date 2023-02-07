@@ -39,7 +39,8 @@ namespace AMWP.Controllers
         // GET: Members/Create
         public ActionResult Create()
         {
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
+            //ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
+            ViewBag.CCYID = db.Currencies.ToList();
             return View();
         }
 
@@ -57,7 +58,7 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
+            ViewBag.CCYID = db.Currencies.ToList();
             return View(members);
         }
 
@@ -73,7 +74,7 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
+            ViewBag.CCYID = db.Currencies.ToList();
             return View(members);
         }
 
@@ -90,7 +91,7 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
+            ViewBag.CCYID = db.Currencies.ToList();
             return View(members);
         }
 
