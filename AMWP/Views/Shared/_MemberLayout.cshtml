@@ -128,10 +128,8 @@
     @RenderSection("scripts", required: false)
     <script>
         $('#sidebarMenu a').click(function (evt) {
-            //active = evt.target;
             $('#sidebarMenu a').removeClass('active');
             $(evt.target).addClass('active');
-
         });
     </script>
 </body>

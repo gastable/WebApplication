@@ -4,11 +4,23 @@
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h2>Show</h2>
 <div class="container" id="container">
-    <canvas id="symbolLineChart" aria-label="" role="img">
-    </canvas>
-    <div class="table-responsive">
+    <div class="text-center">
+        <h4>歷史表現</h4>
+    <div class="btn-group" id="btngroup">
+        <button class="btn btn-outline-secondary" value="0">1個月</button>
+        <button class="btn btn-outline-secondary" value="1">3個月</button>
+        <button class="btn btn-outline-secondary" value="2">6個月</button>
+        <button class="btn btn-outline-secondary" value="3">年度迄今</button>
+        <button class="btn btn-outline-secondary" value="4">1年</button>
+        <button class="btn btn-outline-secondary" value="5">5年</button>
+        <button class="btn btn-outline-secondary active" value="6">最長</button>
+    </div> 
+        <canvas id="LineChart" aria-label="" role="img">
+        </canvas>
+    </div>
+
+    <div class="table-responsive m-3">
         <table class="table text-center" id="dataTable">
             <thead>
                 <tr>
@@ -21,7 +33,6 @@
                     <th>年化報酬率</th>
                     <th>標準差</th>
                 </tr>
-
             </thead>
             <tbody>
                 <tr>
@@ -29,8 +40,12 @@
             </tbody>
         </table>
     </div>
+    <div>
+        <h4 class="text-center">配息紀錄</h4>
+        <canvas id="BarChart" aria-label="" role="img">
+        </canvas>
+    </div>
 </div>
-
 
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.1/math.min.js" integrity="sha512-WwbnWc5N0epFy5Ba2RfPttV7TvJX8/OfdXyAzmCrzdhcpAsO8jfo/IOJIW6gzgXcGiPyv5w2d2vnWgHV/IXCGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,17 +54,94 @@
         const url = window.location.href;
         const queryArr1 = url.split('?');
         const queryArr2 = queryArr1[1].split('=');
-        const symbolstr = queryArr2[1].toString();
+        var symbolstr = queryArr2[1].toString();
+        
+        getTimeSeries(symbolstr, "MONTHLY");
+        //畫線圖
 
-        symbolLineChart(symbolstr,"monthly");
+        var data = {
+            labels: dates,
+            datasets: [{
+                label: [symbolstr],
+                data: closes,
+                borderWidth: 1,
+                pointRadius: 0
+            }]
+        };
+        var config = {
+            type: 'line',
+            data,
+            options: {
+                animation: false,
+                scales: {
+                    x: { grid: { drawOnChartArea: false } },
+                    y: {
+                        beginAtZero: false,
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            }
+        };
+        var chart = new Chart(document.getElementById("LineChart"),
+            config);
+
+        //畫配息圖
+        BarChart("BarChart", dates, dividends);
+
+       //換計算區間及指定按鈕要給的值
+        const tdays = getYearTradeDays();
+        const sliceNum = [-21, -63, -126, -tdays, -252, -260,0];
+        const intervalIndex = ["DAILY", "DAILY", "DAILY", "DAILY", "DAILY", "WEEKLY", "WEEKLY"];
+        const stdIndex = [252, 252, 252, 252, 252, 52, 52];
+        var annl = 12;
+
+        $('#btngroup button').click(function (evt) {
+            $('#btngroup button').removeClass('active');
+            $(evt.target).addClass('active');
+            const num = parseFloat($(evt.target).val()); 
+            dates = [];
+            closes = [];
+            getTimeSeries(symbolstr, intervalIndex[num]);  //依據區間再取一次api
+            dates = dates.slice(sliceNum[num]);
+            closes = closes.slice(sliceNum[num]);
+            annl = stdIndex[num];
+            console.log(annl);
+            updateChart(chart); //再畫一次圖
+            updateTable();//再填一次表
+        });
+
+        
+        //計算資產表現數據
         var lastPrice = closes[closes.length - 1];
         var change = (lastPrice - closes[closes.length - 2]).toFixed(2);
         var changePer = (change / lastPrice * 100).toFixed(2);
+        //字串陣例轉數值陣例
         var fcloses = closes.map(str => {
             return parseFloat(str);
         });
-        const ans = getCAGR(dates, adjCloses).toFixed(2);
-        const std = math.round(math.std(fcloses), 2);
+        //從價格陣列換算報酬率陣列
+        var i = 0;
+        var returnAry = [];
+        $.each(closes, function (key, value) {
+            if (i >= 1) {
+                value = (closes[i] - closes[i - 1]) / closes[i - 1];
+                returnAry.push(value);
+            }
+            i++;
+        });
+        
+        var ans = getCAGR(dates, adjCloses).toFixed(2);
+        var std = math.round((math.std(returnAry) * math.pow(annl,0.5))*100,2);
         
         $('#dataTable tbody>tr').append(`<td>${dates[dates.length - 1]}</td>
                                              <td>${lastPrice}</td>
@@ -58,14 +150,41 @@
                                              <td>${Math.max(...fcloses) }</td>
                                              <td>${Math.min(...fcloses)}</td>
                                              <td>${ans}%</td>
-                                             <td>${std}%</td>
-                                            `);
+                                             <td>${std}%</td>`
+        );  
+        function updateTable() {
+            //計算資產表現數據
+            lastPrice = closes[closes.length - 1];
+            change = (lastPrice - closes[closes.length - 2]).toFixed(2);
+            changePer = (change / lastPrice * 100).toFixed(2);
+            //字串陣例轉數值陣例
+            fcloses = closes.map(str => {
+                return parseFloat(str);
+            });
+            //從價格陣列換算報酬率陣列
+            i = 0;
+            returnAry = [];
+            $.each(closes, function (key, value) {
+                if (i >= 1) {
+                    value = (closes[i] - closes[i - 1]) / closes[i - 1];
+                    returnAry.push(value);
+                }
+                i++;
+            });
 
-            //取得網址CCY參數
-            //const url = window.location.href;
-            //const queryArr1 = url.split('?');
-            //const queryArr2 = queryArr1[1].split('=');
+            ans = getCAGR(dates, adjCloses).toFixed(2);
+            annl = stdIndex; //還要寫判斷月-週-日
+            std = math.round((math.std(returnAry) * math.pow(annl, 0.5)) * 100, 2);
 
-
+            $('#dataTable tbody>tr').html(`<td>${dates[dates.length - 1]}</td>
+                                             <td>${lastPrice}</td>
+                                             <td>${change}</td>
+                                             <td>${changePer}%</td>
+                                             <td>${Math.max(...fcloses)}</td>
+                                             <td>${Math.min(...fcloses)}</td>
+                                             <td>${ans}%</td>
+                                             <td>${std}%</td>`
+            );  
+        };
     </script>
 } 

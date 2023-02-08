@@ -1,6 +1,8 @@
 ﻿//宣告全域變數
 var symbol;  //資產代號
 var interval;  //成交資料週期
+var types; //資產類別
+var assetNets; //資產淨值
 var dates = [];  //成交日期
 var closes = [];  //收盤價
 var adjCloses = [];  //調整收盤價
@@ -16,6 +18,12 @@ var usdTotal;
 var amount1;
 var amount2;
 var amount3;
+var now = new Date();//取得現在時間
+var year = now.getFullYear();//取得今年
+var today = new Date(year.toString(), now.getMonth(), now.getDate()); //取得今天日期
+var data;
+var config;
+
 function searchEndpoint(symbol) {
     $.ajax({        
         type: 'get',
@@ -135,7 +143,7 @@ function getTimeSeries(symbol) {
 };
 
 //取資產成交資料+指定時間
-function getTimeSeries(symbol, interval) {
+function getTimeSeries(symbol,interval) {
     $.ajax({
         type: 'get',
         url: 'https://www.alphavantage.co/query?function=TIME_SERIES_' + interval + '_ADJUSTED&symbol=' + symbol + '&apikey=XBRCUGRFRDK9P0HJ',
@@ -146,6 +154,7 @@ function getTimeSeries(symbol, interval) {
                 if (data["Note"] != null) {
                     alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
                 };
+                /*console.log(dates);*/
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
@@ -170,12 +179,12 @@ function getTimeSeries(symbol, interval) {
 };
 
 //圓形圖
-function CircleChart(id, chartType, dataLegends, dataset) {
+function CircleChart(id, chartType, types, assetNets) {
 const data = {
-    labels: dataLegends,
+    labels: types,
     datasets: [{
         label: ['現值'],
-        data: dataset,
+        data: assetNets,
         backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
         //borderColor: [
         //    'rgba(54, 162, 235, 1)',
@@ -184,10 +193,11 @@ const data = {
         //    'rgba(153, 102, 255, 1)',
         //    'rgba(255, 159, 64, 1)',
         //    'rgba(255, 26, 104, 1)'
-        //]
+        //],
+        
     }]
 };
-    var legendON = dataset.length<5?true:false;
+    var legendON = assetNets.length<5?true:false;
     
 const config = {
     type: chartType,
@@ -220,24 +230,22 @@ const config = {
     },
     plugins: [ChartDataLabels]
 };
-const myChart = new Chart(document.getElementById(id),
+const chart = new Chart(document.getElementById(id),
     config);
 }
 
 //基本線圖
-function LineChart(id, dataLegends, dataset) {
-    const data = {
-        labels: dataLegends,
+function LineChart(id, dates, closes) {
+   const data = {
+        labels: dates,
         datasets: [{
             label: ['現值'],
-            data: dataset,
+            data: closes,
             borderWidth: 1,
             pointRadius: 0
         }]
     };
-    var legendON = dataset.length < 5 ? true : false;
-
-    const config = {
+   const config = {
         type: 'line',
         data,
         options: {
@@ -249,7 +257,7 @@ function LineChart(id, dataLegends, dataset) {
                 },
             plugins: {                
                 legend: {
-                    display: legendON,
+                    display: true,
                     onHover: (event, chartElement) => {
                         event.native.target.style.cursor = 'pointer';
                     },
@@ -260,27 +268,51 @@ function LineChart(id, dataLegends, dataset) {
             }
         }       
     };
-    const myChart = new Chart(document.getElementById(id),
+    const chart = new Chart(document.getElementById(id),
         config);
 }
 
-//年化報酬率(%)
-function getCAGR(dates,prices) {
-    const date1 = new Date(dates[0]);
-    const date2 = new Date(dates[dates.length - 1]);
-    const price1 = prices[0];
-    const price2 = prices[prices.length - 1];
-    const timeDiff = date2.getTime() - date1.getTime();
-    const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
-    const CAGR = ((Math.pow((price2 / price1), (1 / yearDiff))) - 1)*100;
-    return CAGR;
-};
-//總報酬率
-function getGrossReturn(date1, date2, price1, price2) {
-    const timeDiff = date2.getTime() - date1.getTime();    
-    const grossReturn = (price2 / price1) - 1;
-    return grossReturn;
-};
+//基本長條圖
+function BarChart(id, dates, dividends) {
+    const data = {
+        labels: dates,
+        datasets: [{
+            label: symbolstr,
+            data: dividends,
+            //borderColor: Utils.CHART_COLORS.blue,
+            //backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+            borderWidth: 2,
+            borderRadius: 5,
+            /*borderSkipped: false,*/
+        }]
+    };
+    const config = {
+        type: 'bar',
+        data,
+        options: {
+            scales: {
+                x: { grid: { drawOnChartArea: false } },
+                y: {
+                    beginAtZero: true,
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    onHover: (event, chartElement) => {
+                        event.native.target.style.cursor = 'pointer';
+                    },
+                    onLeave: (event, chartElement) => {
+                        event.native.target.style.cursor = 'default';
+                    },
+                    /*position: 'top'*/
+                }
+            }
+        }
+    };
+    const chart = new Chart(document.getElementById(id),
+        config);   
+}
 
 
 //資產表現圖表-原價
@@ -295,7 +327,7 @@ function symbolLineChart(symbol) {
                 if (data["Note"] != null) {
                     alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
                 };
-                //console.log(data);
+                /*console.log(data);*/
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
@@ -311,14 +343,7 @@ function symbolLineChart(symbol) {
             closes.reverse();
             adjCloses.reverse();
             volumes.reverse();
-            dividends.reverse();
-
-            //年化報酬率
-            const date1 = new Date(dates[0]);
-            const date2 = new Date(dates[dates.length - 1]);
-            const price1 = adjCloses[0];
-            const price2 = adjCloses[adjCloses.length - 1];
-            const CAGR = getCAGR(date1, date2, price1, price2).toFixed(4);
+            dividends.reverse();            
 
             //畫圖
             const ctx = document.getElementById('symbolLineChart');
@@ -361,7 +386,7 @@ function symbolLineChart(symbol, interval) {
                 if (data["Note"] != null) {
                     alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
                 };
-                //console.log(data);
+                /*console.log(data);*/
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
@@ -378,13 +403,7 @@ function symbolLineChart(symbol, interval) {
             adjCloses.reverse();
             volumes.reverse();
             dividends.reverse();
-
-            //年化報酬率
-            const date1 = new Date(dates[0]);
-            const date2 = new Date(dates[dates.length - 1]);
-            const price1 = adjCloses[0];
-            const price2 = adjCloses[adjCloses.length - 1];
-            const CAGR = getCAGR(date1, date2, price1, price2).toFixed(4);
+            /*console.log(closes);*/            
 
             //畫圖
             const ctx = document.getElementById('symbolLineChart');
@@ -404,14 +423,84 @@ function symbolLineChart(symbol, interval) {
                         x: { grid: { drawOnChartArea: false } },
                         y: {
                             beginAtZero: false,
-
                         }
                     }
                 }
             });
         },
         error: function () {
-            alert('error');
+            alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
         }
     });
+};
+
+//年化報酬率(%)
+function getCAGR(dates, prices) {
+    const date1 = new Date(dates[0]);
+    const date2 = new Date(dates[dates.length - 1]);
+    const price1 = prices[0];
+    const price2 = prices[prices.length - 1];
+    const timeDiff = date2.getTime() - date1.getTime();
+    const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
+    const CAGR = ((Math.pow((price2 / price1), (1 / yearDiff))) - 1) * 100;
+    return CAGR;
+};
+//總報酬率
+function getGrossReturn(date1, date2, price1, price2) {
+    const timeDiff = date2.getTime() - date1.getTime();
+    const grossReturn = (price2 / price1) - 1;
+    return grossReturn;
+};
+
+//取得今年交易日數
+function getYearTradeDays() {
+    
+    const firstday = new Date(year.toString(), 0, 1);
+    const today = new Date(year.toString(), now.getMonth(), now.getDate());
+    const dayDiff = parseFloat((today.getTime() - firstday.getTime()) / (1000 * 3600 * 24));  //今年到今天有幾個整數天
+    var tdays = Math.floor(dayDiff / 7)*5; //本週以前的交易天數
+    tdays += now.getDay() < 6 ? now.getDay() : 5;  //判斷本週天數(週日從0開始)後加上去
+    return tdays;
+};
+
+//再畫一次線圖
+function updateChart(c) {
+    chart.destroy();
+
+    data = {
+        labels: dates,
+        datasets: [{
+            label: [symbolstr],
+            data: closes,
+            borderWidth: 1,
+            pointRadius: 0
+        }]
+    };
+    config = {
+        type: 'line',
+        data,
+        options: {
+            animation: false,
+            scales: {
+                x: { grid: { drawOnChartArea: false } },
+                y: {
+                    beginAtZero: false,
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    onHover: (event, chartElement) => {
+                        event.native.target.style.cursor = 'pointer';
+                    },
+                    onLeave: (event, chartElement) => {
+                        event.native.target.style.cursor = 'default';
+                    }
+                }
+            }
+        }
+    };
+    chart = new Chart(document.getElementById("LineChart"),
+        config);
+    console.log(c);
 };
