@@ -4,13 +4,11 @@
     ViewBag.Title = "會員資產管理";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    //int memberID = Convert.ToInt32(Request.QueryString["id"]);
 
-    // Model.cash.Where(m => m.MemID==memberID);
 
     int memberID = 1;
     string CCY = "USD";
-    string symbol = "VT";
+    string symbolstr = "VT";
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
@@ -24,175 +22,229 @@
     decimal usdCash = 0;
 
     //下面資產的計算都還有問題
-    foreach (var item in Model.cash.Where(m => m.MemID == memberID))
+    foreach (var item in Model.cash)
     {
         usdCash += item.Amount;
     }
     var usd = Json.Encode(usdCash);
-    foreach (var item in Model.secOrders.Where(m => m.MemID == memberID))
+    foreach (var item in Model.secOrders)
     {
         secTotal += Convert.ToDecimal(item.Share) * item.Price;
     }
-    foreach (var item in Model.properties.Where(m => m.MemID == memberID))
+    foreach (var item in Model.properties)
     {
         proTotal += item.Loan;
     }
     total = cashTotal + secTotal + proTotal;
 }
+@foreach (var item in Model.cash)
+{<h5>@item.Amount </h5>
+    }
+    <div class="">
+        <div class="row justify-content-around align-items-center">
+            <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
+                <div class="col">
+                    <h4 class="text-center">資產淨值</h4>
+                    <table class="table table-sm text-center">
+                        <thead class="thead">
+                            <tr>
+                                <th>
+                                    類別
+                                </th>
+                                <th>
+                                    現值
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="btn btn-cash">現金</span>
+                                </td>
+                                <td class="align-middle">
+                                    @cashTotal.ToString("0.00")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="btn btn-securities">證券</span>
+                                </td>
+                                <td class="align-middle">
+                                    @secTotal.ToString("0.00")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="btn btn-property">房產</span>
+                                </td>
+                                <td class="align-middle">
+                                    @proTotal.ToString("0.00")
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <canvas id="assetTypeDoughnut" aria-label="各類資產配置" role="img"></canvas>
+                    <div class="text-center">各類資產配置</div>
+                </div>
+            </div>
+            <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
+                <div class="col">
+                    <h4 class="text-center">證券配置</h4>
+                    <table class="table table-sm text-center">
+                        <thead class="thead">
+                            <tr>
+                                <th>
+                                    代號
+                                </th>
+                                <th>
+                                    股數
+                                </th>
+                                <th>
+                                    現值
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.secOrders)
+                            {
+                                <tr>
+                                    <td>
 
-<div class="">
-    <div class="row justify-content-around align-items-center">
-        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
-            <div class="col">
-                <h4 class="text-center">資產淨值</h4>
-                <table class="table table-sm text-center">
-                    <thead class="thead">
-                        <tr>
-                            <th>
-                                類別
-                            </th>
-                            <th>
-                                現值
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span class="btn btn-cash">現金</span>
-                            </td>
-                            <td class="align-middle">
-                                @cashTotal.ToString("0.00")
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="btn btn-securities">證券</span>
-                            </td>
-                            <td class="align-middle">
-                                @secTotal.ToString("0.00")
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="btn btn-property">房產</span>
-                            </td>
-                            <td class="align-middle">
-                                @proTotal.ToString("0.00")
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                        @Html.ActionLink(item.SecID, "Display", "Performance", new { symbol = symbolstr }, new { @class = "btn btn-cash" })
+                                    </td>
+                                    <td class="align-middle">
+                                        @item.Share
+                                    </td>
+                                    <td class="align-middle">
+                                        @(Convert.ToDecimal(item.Share)*item.Price)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col ">
+                    <canvas id="secAllocFoughnut"></canvas>
+
+                    <div class="text-center">證券類別佔比</div>
+                </div>
             </div>
-            <div class="col">
-                <canvas id="assetDoughnutChart" aria-label="各類資產配置" role="img"></canvas>
-                <div class="text-center">各類資產配置</div>
-            </div>
+
         </div>
-        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
-            <div class="col">
-                <h4 class="text-center">證券庫存</h4>
-                <table class="table table-sm text-center">
-                    <thead class="thead">
-                        <tr>
-                            <th>
-                                代號
-                            </th>
-                            <th>
-                                股數
-                            </th>
-                            <th>
-                                現值
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                @Html.ActionLink(symbol, "Show", "Performance", new { symbol = symbol }, new {@class="btn btn-cash"})
-                            </td>
-                            <td class="align-middle">
-                                500
-                            </td>
-                            <td class="align-middle">
-                                50000
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col ">
-                <canvas id="chrtAllocType"></canvas>
 
-                <div class="text-center">證券類別佔比</div>
-            </div>
-        </div>
-
-    </div>
-
-    <div>
         <div>
-            <canvas id="symbolLineChart" aria-label="資產股價圖" role="img"></canvas>
+            <div>
+                <canvas id="symbolLineChart" aria-label="資產股價圖" role="img"></canvas>
 
+            </div>
         </div>
+
     </div>
 
-</div>
-<input type="hidden" id="sendCCY" runat='server' />
 
-@section dashboardCSS{
-    <link href="~/Content/dashboard.css" rel="stylesheet" />
-    <style>
-        .btn-securities {
-            color: #1f1a1a;
-            background-color: #b2e061;
-            border-color: #b2e061;
-        }
+    @section dashboardCSS{
+        <link href="~/Content/dashboard.css" rel="stylesheet" />
+        <style>
+            .btn-securities {
+                color: #1f1a1a;
+                background-color: #b2e061;
+                border-color: #b2e061;
+            }
 
-        .btn-property {
-            color: #1f1a1a;
-            background-color: #bd7ebe;
-            border-color: #bd7ebe;
-        }
+            .btn-property {
+                color: #1f1a1a;
+                background-color: #bd7ebe;
+                border-color: #bd7ebe;
+            }
 
-        .btn-cash {
-            color: #1f1a1a;
-            background-color: #ffb55a;
-            border-color: #ffb55a;
-        }
-    </style>
+            .btn-cash {
+                color: #1f1a1a;
+                background-color: #ffb55a;
+                border-color: #ffb55a;
+            }
+        </style>
+    }
 
+    @section scripts{
+        <script>
+            //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
+            const chartType1 = 'doughnut'
+            const dataLegend1 = ['證券', '房產', '現金'];
+            const dataset1 = [1500000, 5000000, 1600000];
+            circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1);
 
-}
+            const chartType2 = 'doughnut'
+            const dataLegend2 = ['VT', 'SPY', 'BND'];
+            const dataset2 = [1500000, 5000000, 1600000];
+            circleChart('secAllocFoughnut', chartType2, dataLegend2, dataset2);
 
-@section scripts{
-    <script>
-        //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
-        const chartType1 = 'doughnut'
-        const dataLegend1 = ['證券', '房產', '現金'];
-        const dataset1 = [1500000, 5000000, 1600000];
-        CircleChart('assetDoughnutChart', chartType1, dataLegend1, dataset1);
+            const chartType3 = 'doughnut'
+            const dataLegend3 = ['VT', 'SPY', 'BND'];
+            const dataset3 = [1500000, 5000000, 1600000];
+            circleChart('chrtAllocType', chartType3, dataLegend3, dataset3);
 
-        const chartType2 = 'doughnut'
-        const dataLegend2 = ['VT', 'SPY', 'BND'];
-        const dataset2 = [1500000, 5000000, 1600000];
-        CircleChart('chrtSecAlloc', chartType2, dataLegend2, dataset2);
+            //取得網址CCY參數
+            const url = window.location.href;
+            const queryArr1 = url.split('?');
+            const queryArr2 = queryArr1[1].split('=');
+            //傳到後端
+            //圓形圖
+            function circleChart(id, chartType, types, assetNets) {
+                const data = {
+                    labels: types,
+                    datasets: [{
+                        label: ['現值'],
+                        data: assetNets,
+                        backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+                        //borderColor: [
+                        //    'rgba(54, 162, 235, 1)',
+                        //    'rgba(255, 206, 86, 1)',
+                        //    'rgba(75, 192, 192, 1)',
+                        //    'rgba(153, 102, 255, 1)',
+                        //    'rgba(255, 159, 64, 1)',
+                        //    'rgba(255, 26, 104, 1)'
+                        //],
 
-        const chartType3 = 'doughnut'
-        const dataLegend3 = ['VT', 'SPY', 'BND'];
-        const dataset3 = [1500000, 5000000, 1600000];
-        CircleChart('chrtAllocType', chartType3, dataLegend3, dataset3);
+                    }]
+                };
+                var legendON = assetNets.length < 5 ? true : false;
 
-        //取得網址CCY參數
-        const url = window.location.href;
-        const queryArr1 = url.split('?');
-        const queryArr2 = queryArr1[1].split('=');
-        //傳到後端
-        var usdCash = toUSD(10000, 0, 0);
-        @*var usdCash = @Html.Raw(usdCash)*;*@
-        //console.log(usdCash)
+                const config = {
+                    type: chartType,
+                    data,
+                    options: {
+                        maintainAspectRatio: true,
+                        plugins: {
+                            datalabels: {
+                                align: 'center',
+                                formatter: (value, context) => {
+                                    const datapoints = context.chart.config.data.datasets[0].data;
+                                    //console.log(datapoints);
+                                    const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+                                        0);
+                                    const percentageValue = (value / totalvalue * 100).toFixed(2);
+                                    const display = [`${percentageValue}%`]
+                                    return display;
+                                }
+                            },
+                            legend: {
+                                display: legendON,
+                                onHover: (event, chartElement) => {
+                                    event.native.target.style.cursor = 'pointer';
+                                },
+                                onLeave: (event, chartElement) => {
+                                    event.native.target.style.cursor = 'default';
+                                }
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                };
+                const circleChart = new Chart(document.getElementById(id),
+                    config);
+            }
 
-
-       /* symbolLineChart(symbol, interval);*/
-    </script>
-}
+        </script>
+    }

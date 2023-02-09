@@ -8,10 +8,10 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
         .table-hover > tbody > tr:hover {
-            background-color: aquamarine;
+            background-color: #dfff90;
         }
     </style>
-    @RenderSection("CSS",false)
+    @RenderSection("css",false)
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
 </head>
 <body>
@@ -32,10 +32,10 @@
                         <li>@Html.ActionLink("客戶資料管理", "Index", "Customers")</li>
                         <li>@Html.ActionLink("員工資料管理", "Index", "Employees")</li>
                         <li>@Html.ActionLink("產品資料管理", "Index", "Products")</li>
+                        <li>@Html.ActionLink("訂單資料管理", "Index", "Orders")</li>
                         <li>@Html.ActionLink("產品類別管理", "Index", "Categories")</li>
-                        <li>@Html.ActionLink("送貨方式管理", "Index", "Customers")</li>
-                        <li>@Html.ActionLink("登出", "Logout", "Login", null, new {@class="btn btn-default"})</li>
-
+                        <li>@Html.ActionLink("送貨方式管理", "Index", "Shippers")</li>
+                        <li>@Html.ActionLink("登出", "Logout", "Login", null, new { @class = "btn btn-default" })</li>
                     }
                 </ul>
             </div>
@@ -52,6 +52,6 @@
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    @RenderSection("scripts", false)
+    @RenderSection("scripts",false)
 </body>
 </html>

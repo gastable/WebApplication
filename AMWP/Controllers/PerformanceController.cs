@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMWP.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,10 @@ namespace AMWP.Controllers
 {
     public class PerformanceController : Controller
     {
-        // GET: Performance
-        public ActionResult Show()
+        private AMWPEntities db = new AMWPEntities();
+        public ActionResult Display()
         {
-            return View();
+           return View();
         }
     }
 }

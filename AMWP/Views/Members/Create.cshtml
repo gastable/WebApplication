@@ -1,122 +1,109 @@
 ﻿@model AMWP.Models.Members
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "註冊會員";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
     var usd = "USD";
 }
+<hr />
+<h3 class="alert alert-info text-center">註冊會員</h3>
 
-<div class="container">
-    <div class="row justify-content-around">
-        <div class="col-md-6 border">
-            <h4 class="text-center">會員註冊</h4>
-            <form class="form">
-                @Html.AntiForgeryToken()
-                <div class="form-group row align-items-baseline">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group row align-items-baseline">
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group row align-items-baseline">
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group row align-items-baseline" hidden>
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        <input id="CreatedDate" name="CreatedDate" type="date" class="form-control" value="2023-01-01" />
-                        @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group row align-items-baseline" hidden>
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        <div class="checkbox">
-                            <input id="Status" name="Status" type="checkbox" value="true" checked />
-                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row align-items-baseline">
-                    <div class="col-md-3 text-md-right">
-                        @Html.LabelFor(model => model.CCYID, "預設幣別", htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-9">
-                        <select id="CCYID" name="CCYID" class="form-control">
-                            @foreach (var item in ViewBag.CCYID)
-                            {
-                                <option value="@item.CCYID" @(item.CCYID == usd ? "selected" : "")>@item.Name</option>
-                            }
-                        </select>
-                        @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-11 text-right">
-                        <input type="submit" value="註冊會員" class="btn btn-success" onclick="getToday()" />
-                    </div>
-                </div>
-            </form>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form">
+    <div class="form-group row align-items-baseline">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-5 text-md-right">
+            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label" })
         </div>
-        <div class="col-md-6">
-            <h4 class="text-center">登入會員</h4>
-            <div class="">
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row align-items-baseline">
+        <div class="col-md-5 text-md-right">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row align-items-baseline">
+        <div class="col-md-5 text-md-right">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-                <div>
-                    @Html.ActionLink("會員登入", "Login","MemberLogin", null, new { @class = "btn btn-info" })
-                </div>
+    <div class="form-group row align-items-baseline" hidden>
+        <div class="col-md-5 text-md-right ">
+            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-7">
+            <input id="CreatedDate" name="CreatedDate" type="date" class="form-control" value="2023-01-01" />
+            @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row align-items-baseline" hidden>
+        <div class="col-md-5 text-md-right">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-7">
+            <div class="checkbox">
+                <input id="Status" name="Status" type="checkbox" value="true" checked />
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-</div>
+    <div class="form-group row align-items-baseline">
+        <div class="col-md-5 text-md-right ">
+            @Html.LabelFor(model => model.CCYID, "預設幣別", htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-7">
+            <select id="CCYID" name="CCYID" class="form-control">
+                @foreach (var item in ViewBag.CCYID)
+                {
+                    <option value="@item.CCYID" @(item.CCYID == usd ? "selected" : "")>@item.Name</option>
+                }
+            </select>
+            @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-
-</div>
-@section CSS{
-    <style>
-        .alert-info {
-            color: #0c5460;
-            background-color: #c9f8ed;
-            border-color: #bee5eb;
-        }
-    </style>
+    <div class="form-group">
+        <div class="col-md-8 text-right">
+            <input type="submit" value="註冊會員" class="btn btn-success" onclick="getToday()" />
+    @Html.ActionLink("已是會員？", "Login", "MemberLogin", null, new { @class = "btn btn-link" })
+        </div>
+    </div>
+    </div>
 }
+    @section CSS{
+        <style>
+            .alert-info {
+                color: #0c5460;
+                background-color: #c9f8ed;
+                border-color: #bee5eb;
+            }
+        </style>
+    }
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/moment.min.js"></script>
-    <script>
-        var today = moment().format('YYYY-MM-DD');
-        console.log(today);
-        function getToday() {
-            document.getElementById("CreatedDate").defaultValue = today;
-        }</script>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="~/Scripts/moment.min.js"></script>
+        <script>
+            var today = moment().format('YYYY-MM-DD');
+            console.log(today);
+            function getToday() {
+                document.getElementById("CreatedDate").defaultValue = today;
+            }</script>
 
-}
+    }

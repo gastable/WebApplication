@@ -19,7 +19,7 @@ namespace AMWP.Controllers
                 countries = db.Countries.ToList(),
                 currencies = db.Currencies.ToList(),
                 daily = db.Daily.ToList(),
-                members = db.Members.ToList(),
+                members = db.Members.Where(m => m.MemID == id).ToList(),
                 monthly= db.Monthly.ToList(),
                 properties = db.Properties.Where(m => m.MemID == id).ToList(),
                 securities = db.Securities.ToList(),

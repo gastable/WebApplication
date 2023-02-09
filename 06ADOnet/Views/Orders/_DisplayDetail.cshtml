@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<_06ADOnet.Models.OrderDetails>
-@{ 
+@{
     int i = 0;
-    }
+    decimal sum = 0;
+    foreach (var item in Model) {
+        sum += item.UnitPrice * item.Quantity * Convert.ToDecimal((1 - item.Discount));
+            }    
+}
 <table class="table">
     <thead>
         <tr>
@@ -10,6 +14,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Products.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products.Categories.CategoryName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UnitPrice)
@@ -25,28 +32,36 @@
             <th>小計</th>
         </tr>
     </thead>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @(++i)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Products.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UnitPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discount)
-        </td>
-     
-        <td>
-           @(item.UnitPrice*item.Quantity)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @(++i)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Products.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Products.Categories.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @(item.Discount*100)% Off
+            </td>
 
+            <td>
+                @Math.Round((item.UnitPrice*item.Quantity * Convert.ToDecimal((1 - item.Discount))),2)
+            </td>
+        </tr>
+    }
+    <tfoot>
+        <tr>
+            <th colspan="7" class="text-right">總計:@Math.Round(sum,2)  </th>
+        </tr>
+    </tfoot>
 </table>

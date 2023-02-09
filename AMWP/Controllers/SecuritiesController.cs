@@ -13,6 +13,7 @@ namespace AMWP.Controllers
     public class SecuritiesController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
+        GetData gd = new GetData();
 
         // GET: Securities
         public ActionResult Index()
@@ -131,7 +132,13 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        public ActionResult Upload()
+        {
+            string sql = "insert into ";
+
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

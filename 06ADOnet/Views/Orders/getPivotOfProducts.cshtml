@@ -1,0 +1,62 @@
+﻿@using System.Data;
+
+@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "getPivotOfProducts";
+
+    string selected = "";
+}
+
+<h2 class="text-center alert alert-success">@(ViewBag.Year)年產品銷售狀況樞鈕分析表</h2>
+
+<form action="@Url.Action("getPivotOfProducts")" method="get">
+    <div class="form-group row">
+        <label class="col-xs-2">請選擇年份</label>
+        <div class="col-xs-9">
+            <select id="year" name="year" class="form-control">
+                @for (int y = 1996; y <= DateTime.Now.Year; y++)
+                {
+                    selected=y == ViewBag.Year?"selected":"";
+                    <option value="@y" @selected>@y</option>
+                }
+            </select>
+        </div>
+        <div class="col-xs-1">
+            <input id="Submit1" type="submit" value="送出" class="btn btn-success" />
+        </div>
+    </div>
+  
+</form>
+@if (Model.Rows.Count==0)
+{ 
+    <h3 class="text-center alert alert-danger">目前沒有@(ViewBag.Year)年的資料</h3>
+}
+else {
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            @for (int i = 0; i < Model.Columns.Count; i++)
+            {
+                <td class="bg-info">@Model.Columns[i].ColumnName</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td class="bg-info">@row[0]</td>
+
+                @for (int i = 1; i < Model.Columns.Count; i++)
+                {
+                    <td>@row[i]</td>
+
+                }
+            </tr>
+        }
+    </tbody>
+
+</table>
+}
