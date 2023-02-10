@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using _06ADOnet.Models;
+using System.Configuration;
+using System.ComponentModel.Design;
 
 namespace _06ADOnet.Controllers
 {
     public class ProductsController : Controller
     {
         private NorthwindEntities db = new NorthwindEntities();
-
+        SetData sd = new SetData();
         // GET: Products
         public ActionResult Index()
         {
@@ -49,12 +52,32 @@ namespace _06ADOnet.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Products products)
+        public ActionResult Create( Products products)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(products);
-                db.SaveChanges();
+
+                string sql = "insert into Products(ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued)" +
+                "values(@ProductName,@SupplierID,@CategoryID,@QuantityPerUnit,@UnitPrice,@UnitsInStock,@UnitsOnOrder,@ReorderLevel,@Discontinued)";
+                //db.Products.Add(products);
+                //db.SaveChanges();
+
+                List<SqlParameter> list = new List<SqlParameter>
+                {
+                new SqlParameter("ProductName", products.ProductName),  //新增參數及值
+                new SqlParameter("SupplierID", products.SupplierID),
+                new SqlParameter("CategoryID", products.CategoryID),
+                new SqlParameter("QuantityPerUnit", products.QuantityPerUnit),
+                new SqlParameter("UnitPrice", products.UnitPrice),
+                new SqlParameter("UnitsInStock", products.UnitsInStock),
+                new SqlParameter("UnitsOnOrder", products.UnitsOnOrder),
+                new SqlParameter("ReorderLevel", products.ReorderLevel),
+                new SqlParameter("Discontinued", products.Discontinued)
+                 };
+               
+               sd.executeSql(sql, list);
+
+               
                 return RedirectToAction("Index");
             }
 

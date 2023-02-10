@@ -43,7 +43,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-2 col-lg-1 d-md-block bg-light sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -71,9 +71,9 @@
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:1 })">
                                 <i class="bi bi-bar-chart-line"></i>
-                                投資組合比較
+                                投資組合回測
                             </a>
                         </li>
                         <li class="nav-item h6">
@@ -122,7 +122,7 @@
                     </ul>
                 </div>
             </nav>
-            <div class="col-md-10 ml-sm-auto col-lg-11 px-md-5">
+            <div class="col-md-9 ml-sm-auto col-lg-10 px-md-5">
                 @RenderBody()
                 <hr />
                 <footer>

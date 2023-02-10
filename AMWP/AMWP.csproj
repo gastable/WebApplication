@@ -165,6 +165,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminLoginController.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\BacktestController.cs" />
     <Compile Include="Controllers\CashController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
@@ -217,6 +218,7 @@
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetData.cs" />
+    <Compile Include="ViewModels\Backtest.cs" />
     <Compile Include="ViewModels\Dashboard.cs" />
     <Compile Include="Models\Managements.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
@@ -502,6 +504,8 @@
     <Content Include="Scripts\moment.min.js.map" />
     <Content Include="Scripts\moment-with-locales.min.js.map" />
     <Content Include="Views\Performance\Display.cshtml" />
+    <Content Include="Views\Backtest\Input.cshtml" />
+    <Content Include="Views\Backtest\_Display.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

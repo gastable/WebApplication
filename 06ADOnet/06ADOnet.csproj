@@ -185,6 +185,7 @@
     <Compile Include="Models\Region.cs">
       <DependentUpon>NorthwindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SetData.cs" />
     <Compile Include="Models\Shippers.cs">
       <DependentUpon>NorthwindModel.tt</DependentUpon>
     </Compile>
@@ -243,6 +244,7 @@
     <Content Include="Views\Orders\Display.cshtml" />
     <Content Include="Views\Orders\_DisplayDetail.cshtml" />
     <Content Include="Views\Orders\getPivotOfProducts.cshtml" />
+    <Content Include="Views\Orders\getPivotOfProducts2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

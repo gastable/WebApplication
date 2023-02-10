@@ -63,5 +63,25 @@ namespace _06ADOnet.Controllers
             return View(pivot);
         }
 
+        public ActionResult getPivotOfProducts2(int year = 1996)
+        {
+            if (Request.IsAjaxRequest())  //如果不是ajax的要求，就打回去
+            {
+                string sql = "Sum_for_Products_Salse_Pivot";
+
+                List<SqlParameter> list = new List<SqlParameter>
+                {
+                    new SqlParameter("year",year)
+                };
+                ViewBag.Year = year;
+                var pivot = gd.TableQueryBySP(sql, list);
+
+                return View(pivot);
+            }
+
+            //ViewBag.Year = yy;
+            return View();
+        }
+
     }
 }

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06ADOnet", "06ADOnet\06ADOn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMWP", "AMWP\AMWP.csproj", "{7F70BD33-6793-4E40-8A5E-92B9E3C599C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07WebAPI", "07WebAPI\07WebAPI.csproj", "{7B27A762-75C5-4689-9136-D362376EDA54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{7F70BD33-6793-4E40-8A5E-92B9E3C599C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F70BD33-6793-4E40-8A5E-92B9E3C599C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F70BD33-6793-4E40-8A5E-92B9E3C599C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B27A762-75C5-4689-9136-D362376EDA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B27A762-75C5-4689-9136-D362376EDA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B27A762-75C5-4689-9136-D362376EDA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B27A762-75C5-4689-9136-D362376EDA54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

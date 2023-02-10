@@ -1,0 +1,90 @@
+﻿@using System.Data;
+
+@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "getPivotOfProducts";
+
+    string selected = "";
+
+    if (ViewBag.Year == null)
+    {
+        ViewBag.Year = 1996;
+    }
+
+}
+
+<h2 class="text-center alert alert-success">@(ViewBag.Year)年產品銷售狀況樞鈕分析表</h2>
+
+<form action="@Url.Action("getPivotOfProducts")" method="get" id="form1">
+    <div class="form-group row">
+        <label class="col-xs-2">請選擇年份</label>
+        <div class="col-xs-10" onchange="togetPivotOfProducts()">
+            <select id="yy" name="yy" class="form-control">
+                @for (int y = 1996; y <= DateTime.Now.Year; y++)
+                {
+                    
+                    selected = y == ViewBag.Year ? "selected" : "";
+                    <option value="@y" @selected>@y</option>
+                }
+            </select>
+        </div>
+
+    </div>
+
+</form>
+
+<div id="dataArea">
+    @if (Model != null)
+    {
+    <table class="table table-bordered" id="table1">
+        <thead>
+            <tr>
+
+                @for (int i = 0; i < Model.Columns.Count; i++)
+                {
+                    <td class="bg-info">@Model.Columns[i].ColumnName</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td class="bg-info">@row[0]</td>
+
+                    @for (int i = 1; i < Model.Columns.Count; i++)
+                    {
+                        <td>@row[i]</td>
+
+                    }
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    }
+</div>
+@section scripts{
+    <script>
+      
+      function togetPivotOfProducts() {
+
+                $.ajax({
+                    type: "get",
+                    url: "/Orders/getPivotOfProducts2?yy=" + $('#yy').val(),
+                    success: function (data) {
+                        console.log($(data).find("#table1"));
+
+                        $('#dataArea').html($(data).find("#table1"));
+                    },
+                    error: function () {
+                        alert("Error")
+                    }
+                });
+
+            }
+          togetPivotOfProducts();
+                                           
+    </script>
+}

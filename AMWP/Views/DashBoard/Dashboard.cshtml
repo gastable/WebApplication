@@ -20,6 +20,7 @@
     decimal proTotal = 0;
     decimal total = 0;
     decimal usdCash = 0;
+    
 
     //下面資產的計算都還有問題
     foreach (var item in Model.cash)
@@ -112,7 +113,7 @@
                                 <tr>
                                     <td>
 
-                                        @Html.ActionLink(item.SecID, "Display", "Performance", new { symbol = symbolstr }, new { @class = "btn btn-cash" })
+                                        @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] : 1,symbol = symbolstr }, new { @class = "btn btn-cash" })
                                     </td>
                                     <td class="align-middle">
                                         @item.Share
