@@ -150,7 +150,7 @@ function getTimeSeries(symbol,interval) {
             if (data["Note"] != null) {
                 alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
             };
-            console.log(data);
+            //console.log(data);
             var i = 0;
             $.each(data, function (objectTitle, objects) {
                 if (data["Note"] != null) {

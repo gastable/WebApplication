@@ -14,21 +14,29 @@
     <div class="form">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.CCYID, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CCYID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
-        </div>
-        <div class="text-danger ml-3">@ViewBag.PKCheck</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CCYID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCYID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
+            </div>
+            <div class="text-danger ml-3">@ViewBag.PKCheck</div>
 
-    </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExchRate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ExchRate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExchRate, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -41,7 +49,7 @@
 }
 
 <div>
-    @Html.ActionLink("返回交易幣別列表", "Index", null, new {@class="btn btn-info"})
+    @Html.ActionLink("返回交易幣別列表", "Index", null, new { @class = "btn btn-info" })
 </div>
 @section CSS{
     <style>

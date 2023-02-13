@@ -96,12 +96,11 @@
     }
 
 
-    @section Scripts {
+    @section scripts {
         @Scripts.Render("~/bundles/jqueryval")
         <script src="~/Scripts/moment.min.js"></script>
         <script>
             var today = moment().format('YYYY-MM-DD');
-            console.log(today);
             function getToday() {
                 document.getElementById("CreatedDate").defaultValue = today;
             }</script>

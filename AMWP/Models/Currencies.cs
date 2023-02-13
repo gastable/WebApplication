@@ -36,6 +36,10 @@ namespace AMWP.Models
         [StringLength(20, ErrorMessage = "貨幣名稱不可超過20個字")]
         public string Name { get; set; }
 
+        [DisplayName("兌美元匯率")]
+        [Required(ErrorMessage = "請輸入匯率")]
+        public double ExchRate { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cash> Cash { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

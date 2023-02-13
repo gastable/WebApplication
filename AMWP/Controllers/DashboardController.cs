@@ -11,7 +11,7 @@ namespace AMWP.Controllers
     public class DashboardController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
-        public ActionResult Dashboard(int id=1)
+        public ActionResult Dashboard(int id=22)
         {
             Dashboard dash = new Dashboard()
             {

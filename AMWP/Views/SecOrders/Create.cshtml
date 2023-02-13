@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>SecOrders</h4>
         <hr />
@@ -34,10 +34,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TrancType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="form-check form-check-inline form-row">
+                <div class="form-check form-check-inline form-row" id="radioInput">
                     <span class="col-auto">買 @Html.RadioButtonFor(model => model.TrancType, "true")</span>
                     <span class="col-auto">賣 @Html.RadioButtonFor(model => model.TrancType, "false")</span>
-                    
+
                     @Html.ValidationMessageFor(model => model.TrancType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="getTrancType()" />
             </div>
         </div>
     </div>
@@ -87,6 +87,15 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
+@section scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    var item = $('#radioInput').val();
+    $("radioInput").click(function () {
+        if ($(this).attr("checked")) {
+            alert("選中了"+item);
+        }
+    });
+    </script>
+
 }

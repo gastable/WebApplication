@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <div class="modal fade" id="CustomersForm" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="FormTitle">客戶資料新增</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form1">
+                            <div class="form-group">
+                                <label for="CustomerID">CustomerID</label>
+                                <input type="text" class="form-control" id="CustomerID" name="CustomerID" >
+
+                            </div>
+                            <div class="form-group">
+                                <label for="CompanyName">CompanyName</label>
+                                <input type="text" class="form-control" id="CompanyName" name="CompanyName" >
+                            </div>
+                            <div class="form-group">
+                                <label for="ContactName">ContactName</label>
+                                <input type="text" class="form-control" id="ContactName" name="ContactName">
+                            </div>
+                            <div class="form-group">
+                                <label for="ContactTitle">ContactTitle</label>
+                                <input type="text" class="form-control" id="ContactTitle" name="ContactTitle">
+                            </div>
+                            <div class="form-group">
+                                <label for="Address">Address</label>
+                                <input type="text" class="form-control" id="Address" name="Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="City">City</label>
+                                <input type="text" class="form-control" id="City" name="City">
+                            </div>
+                            <div class="form-group">
+                                <label for="Region">Region</label>
+                                <input type="text" class="form-control" id="Region" name="Region">
+                            </div>
+                            <div class="form-group">
+                                <label for="PostalCode">PostalCode</label>
+                                <input type="text" class="form-control" id="PostalCode" name="PostalCode">
+                            </div>
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <input type="text" class="form-control" id="Country" name="Country">
+                            </div>
+                            <div class="form-group">
+                                <label for="Phone">Phone</label>
+                                <input type="text" class="form-control" id="Phone" name="Phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="Fax">Fax</label>
+                                <input type="text" class="form-control" id="Fax" name="Fax">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btnAdd">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="Customers">
+
+
+
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/bootstrap.bundle.min.js"></script>
+    <script>
+        //function formSubmit() {
+        //    alert('aaa');
+        //    $('#form1').submit();
+        //}
+        //新增資料的程式碼
+        $('#btnAdd').click(function () {
+            console.log($('#form1').serialize());
+
+            $.ajax({
+                type: "Post",
+                url: "http://localhost:51223/api/Values",
+                data: $('#form1').serialize(),
+                success: function () {
+                    alert("新增成功!!");
+                    $('#CustomersForm').modal('hide');
+                    getList();
+                }
+            });
+        });
+
+
+        //////////////////////////////////////////
+        getList();
+        function getList() {
+            $('#Customers').empty();
+            let table = "";
+            let record = "";
+            $.ajax({
+                type: "Get",
+                url: `http://localhost:51223/api/Values`,
+                success: function (data) {
+                    console.log(data);
+
+                    table = `
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#CustomersForm"><i class="bi bi-file-earmark-plus"></i> 新增客戶資料</button>
+                    <table class="table table-striped table-hover">
+                    <thead class="bg-dark text-light">
+                        <tr>
+                            <th>客戶代碼</th>
+                            <th>公司名稱</th>
+                            <th>聯絡人</th>
+                            <th>聯絡人職稱</th>
+                            <th>資料管理</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>`
+
+                    $('#Customers').append(table);
+
+
+                    for (let item of data) {
+                        record = `<tr>
+                            <td>${item.CustomerID}</td>
+                            <td>${item.CompanyName}</td>
+                            <td>${item.ContactName}</td>
+                            <td>${item.ContactTitle}</td>
+                            <td><a href="#"><i class="bi bi-pencil"></i></a>   <a href="#"><i class="bi bi-trash3"></i></a></td>
+                        </tr>`
+                        $('#Customers>table>tbody').append(record);
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+</body>
+</html>

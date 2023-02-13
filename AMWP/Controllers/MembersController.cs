@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace AMWP.Controllers
 {
@@ -74,7 +75,7 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CCYID = db.Currencies.ToList();
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
             return View(members);
         }
 

@@ -36,6 +36,7 @@
           </Key>
           <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ExchRate" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Daily">
           <Key>
@@ -446,6 +447,7 @@
           </Key>
           <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExchRate" Type="Double" Nullable="false" />
           <NavigationProperty Name="Cash" Relationship="Self.FK_Cash_Currencies" FromRole="Currencies" ToRole="Cash" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Members_Currencies" FromRole="Currencies" ToRole="Members" />
           <NavigationProperty Name="Properties" Relationship="Self.FK_Properties_Currencies" FromRole="Currencies" ToRole="Properties" />
@@ -881,6 +883,7 @@
               <MappingFragment StoreEntitySet="Currencies">
                 <ScalarProperty Name="CCYID" ColumnName="CCYID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExchRate" ColumnName="ExchRate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

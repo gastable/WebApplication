@@ -2,6 +2,14 @@
 
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    int memberID = 22;
+    string CCY = "美元";
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
+    };
 }
 
 <h2>Create</h2>
@@ -16,9 +24,9 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.MemID, "MemID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MemID, "會員帳號", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MemID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.EditorFor(model => model.MemID, new { htmlAttributes = new { @class = "form-control",@readonly="readonly",value=memberID } })
                 @Html.ValidationMessageFor(model => model.MemID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,7 +56,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("回上頁", "Display", "MemberCash")
 </div>
 
 @section Scripts {

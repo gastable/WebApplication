@@ -1,6 +1,8 @@
 ﻿using _07WebAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,8 +29,33 @@ namespace _07WebAPI.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody] string value)
+        public IHttpActionResult Post([FromBody] Customers value)
         {
+            //db.Customers.Add(value);
+            //db.SaveChanges();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            db.Customers.Add(value);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (db.Customers.Count(c => c.CustomerID == value.CustomerID) > 0)
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtRoute("DefaultApi", new { id= value.CustomerID },value);
         }
 
         // PUT api/values/5

@@ -1,0 +1,31 @@
+﻿.table-green {
+    color:#006d0e;
+    background-color:#86cb69;
+}
+
+
+.table-danger th,
+.table-danger td,
+.table-danger thead th,
+.table-danger tbody + tbody {
+    /*border-color: #ff6a00;*/
+    border-bottom: 3px double #ff6a00;
+}
+
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: red;
+    content: ">";
+}
+
+
+.jumbotron {
+    background-image: url('../photo/00.jpg');
+    background-repeat: round;
+}
+
+.txtFont {
+    color: white;
+    text-shadow:2px 2px 1px black;
+    font-family:微軟正黑體;
+}

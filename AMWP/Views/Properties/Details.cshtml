@@ -2,6 +2,15 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+    int memberID = 3;
+    string CCY = "USD";
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
+    }
 }
 
 <h2>Details</h2>

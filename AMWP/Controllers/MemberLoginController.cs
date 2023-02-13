@@ -37,8 +37,8 @@ namespace AMWP.Controllers
 
             if (rd.HasRows)
             {
-                Session["mem"] = rd[0];
-                Session["CCY"] = rd[6];
+                Session["mem"] = rd["MemID"];
+                Session["CCY"] = rd["CCYID"];
                 rd.Close();                
                 return RedirectToAction("Dashboard", "Dashboard", new {id= Session["mem"],ccy= Session["CCY"] });
             }

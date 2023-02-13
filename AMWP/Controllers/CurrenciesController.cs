@@ -47,7 +47,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CCYID,Name")] Currencies currencies)
+        public ActionResult Create([Bind(Include = "CCYID,Name,ExchRate")] Currencies currencies)
         {
             var cur = db.Currencies.Find(currencies.CCYID);
             if (cur != null)
@@ -84,7 +84,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CCYID,Name")] Currencies currencies)
+        public ActionResult Edit([Bind(Include = "CCYID,Name,ExchRate")] Currencies currencies)
         {
             if (ModelState.IsValid)
             {
@@ -107,18 +107,19 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            try { 
-            db.Currencies.Remove(currencies);
-            db.SaveChanges();
+            try
+            {
+                db.Currencies.Remove(currencies);
+                db.SaveChanges();
             }
             catch
             {
-                TempData["ForeignKey"]="已有證券使用此幣別，請先修改證券幣別！";
+                TempData["ForeignKey"] = "已有證券使用此幣別，請先修改證券幣別！";
             }
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
-        
+
 
         protected override void Dispose(bool disposing)
         {

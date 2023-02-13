@@ -1,48 +1,43 @@
 ﻿@model AMWP.ViewModels.Dashboard
 
 @{
-    ViewBag.Title = "會員資產管理";
-    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+        ViewBag.Title = "會員資產管理";
+        Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
+        int memberID = 3;
+        string CCY = "USD";
+        string symbolstr = "VT";
+        if (Session["mem"] != null)
+        {
+            memberID = Convert.ToInt32(Session["mem"]);
+            CCY = Convert.ToString(Session["CCY"]);
+        }
 
+        decimal cashTotal = 0;
+        decimal secTotal = 0;
+        decimal proTotal = 0;
+        decimal total = 0;
+        decimal usdCash = 0;  
 
-    int memberID = 1;
-    string CCY = "USD";
-    string symbolstr = "VT";
-    if (Session["mem"] != null)
-    {
-        memberID = Convert.ToInt32(Session["mem"]);
-        CCY = Convert.ToString(Session["CCY"]);
+        //下面資產的計算都還有問題
+        foreach (var item in Model.cash)
+        {
+            usdCash += item.Amount*Convert.ToDecimal(item.Currencies.ExchRate);
+        }
+        var usd = Json.Encode(usdCash);
+        foreach (var item in Model.secOrders)
+        {
+            secTotal += Convert.ToDecimal(item.Share) * item.Price;
+        }
+        foreach (var item in Model.properties)
+        {
+            proTotal += item.Loan;
+        }
+        total = cashTotal + secTotal + proTotal;
     }
-
-    decimal cashTotal = 0;
-    decimal secTotal = 0;
-    decimal proTotal = 0;
-    decimal total = 0;
-    decimal usdCash = 0;
-    
-
-    //下面資產的計算都還有問題
-    foreach (var item in Model.cash)
-    {
-        usdCash += item.Amount;
-    }
-    var usd = Json.Encode(usdCash);
-    foreach (var item in Model.secOrders)
-    {
-        secTotal += Convert.ToDecimal(item.Share) * item.Price;
-    }
-    foreach (var item in Model.properties)
-    {
-        proTotal += item.Loan;
-    }
-    total = cashTotal + secTotal + proTotal;
-}
-@foreach (var item in Model.cash)
-{<h5>@item.Amount </h5>
-    }
+        
     <div class="">
-        <div class="row justify-content-around align-items-center">
+        <div class="row justify-content-around align-items-end">
             <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
                 <div class="col">
                     <h4 class="text-center">資產淨值</h4>
@@ -109,11 +104,11 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.secOrders)
-                            {
+    {
                                 <tr>
                                     <td>
 
-                                        @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] : 1,symbol = symbolstr }, new { @class = "btn btn-cash" })
+                                        @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] : 22,symbol = symbolstr }, new { @class = "btn btn-cash" })
                                     </td>
                                     <td class="align-middle">
                                         @item.Share
@@ -146,7 +141,6 @@
 
 
     @section dashboardCSS{
-        <link href="~/Content/dashboard.css" rel="stylesheet" />
         <style>
             .btn-securities {
                 color: #1f1a1a;
@@ -199,15 +193,6 @@
                         label: ['現值'],
                         data: assetNets,
                         backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
-                        //borderColor: [
-                        //    'rgba(54, 162, 235, 1)',
-                        //    'rgba(255, 206, 86, 1)',
-                        //    'rgba(75, 192, 192, 1)',
-                        //    'rgba(153, 102, 255, 1)',
-                        //    'rgba(255, 159, 64, 1)',
-                        //    'rgba(255, 26, 104, 1)'
-                        //],
-
                     }]
                 };
                 var legendON = assetNets.length < 5 ? true : false;

@@ -50,9 +50,11 @@
                 <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.SSN }, new { @class = "btn btn-warning" })
                     @*@Html.ActionLink("詳細內容", "Details", new { id = item.SSN }, new { @class = "btn btn-info", onclick = "" })*@
+
                     <button type="button" id="@item.SSN" class="btn btn-info" data-toggle="modal" data-target="#showDetailModal" onclick="getSSN(event)">
                         詳細內容
                     </button>
+                    @Html.ActionLink("刪除", "Delete", new { id = item.SSN }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }

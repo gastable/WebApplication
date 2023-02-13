@@ -22,8 +22,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExchRate)
+            </th>
             <th>資料管理</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -37,10 +39,12 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.ExchRate)
+                </td>
+                <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.CCYID }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("刪除", "Delete", new { id = item.CCYID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的交易幣別嗎？')" })
                 </td>
-                <td></td>
             </tr>
         }
     </tbody>
