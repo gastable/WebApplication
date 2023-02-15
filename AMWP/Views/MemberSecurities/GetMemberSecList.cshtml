@@ -1,0 +1,79 @@
+﻿@using System.Data;
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "GetMemberSecList";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+}
+
+<h2>GetMemberSecList</h2>
+
+<div>
+    <canvas id="pieChart"></canvas>
+</div>
+@section scripts{
+    <script>
+        var data;
+        var config;
+        var pieChart;
+        var pieData=[];
+        var pieLabels=[];
+        $.ajax({
+            type: "get",
+            url: 'http://localhost:56540/MemberSecurities/GetMemberSecPie',
+            success: function (data) {
+                let i;
+                for (i = 0; i < data['data'].length; i++) {
+                    pieData.push(data['data'][i]);
+                    pieLabels.push(data['labels'][i]);                   
+                }                
+            }
+        });
+        console.log(pieData);
+        data = {
+            labels: pieLabels,
+            datasets: [{
+                label: ['現值'],
+                data: pieData,
+                backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+            }]
+        };
+        //var legendON = pie['labels'].length < 5 ? true : false;
+
+        config = {
+            type: "pie",
+            data,
+            options: {
+                maintainAspectRatio: true,
+                plugins: {
+                    datalabels: {
+                        align: 'center',
+                        formatter: (value, context) => {
+                            const datapoints = context.chart.config.data.datasets[0].data;
+                            const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+                                0);
+                            const percentageValue = (value / totalvalue * 100).toFixed(2);
+                            const display = [`${percentageValue}%`]
+                            return display;
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        };
+        pieChart = new Chart(document.getElementById("pieChart"),
+            config);
+            
+        
+
+    </script>
+}

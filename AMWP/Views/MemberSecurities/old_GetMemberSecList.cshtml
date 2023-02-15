@@ -1,0 +1,124 @@
+﻿@using System.Data;
+@model System.Data.DataTable
+
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                證券代號
+            </th>
+            <th>
+                股數
+            </th>
+            <th>
+                市價
+            </th>
+            <th>
+                現值
+            </th>
+            <th>
+                成本
+            </th>
+            <th>
+                未實現盈虧
+            </th>
+            <th>
+                配置比例
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>
+                    @row["Symbol"]
+                </td>
+                <td>
+                    @Math.Round(Convert.ToDecimal(row["Share"]), 2)
+                </td>
+                <td>
+                    @Math.Round(Convert.ToDecimal(row["Close"]), 2)
+                </td>
+                <td>
+                    @(Math.Round(Convert.ToDecimal(row["Close"])*Convert.ToDecimal(row["Share"])*Convert.ToDecimal(row["ExchRate"])*Convert.ToDecimal(row["ToCCY"]),2))
+                </td>
+                <th>
+                    成本
+                </th>
+                @*<th>
+                        未實現盈虧
+                    </th>
+                    <th>
+                        配置比例
+                    </th>*@
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div>
+    <canvas id="pieChart"></canvas>
+</div>
+@section scripts{
+    <script>
+        
+        $.ajax({
+            type: "get",
+            url: 'http://localhost:56540/MemberSecurities/GetMemberSecPie',
+            success: function (pie) {
+                console.log(pie);
+                alert("新增成功!!");
+                //const data = {
+                //    labels: pie['labels'],
+                //    datasets: [{
+                //        label: ['現值'],
+                //        data: pie['data'],
+                //        backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+                //    }]
+                //};
+                //var legendON = pie['labels'].length < 5 ? true : false;
+
+                //const config = {
+                //    type: "pie",
+                //    data,
+                //    options: {
+                //        maintainAspectRatio: true,
+                //        plugins: {
+                //            datalabels: {
+                //                align: 'center',
+                //                formatter: (value, context) => {
+                //                    const datapoints = context.chart.config.data.datasets[0].data;
+                //                    //console.log(datapoints);
+                //                    const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+                //                        0);
+                //                    const percentageValue = (value / totalvalue * 100).toFixed(2);
+                //                    const display = [`${percentageValue}%`]
+                //                    return display;
+                //                }
+                //            },
+                //            legend: {
+                //                display: legendON,
+                //                onHover: (event, chartElement) => {
+                //                    event.native.target.style.cursor = 'pointer';
+                //                },
+                //                onLeave: (event, chartElement) => {
+                //                    event.native.target.style.cursor = 'default';
+                //                }
+                //            }
+                //        }
+                //    },
+                //    plugins: [ChartDataLabels]
+                //};
+                //const pieChart = new Chart(document.getElementById("pieChart"),
+                //    config);
+
+            }           
+
+        });
+        var pie = getChart('/MemberSecurities/GetMemberSecPie');
+
+        console.log(pie);
+        
+    </script>
+}

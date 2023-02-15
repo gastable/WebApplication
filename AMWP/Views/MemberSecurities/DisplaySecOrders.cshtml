@@ -1,4 +1,6 @@
 ﻿@using System.Data;
+@using System.Linq;
+
 
 @model System.Data.DataTable
 @{
@@ -11,8 +13,22 @@
         memberID = Convert.ToInt32(Session["mem"]);
         CCY = Convert.ToString(Session["CCY"]);
     };
+    string[] dataLegend = new string[Model.Rows.Count];
+    var legendList = dataLegend.ToList();
+    decimal[] data = new decimal[Model.Rows.Count];
+    var dataList = data.ToList();
 }
 
+<div class="row row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
+    <div class="col">
+        @Html.Action("_GetMemberSecList")
+    </div>
+    <div class="col">
+        <canvas id="SecListPie">
+        </canvas>
+    </div>
+
+</div>
 <h3>證券交易明細</h3>
 <table class="table">
     <thead>
@@ -40,6 +56,8 @@
     <tbody>
         @foreach (DataRow row in Model.Rows)
         {
+            legendList.Append(row["Symbol"]).ToArray();
+            dataList.Append(Math.Round(Convert.ToDecimal(row["Share"]), 2)).ToArray();
             <tr>
                 <td>
                     @Convert.ToDateTime(row["Date"]).ToString("yyyy/MM/dd")
@@ -47,7 +65,7 @@
                 <td>
                     @if (Convert.ToBoolean(row["TrancType"]))
                     {
-                    <span class="text-danger">買進</span>
+                        <span class="text-danger">買進</span>
                     }
                     else
                     {
@@ -55,23 +73,24 @@
                     }
                 </td>
                 <td>
-                    <a class="btn btn-secondary btn-sm" href="@Url.Action("Display", "Performance", new {id = Session["mem"] != null ? Session["mem"] : 22,symbol = @row["Symbol"] })">@row["Symbol"]</a>
+                    @row["Symbol"]
 
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["Share"]),2)
+                    @Math.Round(Convert.ToDecimal(row["Share"]), 2)
 
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["Price"]),2)
+                    @Math.Round(Convert.ToDecimal(row["Price"]), 2)
 
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["Fee"]),2)
+                    @Math.Round(Convert.ToDecimal(row["Fee"]), 2)
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<h4 class="text-danger">@ViewBag.SecMsg</h4>
+
+
 

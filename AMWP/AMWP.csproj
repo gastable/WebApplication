@@ -175,6 +175,7 @@
     <Compile Include="Models\Cash.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Chart.cs" />
     <Compile Include="Models\Countries.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
@@ -243,6 +244,7 @@
     <Content Include="Models\AMWPModel.edmx.diagram">
       <DependentUpon>AMWPModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Scripts\AMWP.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -458,6 +460,9 @@
     <Content Include="Views\Weekly\Edit.cshtml" />
     <Content Include="Views\Weekly\Index.cshtml" />
     <Content Include="Views\Shared\_MemberLayout.cshtml" />
+    <Content Include="Views\MemberSecurities\GetMemberSecPie.cshtml" />
+    <Content Include="Views\MemberSecurities\old_GetMemberSecList.cshtml" />
+    <Content Include="Views\MemberSecurities\GetMemberSecList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

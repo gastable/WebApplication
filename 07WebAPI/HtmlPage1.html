@@ -5,25 +5,29 @@
     <title></title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    
 </head>
 <body>
     <div class="container">
         <div class="modal fade" id="CustomersForm" tabindex="-1">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="FormTitle">客戶資料新增</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form id="form1">
+                    <form id="form1" class="needs-validation" novalidate>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="FormTitle">客戶資料新增</h5>
+                        </div>
+                        <div class="modal-body">
+
                             <div class="form-group">
                                 <label for="CustomerID">CustomerID</label>
-                                <input type="text" class="form-control" id="CustomerID" name="CustomerID" >
+                                <input type="text" class="form-control" maxlength="5" minlength="5" id="CustomerID" name="CustomerID" required>
+                                <div class="invalid-feedback">
 
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="CompanyName">CompanyName</label>
-                                <input type="text" class="form-control" id="CompanyName" name="CompanyName" >
+                                <input type="text" class="form-control" id="CompanyName" name="CompanyName" required>
                             </div>
                             <div class="form-group">
                                 <label for="ContactName">ContactName</label>
@@ -61,97 +65,44 @@
                                 <label for="Fax">Fax</label>
                                 <input type="text" class="form-control" id="Fax" name="Fax">
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="btnAdd">Submit</button>
-                    </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="btnAdd">Submit</button>
+                            <button type="submit" class="btn btn-success d-none" onclick="updateData()" id="btnUpdate">Update</button>
+                        </div>
+                    </form>
                 </div>
+
             </div>
         </div>
 
 
         <div id="Customers">
 
-
-
         </div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <button id="prev" class="page-link">
+                        &laquo;
+                    </button>
+                </li>
+
+                <li class="page-item">
+                    <button id="next" class="page-link" onclick="getList()">
+                        &raquo;
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </div>
 
     <script src="Scripts/jquery-3.4.1.min.js"></script>
     <script src="Scripts/bootstrap.bundle.min.js"></script>
     <script>
-        //function formSubmit() {
-        //    alert('aaa');
-        //    $('#form1').submit();
-        //}
-        //新增資料的程式碼
-        $('#btnAdd').click(function () {
-            console.log($('#form1').serialize());
 
-            $.ajax({
-                type: "Post",
-                url: "http://localhost:51223/api/Values",
-                data: $('#form1').serialize(),
-                success: function () {
-                    alert("新增成功!!");
-                    $('#CustomersForm').modal('hide');
-                    getList();
-                }
-            });
-        });
-
-
-        //////////////////////////////////////////
-        getList();
-        function getList() {
-            $('#Customers').empty();
-            let table = "";
-            let record = "";
-            $.ajax({
-                type: "Get",
-                url: `http://localhost:51223/api/Values`,
-                success: function (data) {
-                    console.log(data);
-
-                    table = `
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#CustomersForm"><i class="bi bi-file-earmark-plus"></i> 新增客戶資料</button>
-                    <table class="table table-striped table-hover">
-                    <thead class="bg-dark text-light">
-                        <tr>
-                            <th>客戶代碼</th>
-                            <th>公司名稱</th>
-                            <th>聯絡人</th>
-                            <th>聯絡人職稱</th>
-                            <th>資料管理</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>`
-
-                    $('#Customers').append(table);
-
-
-                    for (let item of data) {
-                        record = `<tr>
-                            <td>${item.CustomerID}</td>
-                            <td>${item.CompanyName}</td>
-                            <td>${item.ContactName}</td>
-                            <td>${item.ContactTitle}</td>
-                            <td><a href="#"><i class="bi bi-pencil"></i></a>   <a href="#"><i class="bi bi-trash3"></i></a></td>
-                        </tr>`
-                        $('#Customers>table>tbody').append(record);
-                    }
-                }
-            });
-        }
-    </script>
-
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
             'use strict';
             window.addEventListener('load', function () {
@@ -160,6 +111,14 @@
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function (form) {
                     form.addEventListener('submit', function (event) {
+                        const IDRule = /^[A-Z]{5}$/;
+                        let CustomerID = document.getElementById("CustomerID");
+                        if (!CustomerID.value.match(IDRule)) {
+                            $('#CustomerID').addClass('is-invalid');
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
+                        }
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
@@ -169,7 +128,195 @@
                 });
             }, false);
         })();
+
+        //下面程式是製造頁碼
+        let TotalPage = 0;
+        $.ajax({
+            type: "Get",
+            url: `http://localhost:51223/api/Values`,
+            success: function (data) {
+
+                TotalPage = Math.ceil(data.length / 15);
+                let pageData = "";
+                for (let i = 1; i <= TotalPage; i++) {
+                    pageData += `
+                                    <li class="page-item"><button class="page-link" onclick="getList(${i},event)">${i}</button></li>
+                                    `;
+                }
+
+                $('nav>.pagination>li:first-child').after(pageData);
+            }
+        });
+
+        //修改資料的程式碼
+        //1.將要修改的資料先讀到表單
+        function getData(evt) {
+            
+                $.ajax({
+                    type: "Get",
+                    url: "http://localhost:51223/api/Values/" + evt.target.id,
+                    success: function (data) {
+                        console.log(data);
+
+                        $('#FormTitle').text('客戶資料修改');
+                        $('#CustomerID').val(data.CustomerID);
+                        $('#CompanyName').val(data.CompanyName);
+                        $('#ContactName').val(data.ContactName);
+
+                        $('#ContactTitle').val(data.ContactTitle);
+                        $('#Address').val(data.Address);
+                        $('#City').val(data.City);
+                        $('#Region').val(data.Region);
+                        $('#PostalCode').val(data.PostalCode);
+                        $('#Country').val(data.Country);
+                        $('#Phone').val(data.Phone);
+                        $('#Fax').val(data.Fax);
+
+                        $('#CustomerID').attr('readonly', 'readonly');
+                        $('#btnAdd').addClass('d-none');
+                        $('#btnUpdate').removeClass('d-none');
+                        $('#CustomersForm').modal('show');
+                    }
+                });
+      
+
+        };
+        //2.將要修改好的表單回存資料庫
+        function updateData() {
+            if (confirm("您確定要儲存此筆資料嗎?")) {
+                $.ajax({
+                    type: "Put",
+                    url: "http://localhost:51223/api/Values/" + $('#CustomerID').val(),
+                    data: $('#form1').serialize(),
+                    success: function () {
+                        alert("資料編輯完成!!");
+                        getList(1, event);
+                    }
+                });
+            }
+
+        };
+
+        //刪除資料的程式碼
+        function delData(evt) {
+            if (confirm("您確定要刪除此筆資料嗎?")) {
+                $.ajax({
+                    type: "Delete",
+                    url: "http://localhost:51223/api/Values/" + evt.target.id,
+                    success: function () {
+                        $('#CustomersForm').modal('hide');
+                        getList(1, event);
+                    }
+                });
+            }
+
+        };
+
+        //新增資料的程式碼
+        function InitialForm() {
+            document.getElementById("form1").reset();
+            $('#btnAdd').removeClass('d-none');
+            $('#btnUpdate').addClass('d-none');
+            $('#CustomerID').removeAttr('readonly');
+          
+            $('#CustomersForm').modal('show');
+        }
+
+
+        $('#btnAdd').click(function (e) {
+            console.log($('#form1').serialize());
+
+            $.ajax({
+                type: "Post",
+                url: "http://localhost:51223/api/Values",
+                data: $('#form1').serialize(),
+                success: function () {
+                    alert("新增成功!!");
+                    $('#CustomersForm').modal('hide');
+                    getList(1, event);
+                },
+                error: function (s) {
+                    if (s.status == 409) {
+                        $('#CustomerID').addClass('is-invalid');
+                        let CustomerID = document.getElementById("CustomerID");
+                        CustomerID.nextElementSibling.innertText = "客戶代碼重複!";
+
+                    }
+                }
+
+            });
+
+        });
+
+        //////////////////////////////////////////
+        getList(1, event);
+        function getList(p, evt) {
+            $('#Customers').empty();
+            let table = "";
+            let record = "";
+            $.ajax({
+                type: "Get",
+                url: `http://localhost:51223/api/Values?page=${p}`,
+
+                success: function (data) {
+                    //console.log(data);
+
+                    let prev = p == 1 ? 1 : p - 1;
+                    $('#prev').attr("onclick", `getList(${prev},event)`);
+
+                    let next = p == TotalPage ? p : p + 1;
+                    $('#next').attr("onclick", `getList(${next},event)`);
+
+
+                    $('nav .page-item').removeClass('active');
+
+                    if (evt === undefined) {
+                        $('nav .page-item:first-child+li').addClass('active');
+                    }
+                    else if (evt.target.id == "prev" || evt.target.id === "next") {
+                        $('nav .page-item')[p].className += " active";
+                    }
+                    else {
+                        $(evt.target.parentNode).addClass('active');
+                    }
+
+                    table = `
+                                                            <button class="btn btn-primary" onclick="InitialForm()"><i class="bi bi-file-earmark-plus"></i> 新增客戶資料</button>
+                                                            <table class="table table-striped table-hover">
+                                                            <thead class="bg-dark text-light">
+                                                                <tr>
+                                                                    <th>客戶代碼</th>
+                                                                    <th>公司名稱</th>
+                                                                    <th>聯絡人</th>
+                                                                    <th>聯絡人職稱</th>
+                                                                    <th>資料管理</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>`
+
+                    $('#Customers').append(table);
+
+
+                    for (let item of data) {
+                        record = `<tr>
+                                                                    <td>${item.CustomerID}</td>
+                                                                    <td>${item.CompanyName}</td>
+                                                                    <td>${item.ContactName}</td>
+                                                                    <td>${item.ContactTitle}</td>
+                                                                    <td><button class="btn btn-link" onclick="getData(event)" id="${item.CustomerID}">Edit</button>   <button class="btn btn-link" onclick="delData(event)" id="${item.CustomerID}">Delete</button></td>
+                                                                </tr>`
+                        $('#Customers>table>tbody').append(record);
+                    }
+                }
+            });
+        }
+      
     </script>
+
+    <!--<i class="bi bi-trash3"></i>-->
 
 </body>
 </html>

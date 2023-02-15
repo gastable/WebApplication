@@ -50,60 +50,58 @@
                 <td>
                     @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2)
                 </td>
-            </tr>
+            </tr>  
         }
-
     </tbody>
 </table>
 <a class="btn btn-primary" href=@Url.Action("Create", "Cash", new {id=memberID})><i class="bi bi-plus-circle"></i>新增資料</a>
 @section scripts{
     <script>
-        var datalegends = @Html.Raw(ccyList);
-        var cash = @Html.Raw(cashValues);
-        console.log(cash);
-        console.log(datalegends);
-        const data = {
-            labels: datalegends,
-            datasets: [{
-                label: ['現值'],
-                data: cash,
-                backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
-            }]
-        };
+        @*var datalegends = @Html.Raw(ccyList);
+        var cash = @Html.Raw(cashValues);*@
+       
+        //const data = {
+        //    labels: datalegends,
+        //    datasets: [{
+        //        label: ['現值'],
+        //        data: cash,
+        //        backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+        //    }]
+        //};
 
-        const config = {
-            type: "pie",
-            data,
-            options: {
-                maintainAspectRatio: true,
-                plugins: {
-                    datalabels: {
-                        align: 'center',
-                        formatter: (value, context) => {
-                            const datapoints = context.chart.config.data.datasets[0].data;
-                            //console.log(datapoints);
-                            const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
-                                0);
-                            const percentageValue = (value / totalvalue * 100).toFixed(2);
-                            const display = [`${percentageValue}%`]
-                            return display;
-                        }
-                    },
-                    legend: {
-                        display: true,
-                        onHover: (event, chartElement) => {
-                            event.native.target.style.cursor = 'pointer';
-                        },
-                        onLeave: (event, chartElement) => {
-                            event.native.target.style.cursor = 'default';
-                        }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        };
-        const circleChart = new Chart(document.getElementById("cashPieChart"),
-            config);
+        //const config = {
+        //    type: "pie",
+        //    data,
+        //    options: {
+        //        maintainAspectRatio: true,
+        //        plugins: {
+        //            datalabels: {
+        //                align: 'center',
+        //                formatter: (value, context) => {
+        //                    const datapoints = context.chart.config.data.datasets[0].data;
+        //                    //console.log(datapoints);
+        //                    const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+        //                        0);
+        //                    const percentageValue = (value / totalvalue * 100).toFixed(2);
+        //                    const display = [`${percentageValue}%`]
+        //                    return display;
+        //                }
+        //            },
+        //            legend: {
+        //                display: true,
+        //                onHover: (event, chartElement) => {
+        //                    event.native.target.style.cursor = 'pointer';
+        //                },
+        //                onLeave: (event, chartElement) => {
+        //                    event.native.target.style.cursor = 'default';
+        //                }
+        //            }
+        //        }
+        //    },
+        //    plugins: [ChartDataLabels]
+        //};
+        //const circleChart = new Chart(document.getElementById("cashPieChart"),
+        //    config);
 
 
 

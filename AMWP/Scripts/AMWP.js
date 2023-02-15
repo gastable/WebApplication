@@ -147,17 +147,17 @@ function getTimeSeries(symbol,interval) {
         url: 'https://www.alphavantage.co/query?function=TIME_SERIES_' + interval + '_ADJUSTED&symbol=' + symbol + '&apikey=XBRCUGRFRDK9P0HJ',
         async: false,
         success: function (data) {
+            //console.log(data);
+
             if (data["Note"] != null) {
                 alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
             };
-            //console.log(data);
             var i = 0;
             $.each(data, function (objectTitle, objects) {
                 if (data["Note"] != null) {
                     alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
                 };
 
-                /*console.log(dates);*/
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
