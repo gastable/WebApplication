@@ -48,31 +48,31 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:22 })">
+                            <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 資產儀表板
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h6" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:22 })">
+                            <a class="nav-link h6" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bank"></i>
                                 證券資產
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:22 })">
+                            <a class="nav-link" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-coin"></i>
                                 現金
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-houses"></i>
                                 房產與貸款
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:22 })">
+                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bar-chart-line"></i>
                                 投資組合回測
                             </a>

@@ -1,0 +1,104 @@
+﻿@using System.Data;
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "GetMemberSecList";
+    int memberID = 22;
+    string CCY = "USD";
+    decimal sum = 0;
+    decimal sumReturn = 0;
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
+    };
+
+}
+
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                證券代號
+            </th>
+            <th>
+                股數
+            </th>            
+            <th>
+                成本
+            </th>
+            <th>
+                市價
+            </th>
+            <th>
+                未實現盈虧
+            </th>
+            <th>
+                報酬率
+            </th>
+            <th>
+                現值(@Html.Raw(CCY))
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>
+                    @row["Symbol"]
+                </td>
+                <td>
+                    @Math.Round(Convert.ToDecimal(row["Share"]), 2)
+                </td>
+                <td>
+                    @Math.Round(Convert.ToDecimal(row["AvgCost"]), 2)
+                </td>
+                <td>
+                    @Math.Round(Convert.ToDecimal(row["Close"]), 2)
+                </td>
+                <td>
+                    @(Math.Round(((Convert.ToDecimal(row["Close"])-Convert.ToDecimal(row["AvgCost"]))* Convert.ToDecimal(row["Share"])), 2))
+                </td>
+                <td>
+                    @(Math.Round((((Convert.ToDecimal(row["Close"])-Convert.ToDecimal(row["AvgCost"]))* Convert.ToDecimal(row["Share"]))/(Convert.ToDecimal(row["AvgCost"])* Convert.ToDecimal(row["Share"])))*100, 2)) %
+                </td>
+                <td>
+                    @(Math.Round(Convert.ToDecimal(row["Close"])*Convert.ToDecimal(row["Share"])*Convert.ToDecimal(row["ExchRate"])*Convert.ToDecimal(row["ToCCY"]),2))
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                總計
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    sumReturn += (Math.Round(((Convert.ToDecimal(row["Close"]) - Convert.ToDecimal(row["AvgCost"])) * Convert.ToDecimal(row["Share"])), 2));
+                }
+                @sumReturn
+            </td>
+            <td>
+            </td>
+            <td>
+                @foreach (DataRow row in Model.Rows)
+                {
+                    sum += (Math.Round(Convert.ToDecimal(row["Close"]) * Convert.ToDecimal(row["Share"]) * Convert.ToDecimal(row["ExchRate"]) * Convert.ToDecimal(row["ToCCY"]), 2));
+
+                }
+                @(Session["secSum"] = sum)
+            </td>
+        </tr>
+    </tfoot>
+
+</table>
+
+

@@ -42,16 +42,16 @@ namespace AMWP.Controllers
             //return View();
         }
 
-        public ActionResult GetMemberSecList(int id = 22) {
+        public ActionResult _GetMemberSecList(int id = 22) {
             string sql = "queryMemberSecurities";
             List<SqlParameter> list = new List<SqlParameter> {
                 new SqlParameter("id",id)
             };
             var ms = gd.TableQueryBySP(sql, list);
-            return View(ms);
+            return PartialView(ms);
         }
 
-        public JsonResult GetMemberSecPie(int id = 23)
+        public JsonResult GetMemberSecPie(int id = 22)
         {
             string sql = "queryMemberSecurities";
             List<SqlParameter> list = new List<SqlParameter> {

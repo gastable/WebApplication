@@ -1,6 +1,7 @@
 ﻿using AMWP.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -16,9 +17,11 @@ namespace AMWP.Controllers
 
         public ActionResult Display(int id = 22)
         {
-            string sql = "SELECT Cash.CCYID, Cash.Amount, Currencies.ExchRate, dbo.fnToMemCCY(@id)*Cash.Amount*Currencies.ExchRate as ToCCY "+ 
-                         "FROM Cash INNER JOIN Currencies ON Cash.CCYID = Currencies.CCYID "+
-                         "where Cash.MemID =@id";
+            string sql = "select isnull(c.SSN,0) as SSN, cu.CCYID,cu.[Name], isnull(c.Amount,0) as Amount,cu.ExchRate, isnull(dbo.fnToMemCCY(@id)*C.Amount*Cu.ExchRate, 0) as ToCCY " +
+                        "from Currencies as CU  left outer join(select * "+
+                        "from cash where MemID = @id) as c "+
+                        "on CU.CCYID = c.CCYID "+
+                        "order by Cu.CCYID desc";
             List<SqlParameter> list = new List<SqlParameter>() {
                     new SqlParameter("id",id)
             };
@@ -34,8 +37,35 @@ namespace AMWP.Controllers
             }
             ViewBag.MemID = id;
             return View(cash);
-        }
+
         //ViewBag.ErrMsg = "增加現金紀錄？";
-        //return View();
+        }
+        public JsonResult GetMemberCashPie(int id = 22)
+        {
+            string sql = "select isnull(c.SSN,0) as SSN, cu.CCYID,cu.[Name], isnull(c.Amount,0) as Amount,cu.ExchRate, isnull(dbo.fnToMemCCY(@id)*C.Amount*Cu.ExchRate, 0) as ToCCY " +
+                        "from Currencies as CU  left outer join(select * " +
+                        "from cash where MemID = @id) as c " +
+                        "on CU.CCYID = c.CCYID " +
+                        "order by Cu.CCYID desc";
+            List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("id",id)
+            };
+            DataTable ms = gd.TableQuery(sql, list);
+
+            Chart pie = new Chart();
+            List<string> _labels = new List<string>();
+            List<decimal> _data = new List<decimal>();
+
+            foreach (DataRow row in ms.Rows)
+            {
+                _labels.Add(Convert.ToString(row["Name"]));
+                _data.Add(Math.Round(Convert.ToDecimal(row["ToCCY"]), 2));
+            };
+            pie.labels = _labels;
+            pie.data = _data;
+            return Json(pie, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

@@ -6,107 +6,156 @@
     ViewBag.Title = "會員現金庫存";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
     int memberID = 22;
-    string CCY = "美元";
+    string CCY = "USD";
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
         CCY = Convert.ToString(Session["CCY"]);
     };
 
-    var ccyList = new List<string>();
-    var cashValues = new List<decimal>();
+    decimal sum = 0;
+    string action = "";
 }
 @*<div>
         <canvas id="cashPieChart"></canvas>
     </div>*@
-<h3>會員現金庫存</h3>
 <h4 class="text-danger">@ViewBag.CashMsg</h4>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                貨幣
-            </th>
-            <th>
-                金額
-            </th>
-            <th>
-                折合 @CCY
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (DataRow row in Model.Rows)
-        {
-            ccyList.Add(Convert.ToString(row["CCYID"]));
-            cashValues.Add(Convert.ToDecimal(@row["ToCCY"]));
+<div class="row justify-content-around align-items-center ">
+    <div class="col-md-8"">
+<h3 class="text-center mb-3">會員現金庫存</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    貨幣
+                </th>
+                <th>
+                    金額
+                </th>
+                <th>
+                    現值(@CCY)
+                </th>
+                <th>
+                    修改
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in Model.Rows)
+            {
+                
+                <tr>
+                    <td>
+                        @row["Name"]
+                    </td>
+                    <td>
+                        @Math.Round(Convert.ToDecimal(@row["Amount"]), 2)
+                    </td>
+                    <td>
+                        @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2)
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href=@Url.Action(action = Convert.ToInt32(row["SSN"])==0? "Create":"Edit", "Cash", new { id = row["SSN"],MemID=memberID })><i class="bi bi-pencil-fill"></i></a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+        <tfoot>
             <tr>
                 <td>
-                    @row["CCYID"]
+                    總計
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(@row["Amount"]), 2)
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2)
+                    @foreach (DataRow row in Model.Rows)
+                    {
+                        sum += @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2);
+                    }                    
+                    @(Session["cashSum"] = sum)
                 </td>
-            </tr>  
-        }
-    </tbody>
-</table>
-<a class="btn btn-primary" href=@Url.Action("Create", "Cash", new {id=memberID})><i class="bi bi-plus-circle"></i>新增資料</a>
+                    </tr>
+                </tfoot>
+    </table>
+    </div>
+   
+    <div class="col-md-4">
+        <canvas id="pieChart"></canvas>
+    </div>
+</div>
 @section scripts{
-    <script>
-        @*var datalegends = @Html.Raw(ccyList);
-        var cash = @Html.Raw(cashValues);*@
-       
-        //const data = {
-        //    labels: datalegends,
-        //    datasets: [{
-        //        label: ['現值'],
-        //        data: cash,
-        //        backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
-        //    }]
-        //};
+    <script>        
+        var pieChart;
+        var pieData=[];
+        var pieLabels = [];
+        var id =@Html.Raw(memberID);
+        function getMemberSecPie(id) {
+            $.ajax({
+                type: "get",
+                url: 'http://localhost:56540/MemberCash/GetMemberCashPie/'+id,
+                async: false,
+                success: function (data) {
+                    let i;
+                    for (i = 0; i < data['data'].length; i++) {
+                        pieData.push(data['data'][i]);
+                        pieLabels.push(data['labels'][i]);
+                    }
+                }
+            });
+        };
+        getMemberSecPie(id);
+        console.log(pieData)
 
-        //const config = {
-        //    type: "pie",
-        //    data,
-        //    options: {
-        //        maintainAspectRatio: true,
-        //        plugins: {
-        //            datalabels: {
-        //                align: 'center',
-        //                formatter: (value, context) => {
-        //                    const datapoints = context.chart.config.data.datasets[0].data;
-        //                    //console.log(datapoints);
-        //                    const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
-        //                        0);
-        //                    const percentageValue = (value / totalvalue * 100).toFixed(2);
-        //                    const display = [`${percentageValue}%`]
-        //                    return display;
-        //                }
-        //            },
-        //            legend: {
-        //                display: true,
-        //                onHover: (event, chartElement) => {
-        //                    event.native.target.style.cursor = 'pointer';
-        //                },
-        //                onLeave: (event, chartElement) => {
-        //                    event.native.target.style.cursor = 'default';
-        //                }
-        //            }
-        //        }
-        //    },
-        //    plugins: [ChartDataLabels]
-        //};
-        //const circleChart = new Chart(document.getElementById("cashPieChart"),
-        //    config);
+        data = {
+            labels: pieLabels,
+            datasets: [{
+                label: ['現值'],
+                data: pieData,
+                backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+            }]
+        };
+        //var legendON = pie['labels'].length < 5 ? true : false;
 
-
-
+        config = {
+            type: "pie",
+            data,
+            options: {
+                maintainAspectRatio: true,
+                plugins: {
+                    datalabels: {
+                        align: 'center',
+                        formatter: (value, context) => {
+                            const datapoints = context.chart.config.data.datasets[0].data;
+                            const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+                                0);
+                            const percentageValue = (value / totalvalue * 100).toFixed(2);
+                            const display = [`${percentageValue}%`]
+                            return display;
+                        },
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        };
+        pieChart = new Chart(document.getElementById("pieChart"),
+            config);
 
     </script>
 }
+
+    
 
 
