@@ -54,8 +54,11 @@ namespace AMWP.Controllers
         {
             Session["mem"] = null;  //記錄為訪客狀態
             Session["CCY"] = null;
+            Session["secSum"] = null;
+            Session["cashSum"] = null;
+            Session["pptySum"] = null;
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index","Home");
         }
     }
 }

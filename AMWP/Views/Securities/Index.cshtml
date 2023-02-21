@@ -38,7 +38,7 @@
             <th>上傳API</th>
 
         </tr>
-        </thead>
+    </thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -61,12 +61,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.SecTypes.Name)
                 </td>
-                <td>                   
+                <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.SecID }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("刪除", "Delete", new { id = item.SecID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的證券嗎？')" })
                 </td>
                 <td>
-                    <input id="UploadData" type="button" value="上傳" class="btn btn-primary"/>
+                    <input id="UploadData" type="button" value="上傳" class="btn btn-primary" />
                 </td>
             </tr>
         }
@@ -83,4 +83,20 @@
         }
     </style>
 }
-    
+
+@section scripts{
+    <script>
+        getTimeSeries("VT", "WEEKLY");
+        
+        console.log(dates);
+        console.log(opens);
+        console.log(highs);
+        console.log(lows);
+        console.log(closes);
+        console.log(adjCloses);
+        console.log(volumes);
+        console.log(dividends);
+
+
+    </script>
+    }

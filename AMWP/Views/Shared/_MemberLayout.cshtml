@@ -9,14 +9,22 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("CSS", false)
-<link href="~/Content/dashboard.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+
+
+    <link href="~/Content/dashboard.css" rel="stylesheet" />
     @RenderSection("dashboardCSS", false)
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark sticky-top flex-md-nowrap py-1 shadow">
-        <a class="navbar-brand col-md-2 col-lg-1 mr-0 px-3" href="#">會員資產管理</a>
+    <nav class="navbar navbar-dark bg-dark fixed-top flex-md-nowrap py-1 shadow">
+        <a class="navbar-brand col-md-2 col-lg-1 mr-0 px-3" href="/Home/Index">會員資產管理</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,31 +56,31 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 資產儀表板
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h6" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link h6" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bank"></i>
                                 證券資產
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-coin"></i>
                                 現金
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-houses"></i>
                                 房產與貸款
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:22,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bar-chart-line"></i>
                                 投資組合回測
                             </a>
@@ -138,13 +146,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/Scripts/AMWP.js"></script>
-    @RenderSection("scripts", required: false)
     <script>
         $('#sidebarMenu a').click(function (evt) {
             $('#sidebarMenu a').removeClass('active');
             $(evt.target).addClass('active');
+            
         });
     </script>
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>
+    
+

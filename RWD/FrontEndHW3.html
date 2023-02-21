@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/MyStyle.css" rel="stylesheet" />
+
+    <title></title>
+</head>
+<body>
+    <div class="container" id="container">
+        <nav class="navbar navbar-expand navbar-light" style="background-color:#a1f2cf;">
+            <a class="navbar-brand" href="#">農遊網</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">優惠行程 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">景點介紹</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                            關於農遊網
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">導遊服務</a>
+                            <a class="dropdown-item" href="#">公司據點</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">客戶服務</a>
+                        </div>
+                    </li>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="搜尋行程" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">確定</button>
+                </form>
+            </div>
+        </nav>
+        <div class="jumbotron d-none d-md-block">
+            <h1 class="display-4 text-center">小資旅遊最夯行程</h1>
+            <span class="lead bg-light px-1">快來瞧瞧台灣各地有那些好玩又划算的休閒農場</span>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a>
+        </div>
+        <div id="package">
+            <ul class="list-unstyled">
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+                   
+                </div>
+                <div class="modal-body">                    
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success">確認預訂</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="col-sm-6 col-lg-4 shadow rounded" title="${data[i]['Introduction']}">
+        <h5 class="text-center mt-3">${data[i]['Name']}</h5>
+        
+
+
+    </div>-->
+
+
+    <script src="Scripts/jquery-3.6.1.min.js"></script>
+    <script src="Scripts/bootstrap.bundle.min.js"></script>
+    <script>
+        var dataSet;
+        $.ajax({
+            type: "get",
+            url: 'https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAttractions.aspx',
+            success: function (data) {
+                console.log(data);
+                for (let i = 0; i < data.length; i++) {
+                    let item = `<div class="shadow rounded">
+                                        <li class="media mb-3">
+                                            <img src="${data[i]['Photo']}" width="230" class="img-thumbnail img-fluid"/>
+                                            <div class="media-body">
+                                                <h4 class="mt-0 mb-1">${data[i]['Name']}</h4>
+                                                <div>景點介紹：</div>
+                                                <div class="text-truncate my-1" style="width:45vw;" >${data[i]['Introduction']}</div>
+                                                <div class="text-right"><button class="btn btn-success mr-3" data-toggle="modal" data-target="#exampleModal" id="${i}" onclick="getSiteID(event)">預訂行程</button></div>
+                                            </div>
+                                        </li>
+                                    </div>`;
+
+                    $('#package ul').append(item);
+                };
+            }
+        });
+
+        function getSiteID(evt) {
+            var id = evt.target.id;
+            $.ajax({
+                type: "get",
+                url: 'https://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAttractions.aspx',
+                success: function (data) {
+                    $('.modal-title').html(data[id]['Name']);
+                    let item = `<div class="row">
+                                <div class="col">
+                                <img src="${data[id]['Photo']}" class="img-thumbnail img-fluid">
+                                <div class="my-2">地址：${data[id]['Address']}</div >
+                                <div class="mb-2">電話：${data[id]['Tel']}</div>
+                                <a class="btn btn-success mb-2" href="https://www.google.com.tw/maps/search/${data[id]['Name']}/@${data[id]['Latitude']},${data[id]['Longitude']},17z/" target="_blank">查看地圖</a>
+                                </div>
+                                <div class="col">${data[id]['Introduction']}</div>
+                                </div>`;
+                    $('.modal-body').html(item);
+                }
+            });
+            
+        };
+    </script>
+</body>
+</html>

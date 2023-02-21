@@ -103,6 +103,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\MyStyle.css" />
+    <Content Include="FrontEndHW3.html" />
     <Content Include="photo\00.jpg" />
     <Content Include="photo\01.jpg" />
     <Content Include="photo\02.jpg" />
@@ -120,6 +121,7 @@
     <Content Include="photo\16.jpg" />
     <Content Include="photo\17.jpg" />
     <Content Include="photo\18.jpg" />
+    <Content Include="photo\p1.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />

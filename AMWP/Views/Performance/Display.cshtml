@@ -3,11 +3,10 @@
     ViewBag.Title = "資產表現";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    int memberID = 22;
+    int memberID = 24;
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
-        //CCY = Convert.ToString(Session["CCY"]);
     }
 }
 
@@ -69,7 +68,16 @@
         catch { var symbolstr = "VT"; }
         
         //取得api
-        getTimeSeries(symbolstr, "WEEKLY");        
+        getTimeSeries(symbolstr, "WEEKLY"); 
+        console.log(dates);
+        console.log(opens);
+        console.log(highs);
+        console.log(lows);
+        console.log(closes);
+        console.log(adjCloses);
+        console.log(volumes);
+        console.log(dividends);
+
         var data;
         var config;
         var lineChart

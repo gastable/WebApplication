@@ -68,7 +68,7 @@
                 <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.MemID }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("帳號管理", "Index", "Managements", new { id = item.MemID }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("刪除", "Delete", "Members", new { id = item.MemID }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("刪除", "Delete", "Members", new { id = item.MemID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Account + "」的會員帳號嗎？')" })
 
                 </td>
             </tr>

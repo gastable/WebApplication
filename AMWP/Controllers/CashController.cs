@@ -37,11 +37,14 @@ namespace AMWP.Controllers
         }
 
         // GET: Cash/Create
-        public ActionResult Create()
+        public ActionResult Create(string ccyid,string name)
         {
+            
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
-            return View();
+            ViewBag.CCYID = ccyid;
+            ViewBag.Name = name;
+            TempData["CCYName"] = name;
+            return PartialView();
         }
 
         // POST: Cash/Create
@@ -55,16 +58,16 @@ namespace AMWP.Controllers
             {
                 db.Cash.Add(cash);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Display","MemberCash");
             }
 
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
-            return View(cash);
+            return PartialView(cash);
         }
 
         // GET: Cash/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string name)
         {
             if (id == null)
             {
@@ -77,7 +80,8 @@ namespace AMWP.Controllers
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
-            return View(cash);
+            ViewBag.Name = name;
+            return PartialView(cash);
         }
 
         // POST: Cash/Edit/5
@@ -91,11 +95,11 @@ namespace AMWP.Controllers
             {
                 db.Entry(cash).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Display", "MemberCash");
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
-            return View(cash);
+            return PartialView(cash);
         }
 
         // GET: Cash/Delete/5
@@ -110,7 +114,9 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(cash);
+            db.Cash.Remove(cash);
+            db.SaveChanges();
+            return RedirectToAction("Display", "MemberCash");
         }
 
         // POST: Cash/Delete/5

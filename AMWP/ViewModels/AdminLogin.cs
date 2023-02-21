@@ -18,6 +18,9 @@ namespace AMWP.ViewModels
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請填寫管理員密碼")]
         [DataType(DataType.Password)]
+        //[MinLength(8,ErrorMessage ="密碼最少為8碼")]
+        //[MaxLength(20, ErrorMessage = "密碼最少為20碼")]
+
         public string Password
         {
             get

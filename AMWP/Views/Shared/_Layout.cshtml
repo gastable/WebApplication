@@ -1,17 +1,22 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - MY資產管理</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
-    @RenderSection("CSS",false)
+    @RenderSection("CSS", false)
+    <style>
+        body { 
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #efeea4">
+        <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #efeea4">
     <div class="container">
             <a class="navbar-brand" href="/AdminLogin/Login">MY資產管理</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
@@ -96,6 +101,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/AMWP.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

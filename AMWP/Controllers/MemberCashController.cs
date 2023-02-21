@@ -15,7 +15,7 @@ namespace AMWP.Controllers
         AMWPEntities db = new AMWPEntities();
         GetData gd = new GetData();
 
-        public ActionResult Display(int id = 22)
+        public ActionResult Display(int id = 24)
         {
             string sql = "select isnull(c.SSN,0) as SSN, cu.CCYID,cu.[Name], isnull(c.Amount,0) as Amount,cu.ExchRate, isnull(dbo.fnToMemCCY(@id)*C.Amount*Cu.ExchRate, 0) as ToCCY " +
                         "from Currencies as CU  left outer join(select * "+
@@ -40,7 +40,7 @@ namespace AMWP.Controllers
 
         //ViewBag.ErrMsg = "增加現金紀錄？";
         }
-        public JsonResult GetMemberCashPie(int id = 22)
+        public JsonResult GetMemberCashPie(int id = 24)
         {
             string sql = "select isnull(c.SSN,0) as SSN, cu.CCYID,cu.[Name], isnull(c.Amount,0) as Amount,cu.ExchRate, isnull(dbo.fnToMemCCY(@id)*C.Amount*Cu.ExchRate, 0) as ToCCY " +
                         "from Currencies as CU  left outer join(select * " +

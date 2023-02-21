@@ -21,7 +21,7 @@
           <Property Name="SSN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemID" Type="int" Nullable="false" />
           <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
-          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
@@ -99,10 +99,10 @@
           <Property Name="MemID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="Price" Type="money" Nullable="false" />
-          <Property Name="Loan" Type="money" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Loan" Type="float" Nullable="false" />
           <Property Name="Term" Type="smallint" Nullable="false" />
-          <Property Name="Principal" Type="money" Nullable="false" />
+          <Property Name="Principal" Type="float" Nullable="false" />
           <Property Name="PayDay" Type="smallint" Nullable="false" />
           <Property Name="CCYID" Type="nchar" MaxLength="3" Nullable="false" />
         </EntityType>
@@ -116,8 +116,8 @@
           <Property Name="TrancType" Type="bit" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Share" Type="float" Nullable="false" />
-          <Property Name="Price" Type="money" Nullable="false" />
-          <Property Name="Fee" Type="money" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Fee" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="SecTypes">
           <Key>
@@ -429,7 +429,7 @@
           <Property Name="SSN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemID" Type="Int32" Nullable="false" />
           <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
           <NavigationProperty Name="Currencies" Relationship="Self.FK_Cash_Currencies" FromRole="Cash" ToRole="Currencies" />
           <NavigationProperty Name="Members" Relationship="Self.FK_Cash_Members" FromRole="Cash" ToRole="Members" />
         </EntityType>
@@ -523,10 +523,10 @@
           <Property Name="MemID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Loan" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Loan" Type="Double" Nullable="false" />
           <Property Name="Term" Type="Int16" Nullable="false" />
-          <Property Name="Principal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Principal" Type="Double" Nullable="false" />
           <Property Name="PayDay" Type="Int16" Nullable="false" />
           <Property Name="CCYID" Type="String" MaxLength="3" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Currencies" Relationship="Self.FK_Properties_Currencies" FromRole="Properties" ToRole="Currencies" />
@@ -542,8 +542,8 @@
           <Property Name="TrancType" Type="Boolean" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Share" Type="Double" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Fee" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Fee" Type="Double" Nullable="false" />
           <NavigationProperty Name="Members" Relationship="Self.FK_SecOrders_Members" FromRole="SecOrders" ToRole="Members" />
           <NavigationProperty Name="Securities" Relationship="Self.FK_SecOrders_Securities" FromRole="SecOrders" ToRole="Securities" />
         </EntityType>

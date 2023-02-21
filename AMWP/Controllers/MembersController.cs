@@ -56,7 +56,7 @@ namespace AMWP.Controllers
             {
                 db.Members.Add(members);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login","MemberLogin");
             }
 
             ViewBag.CCYID = db.Currencies.ToList();

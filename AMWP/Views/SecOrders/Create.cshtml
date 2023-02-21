@@ -1,101 +1,84 @@
 ﻿@model AMWP.Models.SecOrders
 
-@{
-    ViewBag.Title = "Create";
-}
-
-<h2>Create</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>SecOrders</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.MemID, "會員帳號", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MemID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MemID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SecID, "交易證券", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("SecID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SecID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TrancType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="form-check form-check-inline form-row" id="radioInput">
-                    <span class="col-auto">買 @Html.RadioButtonFor(model => model.TrancType, "true")</span>
-                    <span class="col-auto">賣 @Html.RadioButtonFor(model => model.TrancType, "false")</span>
-
-                    @Html.ValidationMessageFor(model => model.TrancType, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Share, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Share, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Share, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fee, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Fee, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Fee, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" onclick="getTrancType()" />
-            </div>
+<div class="form-horizontal">
+    <h4 class="text-center">新增交易明細</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group" hidden>
+        @Html.LabelFor(model => model.MemID, "MemID", htmlAttributes: new { @class = "control-label" })
+        <div class="col">
+            @Html.EditorFor(model => model.MemID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MemID, "", new { @class = "text-danger" })
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="form-group row">
+        @Html.LabelFor(model => model.SecID, "證券代號", htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
+        <div class="col-sm-8">
+            @Html.DropDownList("SecID", null, htmlAttributes: new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.SecID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-sm-4 float-sm-left pt-0 text-right" for="radioLabel">交易類型</label>
+        <div class="col-sm-8">
+            <div class="form-check form-check-inline" id="radioLabel">
+                @Html.RadioButtonFor(model => model.TrancType, "true", new { @class = "form-check-input", id = "radioBuy" })
+                @Html.LabelFor(model => model.TrancType, "買", htmlAttributes: new { @class = "form-check-label", @for = "radioBuy" })
+            </div>
+            <div class="form-check form-check-inline" id="">
+                @Html.RadioButtonFor(model => model.TrancType, "false", new { @class = "form-check-input", id = "radioSell" })
+                @Html.LabelFor(model => model.TrancType, "賣", htmlAttributes: new { @class = "form-check-label", @for = "radioSell" })
+            </div>
+            @Html.ValidationMessageFor(model => model.TrancType, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
+        <div class="col-sm-8">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Share, htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
+        <div class="col-sm-8">
+            @Html.EditorFor(model => model.Share, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Share, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
+        <div class="col-sm-8">
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Fee, htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
+        <div class="col">
+            @Html.EditorFor(model => model.Fee, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Fee, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12 text-right">
+            <input type="submit" value="確定" class="btn btn-success" />
+        </div>
+    </div>
 </div>
-
-@section scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-<script>
-    var item = $('#radioInput').val();
-    $("radioInput").click(function () {
-        if ($(this).attr("checked")) {
-            alert("選中了"+item);
-        }
-    });
-    </script>
-
 }
+

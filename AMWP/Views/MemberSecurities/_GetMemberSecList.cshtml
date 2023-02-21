@@ -2,7 +2,7 @@
 @model System.Data.DataTable
 @{
     ViewBag.Title = "GetMemberSecList";
-    int memberID = 22;
+    int memberID = 24;
     string CCY = "USD";
     decimal sum = 0;
     decimal sumReturn = 0;
@@ -13,7 +13,7 @@
     };
 
 }
-
+<h4 class="text-center">證券庫存</h4>
 <table class="table text-center">
     <thead>
         <tr>
@@ -22,7 +22,7 @@
             </th>
             <th>
                 股數
-            </th>            
+            </th>
             <th>
                 成本
             </th>
@@ -45,7 +45,7 @@
         {
             <tr>
                 <td>
-                    @row["Symbol"]
+                    <a class="btn btn-warning" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :3,symbol =@row["Symbol"] })">@row["Symbol"]</a>
                 </td>
                 <td>
                     @Math.Round(Convert.ToDecimal(row["Share"]), 2)

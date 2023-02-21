@@ -19,9 +19,9 @@ namespace AMWP.Controllers
         GetData gd = new GetData();
                 
 
-        public ActionResult DisplaySecOrders(int id = 22)
+        public ActionResult DisplaySecOrders(int id = 24)
         {
-            string sql = "SELECT SecOrders.Date, SecOrders.TrancType, Securities.Symbol, SecOrders.Share, SecOrders.Price, SecOrders.Fee " +
+            string sql = "SELECT SecOrders.SSN,SecOrders.Date, SecOrders.TrancType, Securities.Symbol, SecOrders.Share, SecOrders.Price, SecOrders.Fee " +
                          "FROM SecOrders INNER JOIN Securities ON SecOrders.SecID = Securities.SecID " +
                          "Where SecOrders.MemID = @id "+
                          "order by SecOrders.Date,SecOrders.Price,SecOrders.TrancType";
@@ -42,7 +42,7 @@ namespace AMWP.Controllers
             //return View();
         }
 
-        public ActionResult _GetMemberSecList(int id = 22) {
+        public ActionResult _GetMemberSecList(int id = 24) {
             string sql = "queryMemberSecurities";
             List<SqlParameter> list = new List<SqlParameter> {
                 new SqlParameter("id",id)
@@ -51,7 +51,7 @@ namespace AMWP.Controllers
             return PartialView(ms);
         }
 
-        public JsonResult GetMemberSecPie(int id = 22)
+        public JsonResult GetMemberSecPie(int id = 24)
         {
             string sql = "queryMemberSecurities";
             List<SqlParameter> list = new List<SqlParameter> {

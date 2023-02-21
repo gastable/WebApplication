@@ -4,6 +4,9 @@ var interval;  //成交資料週期
 var types; //資產類別
 var assetNets; //資產淨值
 var dates = [];  //成交日期
+var opens = [];
+var highs = [];
+var lows = [];
 var closes = [];  //收盤價
 var adjCloses = [];  //調整收盤價
 var volumes = [];  //成交量
@@ -118,6 +121,9 @@ function getTimeSeries(symbol) {
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
+                        opens.push(objectValue['1. open']);
+                        highs.push(objectValue['2. high']);
+                        lows.push(objectValue['3. low']);
                         closes.push(objectValue['4. close']);
                         adjCloses.push(objectValue['5. adjusted close']);
                         volumes.push(objectValue['6. volume']);
@@ -127,6 +133,9 @@ function getTimeSeries(symbol) {
                 i++;
             });
             dates.reverse();
+            opens.reverse();
+            highs.reverse();
+            lows.reverse();
             closes.reverse();
             adjCloses.reverse();
             volumes.reverse();
@@ -147,20 +156,20 @@ function getTimeSeries(symbol,interval) {
         url: 'https://www.alphavantage.co/query?function=TIME_SERIES_' + interval + '_ADJUSTED&symbol=' + symbol + '&apikey=XBRCUGRFRDK9P0HJ',
         async: false,
         success: function (data) {
-            //console.log(data);
-
             if (data["Note"] != null) {
                 alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
             };
+            console.log(data['Weekly Adjusted Time Series']);
             var i = 0;
-            $.each(data, function (objectTitle, objects) {
-                if (data["Note"] != null) {
-                    alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
-                };
+            $.each(data, function (objectTitle, objects) {              
 
+                /*console.log(dates);*/
                 if (i >= 1) {
                     $.each(objects, function (objectKey, objectValue) {
                         dates.push(objectKey);
+                        opens.push(objectValue['1. open']);
+                        highs.push(objectValue['2. high']);
+                        lows.push(objectValue['3. low']);
                         closes.push(objectValue['4. close']);
                         adjCloses.push(objectValue['5. adjusted close']);
                         volumes.push(objectValue['6. volume']);
@@ -170,6 +179,9 @@ function getTimeSeries(symbol,interval) {
                 i++;
             });
             dates.reverse();
+            opens.reverse();
+            highs.reverse();
+            lows.reverse();
             closes.reverse();
             adjCloses.reverse();
             volumes.reverse();

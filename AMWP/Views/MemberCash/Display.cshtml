@@ -5,87 +5,107 @@
 @{
     ViewBag.Title = "會員現金庫存";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
-    int memberID = 22;
+    int memberID = 24;
     string CCY = "USD";
+
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
         CCY = Convert.ToString(Session["CCY"]);
     };
 
-    decimal sum = 0;
-    string action = "";
+    double sum = 0;
+
+
 }
-@*<div>
-        <canvas id="cashPieChart"></canvas>
-    </div>*@
+
 <h4 class="text-danger">@ViewBag.CashMsg</h4>
 <div class="row justify-content-around align-items-center ">
-    <div class="col-md-8"">
-<h3 class="text-center mb-3">會員現金庫存</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    貨幣
-                </th>
-                <th>
-                    金額
-                </th>
-                <th>
-                    現值(@CCY)
-                </th>
-                <th>
-                    修改
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (DataRow row in Model.Rows)
-            {
-                
+    <div class="col-md-8" ">
+        <h3 class="text-center mb-3">會員現金庫存</h3>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>
+                        貨幣
+                    </th>
+                    <th>
+                        金額
+                    </th>
+                    <th>
+                        現值(@CCY)
+                    </th>
+                    <th>
+                       
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+
+                    <tr>
+                        <td>
+                            @row["Name"]
+                        </td>
+                        <td>
+                            @Math.Round(Convert.ToDouble(@row["Amount"]), 2)
+                        </td>
+                        <td>
+                            @Math.Round(Convert.ToDouble(@row["ToCCY"]), 2)
+                        </td>
+                        <td>
+                            <button class="btn bi-pencil-fill text-primary" id="@(Convert.ToInt32(row["SSN"])==0? ""+"?ccyid=" + row["CCYID"] + "&name=" + row["Name"] : row["SSN"]+"?CCYID=" + row["CCYID"]+ "&name=" + row["Name"])" value="@(Convert.ToInt32(row["SSN"])==0? "create":"edit")" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)"></button>
+                            <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Cash", new { id = @row["SSN"] })" onclick="return confirm('您確定要清空本筆貨幣嗎？')"></a>
+
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
                 <tr>
                     <td>
-                        @row["Name"]
+                        總計
                     </td>
                     <td>
-                        @Math.Round(Convert.ToDecimal(@row["Amount"]), 2)
                     </td>
                     <td>
-                        @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2)
-                    </td>
-                    <td>
-                        <a class="btn btn-success" href=@Url.Action(action = Convert.ToInt32(row["SSN"])==0? "Create":"Edit", "Cash", new { id = row["SSN"],MemID=memberID })><i class="bi bi-pencil-fill"></i></a>
+                        @foreach (DataRow row in Model.Rows)
+                        {
+                            sum += @Math.Round(Convert.ToDouble(@row["ToCCY"]), 2);
+                        }
+                        @(Session["cashSum"] = sum)
                     </td>
                 </tr>
-
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>
-                    總計
-                </td>
-                <td>
-                </td>
-                <td>
-                    @foreach (DataRow row in Model.Rows)
-                    {
-                        sum += @Math.Round(Convert.ToDecimal(@row["ToCCY"]), 2);
-                    }                    
-                    @(Session["cashSum"] = sum)
-                </td>
-                    </tr>
-                </tfoot>
-    </table>
+            </tfoot>
+        </table>
     </div>
-   
+
     <div class="col-md-4">
         <canvas id="pieChart"></canvas>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">           
+            <div class="modal-body">
+                
+            </div>           
+        </div>
+    </div>
+</div>
+
 @section scripts{
-    <script>        
+    <script>
+        function showEditModal(evt) {
+            let id = evt.target.id;
+            let value = evt.target.value;            
+            $('#editModal .modal-body').load("/Cash/"+value+"/"+ id);
+        }    
+
         var pieChart;
         var pieData=[];
         var pieLabels = [];
@@ -96,16 +116,15 @@
                 url: 'http://localhost:56540/MemberCash/GetMemberCashPie/'+id,
                 async: false,
                 success: function (data) {
-                    let i;
-                    for (i = 0; i < data['data'].length; i++) {
-                        pieData.push(data['data'][i]);
-                        pieLabels.push(data['labels'][i]);
+                    for (let i = 0; i < data['data'].length; i++) {
+                            pieData.push(data['data'][i]);
+                            pieLabels.push(data['labels'][i]);
                     }
                 }
             });
         };
         getMemberSecPie(id);
-        console.log(pieData)
+
 
         data = {
             labels: pieLabels,
@@ -156,6 +175,6 @@
     </script>
 }
 
-    
+
 
 

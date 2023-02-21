@@ -37,11 +37,11 @@ namespace AMWP.Controllers
         }
 
         // GET: SecOrders/Create
-        public ActionResult Create()
+        public ActionResult Create(int memId)
         {
-            ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
+            ViewBag.MemID = memId;
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol");
-            return View();
+            return PartialView();
         }
 
         // POST: SecOrders/Create
@@ -55,12 +55,12 @@ namespace AMWP.Controllers
             {
                 db.SecOrders.Add(secOrders);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("DisplaySecOrders", "MemberSecurities");
             }
 
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
-            return View(secOrders);
+            return PartialView(secOrders);
         }
 
         // GET: SecOrders/Edit/5
@@ -77,7 +77,7 @@ namespace AMWP.Controllers
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
-            return View(secOrders);
+            return PartialView(secOrders);
         }
 
         // POST: SecOrders/Edit/5
@@ -91,11 +91,11 @@ namespace AMWP.Controllers
             {
                 db.Entry(secOrders).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("DisplaySecOrders","MemberSecurities" );
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
-            return View(secOrders);
+            return PartialView(secOrders);
         }
 
         // GET: SecOrders/Delete/5
@@ -110,19 +110,12 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(secOrders);
-        }
-
-        // POST: SecOrders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            SecOrders secOrders = db.SecOrders.Find(id);
             db.SecOrders.Remove(secOrders);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("DisplaySecOrders", "MemberSecurities");
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {
