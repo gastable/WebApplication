@@ -44,7 +44,7 @@ namespace AMWP.Models
         public double Dividend { get; set; }
 
         [DisplayName("成交量")]
-        public int Volume { get; set; }
+        public long Volume { get; set; }
 
         public virtual Securities Securities { get; set; }
     }

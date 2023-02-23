@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MCSDD10.Models.Members>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberBirthday)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.MemberPhotofile)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberBirthday)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.MemberPhotofile)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Account)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>*@
+            <td>
+                @Html.ActionLink("編輯資料", "Edit", new { id = item.MemberID }, new { @class = "btn btn-warning btn-sm" })
+
+
+                @*@Html.ActionLink("查看詳細資料", "Details", new { id = item.MemberID }, new { @class = "btn btn-success btn-sm"})*@
+
+                <button type="button" id="@item.MemberID" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showDetailModal" onclick="getDetailData(event)">
+                    查看詳細資料
+                </button>
+
+                @Html.ActionLink("更改密碼", "Delete", new { id = item.MemberID }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+<div class="modal fade" id="showDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<h5 class="modal-title" id="exampleModalLabel">會員詳細資料</h5>*@
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function getDetailData(evt) {
+
+            $('#showDetailModal .modal-body').load("/Members/_Details/" + evt.target.id);
+        }
+    </script>
+    }

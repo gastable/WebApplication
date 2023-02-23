@@ -37,7 +37,7 @@ namespace AMWP.Controllers
         }
 
         // GET: Cash/Create
-        public ActionResult Create(string ccyid,string name)
+        public ActionResult _Create(string ccyid,string name)
         {
             
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
@@ -52,13 +52,15 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SSN,MemID,CCYID,Amount")] Cash cash)
+        public ActionResult _Create([Bind(Include = "SSN,MemID,CCYID,Amount")] Cash cash)
         {
             if (ModelState.IsValid)
             {
+                var id = cash.MemID;
+                
                 db.Cash.Add(cash);
                 db.SaveChanges();
-                return RedirectToAction("Display","MemberCash");
+                return RedirectToAction("Display", "MemberCash", new {id= id });
             }
 
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
@@ -67,7 +69,7 @@ namespace AMWP.Controllers
         }
 
         // GET: Cash/Edit/5
-        public ActionResult Edit(int? id, string name)
+        public ActionResult _Edit(int? id, string name)
         {
             if (id == null)
             {
@@ -89,7 +91,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SSN,MemID,CCYID,Amount")] Cash cash)
+        public ActionResult _Edit([Bind(Include = "SSN,MemID,CCYID,Amount")] Cash cash)
         {
             if (ModelState.IsValid)
             {

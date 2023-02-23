@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,12 +14,31 @@ namespace AMWP.Controllers
     public class DailyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
+        GetData gd = new GetData();
+
 
         // GET: Daily
-        public ActionResult Index()
+        public ActionResult Index(/*string field = "",string order = ""*/)
         {
-            var daily = db.Daily.Include(d => d.Securities);
-            return View(daily.ToList());
+            string sql = "select * from daily inner join Securities on daily.SecID = Securities.SecID";
+            //List<SqlParameter> list = new List<SqlParameter>() {
+            //        new SqlParameter("field",field),
+            //        new SqlParameter("order",order)
+            //};
+
+            var daily = gd.TableQuery(sql);
+            if (daily == null)
+            {
+                return View();
+            }
+            if (daily.Rows.Count == 0)
+            {
+                ViewBag.CashMsg = "目前無成交資料！";
+            }
+            return View(daily);
+
+            //var daily = db.Daily.Include(d => d.Securities);
+            //return View(daily.ToList());
         }
 
         // GET: Daily/Details/5

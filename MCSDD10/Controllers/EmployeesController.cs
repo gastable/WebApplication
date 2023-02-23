@@ -10,6 +10,7 @@ using MCSDD10.Models;
 
 namespace MCSDD10.Controllers
 {
+    [LoginCheck]  //如果整個controller都要check都直接把過濾器掛在最上面(controller level filter)，如果只有某些action要掛，就單掛在action上方(action level filter)
     public class EmployeesController : Controller
     {
         private MCSDD10Context db = new MCSDD10Context();

@@ -6,24 +6,24 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AMWP.Models;
-using Microsoft.Ajax.Utilities;
+using MCSDD10.Models;
 
-namespace AMWP.Controllers
+namespace MCSDD10.Controllers
 {
+    //[LoginCheck]
     public class MembersController : Controller
     {
-        private AMWPEntities db = new AMWPEntities();
+        private MCSDD10Context db = new MCSDD10Context();
 
         // GET: Members
         public ActionResult Index()
         {
-            var members = db.Members.Include(m => m.Currencies);
-            return View(members.ToList());
+            return View(db.Members.ToList());
         }
 
+        //[ChildActionOnly]
         // GET: Members/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult _Details(int? id)
         {
             if (id == null)
             {
@@ -34,14 +34,12 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            return View(members);
+            return PartialView(members);
         }
 
         // GET: Members/Create
         public ActionResult Create()
         {
-            //ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
-            ViewBag.CCYID = db.Currencies.ToList();
             return View();
         }
 
@@ -50,8 +48,8 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
-        {           
+        public ActionResult Create([Bind(Include = "MemberID,MemberName,Account,CreatedDate,MemberBirthday,MemberPhotoFile,Password")] Members members)
+        {
             if (ModelState.IsValid)
             {
                 db.Members.Add(members);
@@ -59,7 +57,6 @@ namespace AMWP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CCYID = db.Currencies.ToList();
             return View(members);
         }
 
@@ -75,7 +72,6 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
             return View(members);
         }
 
@@ -84,7 +80,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
+        public ActionResult Edit([Bind(Include = "MemberID,MemberName,Account,CreatedDate,MemberBirthday,MemberPhotoFile,Password")] Members members)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +88,6 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CCYID = db.Currencies.ToList();
             return View(members);
         }
 
@@ -108,12 +103,19 @@ namespace AMWP.Controllers
             {
                 return HttpNotFound();
             }
+            return View(members);
+        }
+
+        // POST: Members/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Members members = db.Members.Find(id);
             db.Members.Remove(members);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-       
 
         protected override void Dispose(bool disposing)
         {

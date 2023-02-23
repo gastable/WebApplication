@@ -1,5 +1,6 @@
-﻿@model IEnumerable<AMWP.Models.Daily>
-
+﻿@*@model IEnumerable<AMWP.Models.Daily>*@
+@using System.Data;
+@model System.Data.DataTable
 @{
     ViewBag.Title = "證券歷史資料";
 }
@@ -13,73 +14,73 @@
 
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Securities.Symbol)
+                證券代碼
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                交易日期<button class="btn bi-caret-up-fill text-light btn-sm"></button><button class="btn bi-caret-down-fill text-light btn-sm"></button>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Open)
+                開盤價
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.High)
+                最高價
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Low)
+                最低價
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Close)
+                收盤價
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdjClose)
+                調整收盤價
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dividend)
+                股利
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volume)
+                成交量
             </th>
 
             @*<th>資料管理</th>*@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (DataRow row in Model.Rows)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Securities.Symbol)
+                    @row["Symbol"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @row["Date"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Open)
+                    @row["Open"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.High)
+                    @row["High"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Low)
+                    @row["Low"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Close)
+                    @row["Close"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AdjClose)
+                    @row["AdjClose"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Dividend)
+                    @row["Dividend"]
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Volume)
+                    @row["Volume"]
                 </td>
 
-                <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.SSN }) |
-                        @Html.ActionLink("Details", "Details", new { id=item.SSN }) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.SSN })
-                    </td>
+                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.SSN }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.SSN }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.SSN })
+                </td>*@
             </tr>
         }
     </tbody>

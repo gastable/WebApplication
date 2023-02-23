@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -132,11 +135,87 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Upload()
-        {
-            string sql = "insert into ";
+            [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase postedFile)
+        {            
+                string filePath = string.Empty;
+                if (postedFile != null)
+                {
+                    string path = Server.MapPath("~/Uploads/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
 
-            return RedirectToAction("Index");
+                    filePath = path + Path.GetFileName(postedFile.FileName);
+                    string extension = Path.GetExtension(postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+
+                    //Create a DataTable.
+                    DataTable dt = new DataTable();
+                    //dt.Columns.Add("SecID",typeof(string)).DefaultValue = "B00001";
+                    dt.Columns.AddRange(new DataColumn[9] {                                 
+                                new DataColumn("Date", typeof(DateTime)),
+                                new DataColumn("Open",typeof(double)),
+                                new DataColumn("High",typeof(double)),
+                                new DataColumn("Low",typeof(double)),
+                                new DataColumn("Close",typeof(double)),
+                                new DataColumn("AdjClose",typeof(double)),
+                                new DataColumn("Volume",typeof(long)),
+                                new DataColumn("Dividend",typeof(double)),
+                                new DataColumn("SplitCoefficient",typeof(double))});
+                    DataColumn dc = new DataColumn("SecID", typeof(string));
+                    dc.DefaultValue = "B00002";
+                    dt.Columns.Add(dc);
+
+                    //Read the contents of CSV file.
+                    string csvData = System.IO.File.ReadAllText(filePath);
+
+                    //Execute a loop over the rows.
+                    foreach (string row in csvData.Split('\n'))
+                    {
+                        if (!string.IsNullOrEmpty(row))
+                        {
+                            dt.Rows.Add();
+                            int i = 0;
+
+                            //Execute a loop over the columns.
+                            foreach (string cell in row.Split(','))
+                            {
+                                dt.Rows[dt.Rows.Count - 1][i] = cell;
+                                i++;
+                            }
+                        }
+                    }
+
+                    string conString = ConfigurationManager.ConnectionStrings["AMWPConnection"].ConnectionString;
+                    using (SqlConnection con = new SqlConnection(conString))
+                    {
+                        using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                        {
+                            //Set the database table name.
+                            sqlBulkCopy.DestinationTableName = "dbo.Daily";
+
+                        //[OPTIONAL]: Map the DataTable columns with that of the database table
+                            sqlBulkCopy.ColumnMappings.Add("SecID", "SecID");
+                            sqlBulkCopy.ColumnMappings.Add("Date", "Date");
+                            sqlBulkCopy.ColumnMappings.Add("Open", "Open"); 
+                            sqlBulkCopy.ColumnMappings.Add("High", "High");
+                            sqlBulkCopy.ColumnMappings.Add("Low", "Low"); 
+                            sqlBulkCopy.ColumnMappings.Add("Close", "Close");
+                            sqlBulkCopy.ColumnMappings.Add("AdjClose", "AdjClose");
+                            sqlBulkCopy.ColumnMappings.Add("Volume", "Volume");
+                            sqlBulkCopy.ColumnMappings.Add("Dividend", "Dividend");
+
+                        con.Open();
+                            sqlBulkCopy.WriteToServer(dt);
+                            con.Close();
+                        }
+                    }
+                }
+
+                return RedirectToAction("Index");
+           
         }
 
 

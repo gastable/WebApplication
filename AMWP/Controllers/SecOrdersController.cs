@@ -37,7 +37,7 @@ namespace AMWP.Controllers
         }
 
         // GET: SecOrders/Create
-        public ActionResult Create(int memId)
+        public ActionResult _Create(int memId)
         {
             ViewBag.MemID = memId;
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol");
@@ -49,7 +49,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SSN,MemID,SecID,TrancType,Date,Share,Price,Fee")] SecOrders secOrders)
+        public ActionResult _Create([Bind(Include = "SSN,MemID,SecID,TrancType,Date,Share,Price,Fee")] SecOrders secOrders)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace AMWP.Controllers
         }
 
         // GET: SecOrders/Edit/5
-        public ActionResult Edit(long? id)
+        public ActionResult _Edit(long? id)
         {
             if (id == null)
             {
@@ -85,7 +85,7 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SSN,MemID,SecID,TrancType,Date,Share,Price,Fee")] SecOrders secOrders)
+        public ActionResult _Edit([Bind(Include = "SSN,MemID,SecID,TrancType,Date,Share,Price,Fee")] SecOrders secOrders)
         {
             if (ModelState.IsValid)
             {

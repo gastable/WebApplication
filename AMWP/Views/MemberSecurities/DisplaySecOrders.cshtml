@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = "會員證券庫存";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
-    int memberID =24;
+    int memberID = 24;
     string CCY = "USD";
     if (Session["mem"] != null)
     {
@@ -126,13 +126,13 @@
         function showEditModal(evt) {
             let id = evt.target.id;
             //let value = evt.target.value;
-            $('#editModal .modal-body').load("/SecOrders/Edit/" + id);
+            $('#editModal .modal-body').load("/SecOrders/_Edit/" + id);
         }    
 
         function showCreateModal(evt) {
             let id = evt.target.id;
             //let value = evt.target.value;
-            $('#createModal .modal-body').load("/SecOrders/Create/?memId=" + id);
+            $('#createModal .modal-body').load("/SecOrders/_Create/?memId=" + id);
         } 
 
         var pieChart;

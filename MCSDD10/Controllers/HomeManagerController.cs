@@ -12,6 +12,7 @@ namespace MCSDD10.Controllers
     {
         MCSDD10Context db = new MCSDD10Context();
 
+        [LoginCheck]
         // GET: HomeManager
         public ActionResult Index()
         {
@@ -38,6 +39,8 @@ namespace MCSDD10.Controllers
             
             return RedirectToAction("Index");
         }
+
+        [LoginCheck]
         public ActionResult Logout()
         {
             Session["user"] = null;

@@ -3,7 +3,7 @@
     ViewBag.Title = "資產表現";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    int memberID = 24;
+    int memberID = 3;
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
@@ -68,16 +68,7 @@
         catch { var symbolstr = "VT"; }
         
         //取得api
-        getTimeSeries(symbolstr, "WEEKLY"); 
-        console.log(dates);
-        console.log(opens);
-        console.log(highs);
-        console.log(lows);
-        console.log(closes);
-        console.log(adjCloses);
-        console.log(volumes);
-        console.log(dividends);
-
+        getTimeSeries(symbolstr, "WEEKLY");        
         var data;
         var config;
         var lineChart

@@ -12,15 +12,14 @@ namespace AMWP.ViewModels
     {
         [DisplayName("帳號")]
         [Required(ErrorMessage = "請填寫會員帳號")]
-        [DataType(DataType.EmailAddress,ErrorMessage ="帳號為會員電子信箱")]
+        [EmailAddress(ErrorMessage = "電子郵件格式有誤")]
+        [DataType(DataType.EmailAddress)]
         public string Account { get; set; }
 
         string password;
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請填寫會員密碼")]
         [DataType(DataType.Password)]
-        //[MinLength(8,ErrorMessage ="密碼最少為8碼")]
-        //[MaxLength(20, ErrorMessage = "密碼最少為20碼")]
         public string Password
         {
             get

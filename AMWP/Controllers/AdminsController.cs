@@ -51,7 +51,7 @@ namespace AMWP.Controllers
         }
 
         // GET: Admins/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult _Edit(string id)
         {
             if (id == null)
             {

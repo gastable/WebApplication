@@ -8,7 +8,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{21645D8E-B617-44A3-84E9-15D476F5BAE4}</ProjectGuid>
+    <ProjectGuid>{2F9F10BD-D79F-45A2-A68E-8ABC181F70FE}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -18,10 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44351</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -132,7 +132,6 @@
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\BacktestController.cs" />
     <Compile Include="Controllers\CashController.cs" />
-    <Compile Include="Controllers\CompareController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
     <Compile Include="Controllers\DailyController.cs" />
@@ -186,6 +185,7 @@
     <Compile Include="Models\Daily.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DailyStockAPI.cs" />
     <Compile Include="Models\GetData.cs" />
     <Compile Include="Models\Managements.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
@@ -246,7 +246,6 @@
     <Content Include="Models\AMWPModel.edmx.diagram">
       <DependentUpon>AMWPModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Scripts\AMWP.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -386,14 +385,14 @@
     <Content Include="Views\Admins\Create.cshtml" />
     <Content Include="Views\Admins\Delete.cshtml" />
     <Content Include="Views\Admins\Details.cshtml" />
-    <Content Include="Views\Admins\Edit.cshtml" />
+    <Content Include="Views\Admins\_Edit.cshtml" />
     <Content Include="Views\Admins\Index.cshtml" />
     <Content Include="Views\Backtest\Input.cshtml" />
     <Content Include="Views\Backtest\_Display.cshtml" />
-    <Content Include="Views\Cash\Create.cshtml" />
+    <Content Include="Views\Cash\_Create.cshtml" />
     <Content Include="Views\Cash\Delete.cshtml" />
     <Content Include="Views\Cash\Details.cshtml" />
-    <Content Include="Views\Cash\Edit.cshtml" />
+    <Content Include="Views\Cash\_Edit.cshtml" />
     <Content Include="Views\Cash\Index.cshtml" />
     <Content Include="Views\Countries\Create.cshtml" />
     <Content Include="Views\Countries\Delete.cshtml" />
@@ -439,17 +438,16 @@
     <Content Include="Views\Monthly\Edit.cshtml" />
     <Content Include="Views\Monthly\Index.cshtml" />
     <Content Include="Views\Performance\Display.cshtml" />
-    <Content Include="Views\Performance\Show.cshtml" />
     <Content Include="Views\Properties\Create.cshtml" />
     <Content Include="Views\Properties\Delete.cshtml" />
     <Content Include="Views\Properties\Details.cshtml" />
     <Content Include="Views\Properties\Edit.cshtml" />
     <Content Include="Views\Properties\Index.cshtml" />
     <Content Include="Views\Properties\OldIndex.cshtml" />
-    <Content Include="Views\SecOrders\Create.cshtml" />
+    <Content Include="Views\SecOrders\_Create.cshtml" />
     <Content Include="Views\SecOrders\Delete.cshtml" />
     <Content Include="Views\SecOrders\Details.cshtml" />
-    <Content Include="Views\SecOrders\Edit.cshtml" />
+    <Content Include="Views\SecOrders\_Edit.cshtml" />
     <Content Include="Views\SecOrders\Index.cshtml" />
     <Content Include="Views\SecTypes\Create.cshtml" />
     <Content Include="Views\SecTypes\Delete.cshtml" />
@@ -461,18 +459,17 @@
     <Content Include="Views\Securities\Details.cshtml" />
     <Content Include="Views\Securities\Edit.cshtml" />
     <Content Include="Views\Securities\Index.cshtml" />
+    <Content Include="Views\UploadData\Upload.cshtml" />
     <Content Include="Views\Weekly\Create.cshtml" />
     <Content Include="Views\Weekly\Delete.cshtml" />
     <Content Include="Views\Weekly\Details.cshtml" />
     <Content Include="Views\Weekly\Edit.cshtml" />
     <Content Include="Views\Weekly\Index.cshtml" />
     <Content Include="Views\Shared\_MemberLayout.cshtml" />
-    <Content Include="Views\UploadData\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Input\" />
-    <Folder Include="Views\Upload\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -502,7 +499,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>50056</DevelopmentServerPort>
+          <DevelopmentServerPort>51785</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:56540/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

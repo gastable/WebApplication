@@ -37,10 +37,9 @@ namespace AMWP.Controllers
             }
             ViewBag.MemID = id;
             return View(cash);
-
-        //ViewBag.ErrMsg = "增加現金紀錄？";
+        
         }
-        public JsonResult GetMemberCashPie(int id = 24)
+        public JsonResult GetMemberCashPie(int id=24)
         {
             string sql = "select isnull(c.SSN,0) as SSN, cu.CCYID,cu.[Name], isnull(c.Amount,0) as Amount,cu.ExchRate, isnull(dbo.fnToMemCCY(@id)*C.Amount*Cu.ExchRate, 0) as ToCCY " +
                         "from Currencies as CU  left outer join(select * " +

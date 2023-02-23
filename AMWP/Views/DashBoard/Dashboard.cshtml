@@ -4,7 +4,7 @@
     ViewBag.Title = "會員資產管理";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    int memberID = 24;
+    int memberID = 3;
     string CCY = "USD";
     string symbolstr = "VT";
     var cashSum = Convert.ToDouble(Session["cashSum"]);
@@ -38,7 +38,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a class="btn btn-cash" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">現金</a>
+                                <a class="btn btn-cash" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">現金</a>
                             </td>
                             <td class="align-middle">
                                 @cashSum
@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a class="btn btn-securities" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">證券</a>
+                                <a class="btn btn-securities" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">證券</a>
                             </td>
                             <td class="align-middle">
                                 @secSum
@@ -54,7 +54,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a class="btn btn-property" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
+                                <a class="btn btn-property" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
                             </td>
                             <td class="align-middle">
                                 0
@@ -91,7 +91,7 @@
                             <tr>
                                 <td>
 
-                                    @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :24, symbol = symbolstr }, new { @class = "btn btn-cash" })
+                                    @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] : 3, symbol = symbolstr }, new { @class = "btn btn-cash" })
                                 </td>
                                 <td class="align-middle">
                                     @item.Share

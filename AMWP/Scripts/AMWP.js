@@ -24,10 +24,10 @@ var today = new Date(year.toString(), now.getMonth(), now.getDate()); //取得�
 
 
 function searchEndpoint(symbol) {
-    $.ajax({        
+    $.ajax({
         type: 'get',
         url: 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + symbol + '&apikey=XBRCUGRFRDK9P0HJ',
-        async:false,
+        async: false,
         success: function (data) {
             /*console.log(data)*/
             if (data["Note"] != null) {
@@ -42,11 +42,11 @@ function searchEndpoint(symbol) {
 
 
 //轉換匯率
-function CCY1toCCCY2(CCY1,CCY2) {
+function CCY1toCCCY2(CCY1, CCY2) {
     $.ajax({
         type: 'get',
-        url: 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='+CCY1+'&to_currency='+CCY2+'&apikey=XBRCUGRFRDK9P0HJ',
-        async:false,
+        url: 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + CCY1 + '&to_currency=' + CCY2 + '&apikey=XBRCUGRFRDK9P0HJ',
+        async: false,
         success: function (data) {
             //console.log(data);
             if (data["Note"] != null) {
@@ -63,9 +63,9 @@ function CCY1toCCCY2(CCY1,CCY2) {
 
 //外幣兌台幣匯率
 function toTWD() {
-    CCY1toCCCY2("USD", "TWD");    
+    CCY1toCCCY2("USD", "TWD");
     exRate1 = exRate;
-    CCY1toCCCY2("EUR", "TWD"); 
+    CCY1toCCCY2("EUR", "TWD");
     exRate2 = exRate;
     CCY1toCCCY2("JPY", "TWD");
     exRate3 = exRate;
@@ -73,7 +73,7 @@ function toTWD() {
 
 
 //外幣兌美元匯率
-function toUSD(amount1,amount2,amount3) {
+function toUSD(amount1, amount2, amount3) {
     CCY1toCCCY2("TWD", "USD");
     exRate1 = exRate;
     usdTotal = amount1 * exRate1;
@@ -82,7 +82,7 @@ function toUSD(amount1,amount2,amount3) {
     usdTotal += amount2 * exRate2;
     CCY1toCCCY2("JPY", "USD");
     exRate3 = exRate;
-    usdTotal += amount3 * exRate3;    
+    usdTotal += amount3 * exRate3;
 };
 
 //外幣兌歐元匯率
@@ -139,7 +139,7 @@ function getTimeSeries(symbol) {
             closes.reverse();
             adjCloses.reverse();
             volumes.reverse();
-            dividends.reverse(); 
+            dividends.reverse();
             console.log(adjCloses);
 
         },
@@ -150,7 +150,7 @@ function getTimeSeries(symbol) {
 };
 
 //取資產成交資料+指定時間
-function getTimeSeries(symbol,interval) {
+function getTimeSeries(symbol, interval) {
     $.ajax({
         type: 'get',
         url: 'https://www.alphavantage.co/query?function=TIME_SERIES_' + interval + '_ADJUSTED&symbol=' + symbol + '&apikey=XBRCUGRFRDK9P0HJ',
@@ -161,7 +161,7 @@ function getTimeSeries(symbol,interval) {
             };
             console.log(data['Weekly Adjusted Time Series']);
             var i = 0;
-            $.each(data, function (objectTitle, objects) {              
+            $.each(data, function (objectTitle, objects) {
 
                 /*console.log(dates);*/
                 if (i >= 1) {
@@ -198,7 +198,7 @@ function getTimeSeries(symbol,interval) {
 function getCAGR(dates, prices) {
     const date1 = new Date(dates[0]);
     const date2 = new Date(dates[dates.length - 1]);
-    const price1 = prices[0];   
+    const price1 = prices[0];
     const price2 = prices[prices.length - 1];
     const timeDiff = date2.getTime() - date1.getTime();
     const yearDiff = timeDiff / (1000 * 3600 * 24 * 365);
@@ -209,18 +209,17 @@ function getCAGR(dates, prices) {
 function getGrossReturn(prices) {
     const price1 = prices[0];
     const price2 = prices[prices.length - 1];
-    const grossReturn = ((price2 / price1) - 1)*100;
+    const grossReturn = ((price2 / price1) - 1) * 100;
     return grossReturn;
 };
 
 //取得今年交易日數
 function getYearTradeDays() {
-    
+
     const firstday = new Date(year.toString(), 0, 1);
     const today = new Date(year.toString(), now.getMonth(), now.getDate());
     const dayDiff = parseFloat((today.getTime() - firstday.getTime()) / (1000 * 3600 * 24));  //今年到今天有幾個整數天
-    var tdays = Math.floor(dayDiff / 7)*5; //本週以前的交易天數
+    var tdays = Math.floor(dayDiff / 7) * 5; //本週以前的交易天數
     tdays += now.getDay() < 6 ? now.getDay() : 5;  //判斷本週天數(週日從0開始)後加上去
     return tdays;
 };
-

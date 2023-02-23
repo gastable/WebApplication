@@ -17,7 +17,8 @@ namespace AMWP.Controllers
         // GET: Weekly
         public ActionResult Index()
         {
-            var weekly = db.Weekly.Include(w => w.Securities);
+            var weekly = db.Weekly.OrderBy(w => w.Open);
+            //var weekly = db.Weekly.Include(w => w.Securities);
             return View(weekly.ToList());
         }
 

@@ -51,7 +51,7 @@
           <Property Name="Close" Type="float" Nullable="false" />
           <Property Name="AdjClose" Type="float" Nullable="false" />
           <Property Name="Dividend" Type="float" Nullable="false" />
-          <Property Name="Volume" Type="int" Nullable="false" />
+          <Property Name="Volume" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Managements">
           <Key>
@@ -89,7 +89,7 @@
           <Property Name="Close" Type="float" Nullable="false" />
           <Property Name="AdjClose" Type="float" Nullable="false" />
           <Property Name="Dividend" Type="float" Nullable="false" />
-          <Property Name="Volume" Type="int" Nullable="false" />
+          <Property Name="Volume" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Properties">
           <Key>
@@ -150,7 +150,7 @@
           <Property Name="Close" Type="float" Nullable="false" />
           <Property Name="AdjClose" Type="float" Nullable="false" />
           <Property Name="Dividend" Type="float" Nullable="false" />
-          <Property Name="Volume" Type="int" Nullable="false" />
+          <Property Name="Volume" Type="bigint" Nullable="false" />
         </EntityType>
         <Association Name="FK_Cash_Currencies">
           <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
@@ -466,7 +466,7 @@
           <Property Name="Close" Type="Double" Nullable="false" />
           <Property Name="AdjClose" Type="Double" Nullable="false" />
           <Property Name="Dividend" Type="Double" Nullable="false" />
-          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <Property Name="Volume" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Securities" Relationship="Self.FK_Daily_Securities" FromRole="Daily" ToRole="Securities" />
         </EntityType>
         <EntityType Name="Managements">
@@ -512,7 +512,7 @@
           <Property Name="Close" Type="Double" Nullable="false" />
           <Property Name="AdjClose" Type="Double" Nullable="false" />
           <Property Name="Dividend" Type="Double" Nullable="false" />
-          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <Property Name="Volume" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Securities" Relationship="Self.FK_Monthly_Securities" FromRole="Monthly" ToRole="Securities" />
         </EntityType>
         <EntityType Name="Properties">
@@ -586,7 +586,7 @@
           <Property Name="Close" Type="Double" Nullable="false" />
           <Property Name="AdjClose" Type="Double" Nullable="false" />
           <Property Name="Dividend" Type="Double" Nullable="false" />
-          <Property Name="Volume" Type="Int32" Nullable="false" />
+          <Property Name="Volume" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Securities" Relationship="Self.FK_Weekly_Securities" FromRole="Weekly" ToRole="Securities" />
         </EntityType>
         <Association Name="FK_Managements_Admins">
