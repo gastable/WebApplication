@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - MY資產管理</title>
+    
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @RenderSection("CSS", false)
     <style>
         body {
@@ -18,8 +18,8 @@
 
 </head>
 <body>
-        <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #efeea4">
-    <div class="container">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #efeea4" id="navBar">
+        <div class="container">
             <a class="navbar-brand" href="/AdminLogin/Login">MY資產管理</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -27,72 +27,73 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                @if(Session["admin"]!=null){
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Admins/Index">管理員 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                            會員管理
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/Members/Index">會員列表</a>
-                            <a class="dropdown-item" href="/Managements/Index">帳號管理</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                            會員資產管理
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/SecOrders/Index">證券交易列表</a>
-                            <a class="dropdown-item" href="/Properties/Index">房產交易列表</a>
-                            <a class="dropdown-item" href="/Cash/Index">現金列表</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                            證券管理
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/Securities/Index">證券列表</a>
-                            <a class="dropdown-item" href="/SecTypes/Index">證券類別列表</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                            證券成交資料
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/Monthly/Index">月成交資訊</a>
-                            <a class="dropdown-item" href="/Weekly/Index">週成交資訊</a>
-                            <a class="dropdown-item" href="/Daily/Index">日成交資訊</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                            其他資料管理
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/Countries/Index">註冊國家</a>
-                            <a class="dropdown-item" href="/Currencies/Index">交易幣別</a>
-                        </div>
-                    </li>
-                }
+                    @if (Session["admin"] != null)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/Admins/Index">管理員 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                會員管理
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/Members/Index">會員列表</a>
+                                <a class="dropdown-item" href="/Managements/Index">帳號管理</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                會員資產管理
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/SecOrders/Index">證券交易列表</a>
+                                <a class="dropdown-item" href="/Properties/Index">房產交易列表</a>
+                                <a class="dropdown-item" href="/Cash/Index">現金列表</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                證券管理
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/Securities/Index">證券列表</a>
+                                <a class="dropdown-item" href="/SecTypes/Index">證券類別列表</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                證券成交資料
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/Monthly/Index">月成交資訊</a>
+                                <a class="dropdown-item" href="/Weekly/Index">週成交資訊</a>
+                                <a class="dropdown-item" href="/Daily/Index">日成交資訊</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                其他資料管理
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/Countries/Index">註冊國家</a>
+                                <a class="dropdown-item" href="/Currencies/Index">交易幣別</a>
+                            </div>
+                        </li>
+                    }
                 </ul>
                 @*<form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>*@
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>*@
                 <div>
                     @if (Session["admin"] != null)
                     {
-                    @Html.ActionLink("登出", "Logout", "AdminLogin", null, new { @class = "btn btn-info" })
+                        @Html.ActionLink("登出", "Logout", "AdminLogin", null, new { @class = "btn btn-info" })
                     }
                 </div>
             </div>
-    </div>
-        </nav>
+        </div>
+    </nav>
     <div class="container">
         @RenderBody()
         <hr />
@@ -100,9 +101,9 @@
             <p>Copyright &copy; @DateTime.Now.Year - MY資產管理顧問股份有限公司</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+   
     @RenderSection("scripts", required: false)
 </body>
 </html>

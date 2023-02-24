@@ -123,6 +123,8 @@
 
 @section scripts{
     <script>
+        $('#sidebarMenu .nav-link').removeClass('active');
+        $('#navLink2').addClass('active');
         function showEditModal(evt) {
             let id = evt.target.id;
             //let value = evt.target.value;
@@ -142,7 +144,7 @@
         function getMemberSecPie(id) {
             $.ajax({
                 type: "get",
-                url: 'http://localhost:56540/MemberSecurities/GetMemberSecPie/'+id,
+                url: 'http://localhost:56540/MemberSecurities/GetSecPieChart/'+id,
                 async: false,
                 success: function (data) {
                     let i;
@@ -154,7 +156,7 @@
             });
         };
         getMemberSecPie(id);
-        console.log(pieData)
+        //console.log(pieData)
 
         data = {
             labels: pieLabels,

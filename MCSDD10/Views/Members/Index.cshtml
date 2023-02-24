@@ -1,4 +1,8 @@
-﻿@model IEnumerable<MCSDD10.Models.Members>
+﻿@using PagedList;
+@using PagedList.Mvc;  @*這裡一定要using*@
+
+@*@model IEnumerable<MCSDD10.Models.Members>*@  @*因為有分頁套件了，套用的model要改掉*@
+@model IPagedList<MCSDD10.Models.Members>
 
 @{
     ViewBag.Title = "Index";
@@ -12,19 +16,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.MemberID)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MemberID)  @*再來helper所引用的model要修改成這樣*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MemberName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MemberName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MemberBirthday)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MemberBirthday)
         </th>
         @*<th>
                 @Html.DisplayNameFor(model => model.MemberPhotofile)
             </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CreatedDate)
         </th>
         @*<th>
                 @Html.DisplayNameFor(model => model.Account)
@@ -47,28 +51,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.MemberBirthday)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.MemberPhotofile)
-                </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Account)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>*@
             <td>
-                @Html.ActionLink("編輯資料", "Edit", new { id = item.MemberID }, new { @class = "btn btn-warning btn-sm" })
-
-
-                @*@Html.ActionLink("查看詳細資料", "Details", new { id = item.MemberID }, new { @class = "btn btn-success btn-sm"})*@
-
+                <button type="button" id="@item.MemberID" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#showEditModal" onclick="getEditData(event)">
+                    編輯資料
+                </button>
                 <button type="button" id="@item.MemberID" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showDetailModal" onclick="getDetailData(event)">
                     查看詳細資料
                 </button>
-
                 @Html.ActionLink("更改密碼", "Delete", new { id = item.MemberID }, new { @class = "btn btn-danger btn-sm" })
             </td>
         </tr>
@@ -76,7 +68,8 @@
 
 </table>
 
-
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@*用PagedList寫好的helper寫分頁html*@
 
 <div class="modal fade" id="showDetailModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
@@ -88,20 +81,40 @@
                 </button>
             </div>
             <div class="modal-body">
-
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>*@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="showEditModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script>
+        //因為PagedList是套Boostrap3寫的架構，所以用DOM操作，將其class修改成符合Boostrap4的架構
+        $('.pagination-container >ul').addClass('justify-content-center');
+        $('.pagination-container >ul>li').removeClass().addClass('page-item');
+        $('.pagination-container >ul>li>a').addClass('page-link');
+
         function getDetailData(evt) {
 
             $('#showDetailModal .modal-body').load("/Members/_Details/" + evt.target.id);
-        }
+        };
+
+        function getEditData(evt) {
+
+            $('#showEditModal .modal-body').load("/Members/_Edit/" + evt.target.id);
+        };
     </script>
-    }
+}

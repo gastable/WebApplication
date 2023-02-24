@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @RenderSection("CSS", false)
-    @{ 
+    @{
         int DemoID = 24;
     }
     <style>
@@ -59,37 +58,37 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active h6" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link active h6" id="navLink1" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 資產儀表板
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h6" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link h6" id="navLink2" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bank"></i>
                                 證券資產
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" id="navLink3" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-coin"></i>
                                 現金
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" id="navLink4" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-houses"></i>
                                 房產與貸款
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" id="navLink5" href="@Url.Action("Input", "Backtest",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
                                 <i class="bi bi-bar-chart-line"></i>
                                 投資組合回測
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" id="navLink6" href="#">
                                 <i class="bi bi-calculator"></i>
                                 財務目標分析
                             </a>
@@ -143,19 +142,12 @@
             </div>
         </div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/Scripts/AMWP.js"></script>
-    <script>
-        $('#sidebarMenu a').click(function (evt) {
-            $('#sidebarMenu a').removeClass('active');
-            $(evt.target).addClass('active');
-            
-        });
-    </script>
+    
     @RenderSection("scripts", required: false)
 </body>
 

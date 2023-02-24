@@ -5,9 +5,12 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using AMWP.Models;
+using PagedList;
 
 namespace AMWP.Controllers
 {
@@ -16,29 +19,14 @@ namespace AMWP.Controllers
         private AMWPEntities db = new AMWPEntities();
         GetData gd = new GetData();
 
-
+        int pageSize = 15;
         // GET: Daily
-        public ActionResult Index(/*string field = "",string order = ""*/)
+        public ActionResult Index(int page = 1)
         {
-            string sql = "select * from daily inner join Securities on daily.SecID = Securities.SecID";
-            //List<SqlParameter> list = new List<SqlParameter>() {
-            //        new SqlParameter("field",field),
-            //        new SqlParameter("order",order)
-            //};
-
-            var daily = gd.TableQuery(sql);
-            if (daily == null)
-            {
-                return View();
-            }
-            if (daily.Rows.Count == 0)
-            {
-                ViewBag.CashMsg = "目前無成交資料！";
-            }
-            return View(daily);
-
-            //var daily = db.Daily.Include(d => d.Securities);
-            //return View(daily.ToList());
+            int currentPage = page < 1 ? 1 : page;
+            var daily = db.Daily.OrderBy(w => w.SecID).ThenBy(w => w.Date);
+            var result = daily.ToPagedList(currentPage, pageSize);
+            return View(result);
         }
 
         // GET: Daily/Details/5

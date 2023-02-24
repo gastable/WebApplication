@@ -4,7 +4,7 @@
     ViewBag.Title = "會員資產管理";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    int memberID = 3;
+    int memberID = 24;
     string CCY = "USD";
     string symbolstr = "VT";
     var cashSum = Convert.ToDouble(Session["cashSum"]);
@@ -17,8 +17,8 @@
     }
 }
 @*@if(Session["mem"] == null) {
-<h3 class="alert alert-info text-center">展示畫面</h3>
-}*@
+    <h3 class="alert alert-info text-center">展示畫面</h3>
+    }*@
 <div class="">
     <div class="row justify-content-around align-items-end">
         <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
@@ -105,7 +105,7 @@
                 </table>
             </div>
             <div class="col ">
-                <canvas id="secAllocFoughnut"></canvas>
+                <canvas id="secAllocDoughnut"></canvas>
 
                 <div class="text-center">證券類別佔比</div>
             </div>
@@ -115,11 +115,10 @@
 
     <div>
         <div>
-            <canvas id="symbolLineChart" aria-label="資產股價圖" role="img"></canvas>
+            <canvas id="secValueLineChart" aria-label="資產股價圖" role="img"></canvas>
 
         </div>
     </div>
-
 </div>
 
 <div hidden>
@@ -151,25 +150,25 @@
 
 @section scripts{
     <script>
-            //CircleChart(id,chartType,dataLegend,dataset,tooltipON)
-            const chartType1 = 'doughnut'
-            const dataLegend1 = ['現金', '證券', '房產'];
-            const dataset1 = [@cashSum,@secSum, @pptySum];
-            circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1);
+        $('#sidebarMenu .nav-link').removeClass('active');
+        $('#navLink1').addClass('active');
+        var id =@Html.Raw(memberID);
+        //CircleChart(canvasId,chartType,dataLegend,dataset,tooltipON)
+        const chartType1 = 'doughnut'
+        const dataLegend1 = ['現金', '證券', '房產'];
+        const dataset1 = [@cashSum,@secSum, @pptySum];
+        circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1);
 
-            const chartType2 = 'doughnut'
-            const dataLegend2 = ['VT', 'SPY', 'BND'];
-            const dataset2 = [1500000, 5000000, 1600000];
-            circleChart('secAllocFoughnut', chartType2, dataLegend2, dataset2);
+        const chartType2 = 'doughnut'
+        const dataLegend2 = ['VT', 'SPY', 'BND'];
+        const dataset2 = [1500000, 5000000, 1600000];
+        circleChart('secAllocDoughnut', chartType2, dataLegend2, dataset2);
 
 
 
-            //取得網址CCY參數
-            const url = window.location.href;
-            const queryArr1 = url.split('?');
-            const queryArr2 = queryArr1[1].split('=');
+        
 
-            //圓形圖
+        //圓形圖
             function circleChart(id, chartType, types, assetNets) {
                 const data = {
                     labels: types,
@@ -219,5 +218,66 @@
                     config);
             }
 
+        //證券淨值圖
+        var lineChart;
+        var lineData=[];
+        var lineLabels = [];
+
+        function GetValueLineChart(id) {
+            $.ajax({
+                type: "get",
+                url: 'http://localhost:56540/MemberSecurities/GetValueLineChart/'+id,
+                async: false,
+                success: function (data) {                    
+                    for (let i = 0; i < data['data'].length; i++) {
+                        lineData.push(data['data'][i]);
+                        lineLabels.push(data['labels'][i]);
+                    }
+                }
+            });
+        };
+        GetValueLineChart(id);
+        console.log(lineLabels);
+        data = {
+            labels: lineLabels,
+            datasets: [{
+                label: ['證券淨值'],
+                data: lineData,
+                borderWidth: 1,
+                pointRadius: 0
+            }]
+        };
+
+        config = {
+            type: "line",
+            data,
+            options: {
+                animation: false,
+                scales: {
+                    x: { grid: { drawOnChartArea: false } },
+                    y: {
+                        beginAtZero: false,
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            }
+        };
+        lineChart = new Chart(document.getElementById("secValueLineChart"),
+            config);
+
+        //取得網址CCY參數
+        const url = window.location.href;
+        const queryArr1 = url.split('?');
+        const queryArr2 = queryArr1[1].split('=');
     </script>
 }

@@ -165,7 +165,7 @@ namespace AMWP.Controllers
                                 new DataColumn("Dividend",typeof(double)),
                                 new DataColumn("SplitCoefficient",typeof(double))});
                     DataColumn dc = new DataColumn("SecID", typeof(string));
-                    dc.DefaultValue = "B00002";
+                    dc.DefaultValue = "A00002";
                     dt.Columns.Add(dc);
 
                     //Read the contents of CSV file.

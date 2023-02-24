@@ -53,12 +53,12 @@ namespace AMWP.Controllers
 
             Chart pie = new Chart();
             List<string> _labels = new List<string>();
-            List<decimal> _data = new List<decimal>();
+            List<double> _data = new List<double>();
 
             foreach (DataRow row in ms.Rows)
             {
                 _labels.Add(Convert.ToString(row["Name"]));
-                _data.Add(Math.Round(Convert.ToDecimal(row["ToCCY"]), 2));
+                _data.Add(Math.Round(Convert.ToDouble(row["ToCCY"]), 2));
             };
             pie.labels = _labels;
             pie.data = _data;

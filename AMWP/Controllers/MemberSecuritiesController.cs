@@ -51,7 +51,29 @@ namespace AMWP.Controllers
             return PartialView(ms);
         }
 
-        public JsonResult GetMemberSecPie(int id = 24)
+        public ActionResult GetValueLineChart(int id = 24)
+        {
+            string sql = "queryMemberSecValues";
+            List<SqlParameter> list = new List<SqlParameter> {
+                new SqlParameter("id",id)
+            };
+            DataTable ms = gd.TableQueryBySP(sql, list);
+
+            Chart lineChart = new Chart();
+            List<string> labels = new List<string>();
+            List<double> data = new List<double>();
+
+            foreach (DataRow row in ms.Rows)
+            {
+                labels.Add(Convert.ToDateTime(row["Date"]).ToString("yyyy-MM-dd"));
+                data.Add(Math.Round(Convert.ToDouble(row["Value"]), 2));
+            };
+            lineChart.labels = labels;
+            lineChart.data = data;
+            return Json(lineChart, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSecPieChart(int id = 24)
         {
             string sql = "queryMemberSecurities";
             List<SqlParameter> list = new List<SqlParameter> {
@@ -59,22 +81,20 @@ namespace AMWP.Controllers
             };
             DataTable ms = gd.TableQueryBySP(sql, list);
 
-            Chart pie = new Chart();
-            List<string> _labels = new List<string>();
-            List<decimal> _data = new List<decimal>();
+            Chart pieChart = new Chart();
+            List<string> labels = new List<string>();
+            List<double> data = new List<double>();
 
             foreach (DataRow row in ms.Rows)
             {
-                _labels.Add(Convert.ToString(row["Symbol"]));
-                _data.Add(Math.Round(Convert.ToDecimal(row["Close"]) * Convert.ToDecimal(row["Share"]) * Convert.ToDecimal(row["ExchRate"]) * Convert.ToDecimal(row["ToCCY"]), 2));                               
+                labels.Add(Convert.ToString(row["Symbol"]));
+                data.Add(Math.Round(Convert.ToDouble(row["Close"]) * Convert.ToDouble(row["Share"]) * Convert.ToDouble(row["ExchRate"]) * Convert.ToDouble(row["ToCCY"]), 2));
             };
-            pie.labels = _labels;
-            pie.data = _data;
-            return Json(pie, JsonRequestBehavior.AllowGet);            
-            
-        }
+            pieChart.labels = labels;
+            pieChart.data = data;
+            return Json(pieChart, JsonRequestBehavior.AllowGet);
 
-       
+        }
 
 
     }

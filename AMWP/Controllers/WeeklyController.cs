@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
+using PagedList;
 
 namespace AMWP.Controllers
 {
@@ -14,12 +15,14 @@ namespace AMWP.Controllers
     {
         private AMWPEntities db = new AMWPEntities();
 
+        int pageSize = 15;
         // GET: Weekly
-        public ActionResult Index()
+        public ActionResult Index(int page=1)
         {
-            var weekly = db.Weekly.OrderBy(w => w.Open);
-            //var weekly = db.Weekly.Include(w => w.Securities);
-            return View(weekly.ToList());
+            int currentPage = page < 1 ? 1 : page;
+            var weekly = db.Weekly.OrderBy(w => w.SecID).ThenBy(w => w.Date);
+            var result = weekly.ToPagedList(currentPage, pageSize);
+            return View(result);
         }
 
         // GET: Weekly/Details/5

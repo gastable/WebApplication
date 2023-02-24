@@ -6,7 +6,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form">
         <h4 class="text-center">修改交易明細</h4>
         <hr />
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group row">
-            @Html.LabelFor(model => model.SecID, "證券代號", htmlAttributes: new { @class = "col-form-label col-sm-4 text-right"})
+            @Html.LabelFor(model => model.SecID, "證券代號", htmlAttributes: new { @class = "col-form-label col-sm-4 text-right" })
             <div class="col-sm-8">
                 @Html.DropDownList("SecID", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                 @Html.ValidationMessageFor(model => model.SecID, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.TrancType, "", new { @class = "text-danger" })
             </div>
-            
+
         </div>
 
         <div class="form-group row">
@@ -85,3 +85,6 @@
     </div>
 }
 
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

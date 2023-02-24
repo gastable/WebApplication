@@ -1,43 +1,47 @@
-﻿@model IEnumerable<AMWP.Models.Weekly>
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<AMWP.Models.Weekly>
+
 
 @{
     ViewBag.Title = "證券歷史資料";
 }
 <hr />
 <h3 class="alert alert-info text-center">證券週成交資訊</h3>
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table table-striped table-hover text-center">
     <thead class="thead-dark">
 
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Securities.Symbol)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Securities.Symbol)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Open)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Open)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.High)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().High)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Low)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Low)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Close)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Close)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdjClose)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AdjClose)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dividend)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Dividend)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Volume)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Volume)
             </th>
 
             @*<th>資料管理</th>*@
@@ -85,6 +89,8 @@
     </tbody>
 </table>
 
+@Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+
 @section CSS{
     <style>
         .alert-info {
@@ -94,3 +100,13 @@
         }
     </style>
 }
+
+@section scripts{
+    <script>
+        $('.pagination-container >ul').addClass('justify-content-center');
+        $('.pagination-container >ul>li').removeClass().addClass('page-item');
+        $('.pagination-container >ul>li>a').addClass('page-link');
+
+    </script>
+    
+    }
