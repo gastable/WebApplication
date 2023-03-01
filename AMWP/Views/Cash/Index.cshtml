@@ -25,7 +25,7 @@
 
             <th>資料管理</th>
         </tr>
-        </thead>
+    </thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -58,4 +58,11 @@
             border-color: #bee5eb;
         }
     </style>
+}
+@section scripts{
+    <script>
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem3').addClass('active');
+    </script>
+
 }

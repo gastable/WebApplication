@@ -54,7 +54,6 @@
         }
     </tbody>
 </table>
-<!-- Modal -->  @*問題：驗證沒過怎麼維持modal*@
 <div class="modal fade" id="showEditModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -67,7 +66,6 @@
             <div class="modal-body">
                 
             </div>
-           
         </div>
     </div>
 </div>
@@ -83,6 +81,8 @@
 }
 @section scripts{
     <script>
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem1').addClass('active');
         function getAdminID(evt) {
             id=evt.target.id;
             $('#showEditModal .modal-body').load("/Admins/_Edit/" + id);

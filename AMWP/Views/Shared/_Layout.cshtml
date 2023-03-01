@@ -25,14 +25,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mr-auto">
                     @if (Session["admin"] != null)
                     {
-                        <li class="nav-item active">
+                        <li class="nav-item active" id="navItem1">
                             <a class="nav-link" href="/Admins/Index">管理員 <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="navItem2">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                                 會員管理
                             </a>
@@ -41,7 +41,7 @@
                                 <a class="dropdown-item" href="/Managements/Index">帳號管理</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="navItem3">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                                 會員資產管理
                             </a>
@@ -51,7 +51,7 @@
                                 <a class="dropdown-item" href="/Cash/Index">現金列表</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="navItem4">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                                 證券管理
                             </a>
@@ -60,7 +60,7 @@
                                 <a class="dropdown-item" href="/SecTypes/Index">證券類別列表</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="navItem5">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                                 證券成交資料
                             </a>
@@ -70,7 +70,7 @@
                                 <a class="dropdown-item" href="/Daily/Index">日成交資訊</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="navItem6">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                                 其他資料管理
                             </a>

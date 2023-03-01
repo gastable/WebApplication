@@ -45,7 +45,7 @@ namespace AMWP.Models
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = false)]
         public double Loan { get; set; }
 
-        [DisplayName("貸款期數")]
+        [DisplayName("貸款期數(月)")]
         [Required(ErrorMessage = "請填寫貸款期數")]
         [Range(0, short.MaxValue, ErrorMessage = "期數不可小於0")]
         public short Term { get; set; }

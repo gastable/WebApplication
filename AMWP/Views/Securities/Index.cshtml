@@ -7,7 +7,7 @@
 <h3 class="alert alert-info text-center">證券列表</h3>
 
 <div class="row">
-    <h4 class="col-md-8 text-right text-danger">@TempData["ForeignKey"]</h4>
+    <h4 class="col-md-8 text-right text-danger">@TempData["ForeignKey"] @TempData["uploads"]</h4>
     <div class="col-md-4 text-right mb-3">
         @Html.ActionLink("新增證券", "Create", null, new { @class = "btn btn-primary" })
     </div>
@@ -34,8 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.TypeID)
             </th>
+            <th>更新成交資料</th>
             <th>資料管理</th>
-            <th>上傳API</th>
+
 
         </tr>
     </thead>
@@ -62,12 +63,16 @@
                     @Html.DisplayFor(modelItem => item.SecTypes.Name)
                 </td>
                 <td>
+                    <a class="btn btn-daily" href=@Url.Action("UploadAPI", new {interval="DAILY_ADJUSTED&outputsize=full",symbol=item.Symbol,secid=item.SecID,sqlSP="updateDaily"})>日</a>
+                    <a class="btn btn-weekly" href=@Url.Action("UploadAPIWM", new {interval="WEEKLY_ADJUSTED",symbol=item.Symbol,secid=item.SecID,sqlSP="updateWeekly"})>週</a>
+                    <a class="btn btn-monthly" href=@Url.Action("UploadAPIWM", new {interval="MONTHLY_ADJUSTED",symbol=item.Symbol,secid=item.SecID,sqlSP="updateMonthly"})>月</a>
+
+                </td>
+                <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.SecID }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("刪除", "Delete", new { id = item.SecID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的證券嗎？')" })
                 </td>
-                <td>
-                    <input id="UploadData" type="button" value="上傳" class="btn btn-primary" />
-                </td>
+
             </tr>
         }
     </tbody>
@@ -85,5 +90,32 @@
             background-color: #dabef5;
             border-color: #bee5eb;
         }
+
+        .btn-daily {
+            color: #212529;
+            background-color: #f59b9b;
+            border-color: #f59b9b;
+        }
+
+        .btn-weekly {
+            color: #212529;
+            background-color: #b3f67c;
+            border-color: #b3f67c;
+        }
+
+
+        .btn-monthly {
+            color: #212529;
+            background-color: #8cd9f5;
+            border-color: #8cd9f5;
+        }
     </style>
+}
+@section scripts{
+    <script>
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem4').addClass('active');
+
+
+    </script>
 }

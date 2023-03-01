@@ -66,9 +66,13 @@
             var symbolstr = queryArr2 == null ? "VT" : queryArr2[1].toString();
         }
         catch { var symbolstr = "VT"; }
+
         
+        getDailyData(symbolstr,1825);
+
+
         //取得api
-        getTimeSeries(symbolstr, "WEEKLY");        
+        /*getTimeSeries(symbolstr, "WEEKLY");  */      
         var data;
         var config;
         var lineChart
@@ -156,9 +160,9 @@
 
        //換計算區間及指定按鈕要給的值
         const tdays = getYearTradeDays();
-        const sliceNum = [-21, -63, -126, -tdays, -52, -260,0];
-        const intervalIndex = ["DAILY", "DAILY", "DAILY", "DAILY", "WEEKLY", "WEEKLY", "WEEKLY"];
-        var stdIndex = [252, 252, 252, 252, 52, 52, 52];
+        const sliceNum = [-21, -63, -126, -tdays, -252, -1260,0];
+        const intervalIndex = ["DAILY", "DAILY", "DAILY", "DAILY", "DAILY", "DAILY", "DAILY"];
+        var stdIndex = [252, 252, 252, 252, 252, 252, 252];
                       
         //計算資產表現數據
         var lastPrice; //前日收盤價

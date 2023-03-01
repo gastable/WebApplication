@@ -1,4 +1,4 @@
-﻿    @model IEnumerable<AMWP.Models.SecOrders>
+﻿@model IEnumerable<AMWP.Models.SecOrders>
 
 @{
     ViewBag.Title = "會員資產管理";
@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     @*@Html.DisplayFor(modelItem => item.TrancType)*@
-                    @if(@item.TrancType)
+                    @if (@item.TrancType)
                     {
                         <span class="text-success">買進</span>
                     }
@@ -89,4 +89,11 @@
             border-color: #bee5eb;
         }
     </style>
+}
+@section scripts{
+    <script>
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem3').addClass('active');
+    </script>
+
 }

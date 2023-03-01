@@ -1,0 +1,39 @@
+﻿@using System.Data;
+@model System.Data.DataTable
+@{
+    int memberID = 24;
+    string CCY = "USD";    
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
+    };
+
+}
+<table class="table table-sm text-center">
+    <thead class="thead">
+        <tr>
+            <th>
+                類別
+            </th>
+
+            <th>
+                現值(@CCY)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>
+                    <span class="btn btn-@row["TypeID"] btn-sm ">@row["Name"]</span>
+                </td>
+
+                <td class="align-middle">
+                    @(Math.Round(Convert.ToDouble(row["Value"]),2))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

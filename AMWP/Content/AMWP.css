@@ -1,0 +1,54 @@
+﻿.btn-securities {
+    color: #212529;
+    background-color: #bd7ebe;
+    border-color: #bd7ebe;
+}
+
+.btn-property {
+    color: #212529;
+    background-color: #b2e061;
+    border-color: #b2e061;
+}
+
+.btn-cash {
+    color: #212529;
+    background-color: #ffb55a;
+    border-color: #ffb55a;
+}
+
+.btn-AOA {
+    color: #212529;
+    background-color: #f59b9b;
+    border-color: #f59b9b;
+}
+
+.btn-STK {
+    color: #212529;
+    background-color: #b3f67c;
+    border-color: #b3f67c;
+}
+
+.btn-AOR {
+    color: #212529;
+    background-color: #f7f472;
+    border-color: #f7f472;
+}
+
+.btn-BND {
+    color: #212529;
+    background-color: #8cd9f5;
+    border-color: #8cd9f5;
+}
+
+.btn-RET {
+    color: #212529;
+    background-color: #df95f7;
+    border-color: #df95f7;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}

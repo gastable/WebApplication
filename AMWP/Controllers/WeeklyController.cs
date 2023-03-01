@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
-using PagedList;
+
 
 namespace AMWP.Controllers
 {
@@ -15,15 +15,78 @@ namespace AMWP.Controllers
     {
         private AMWPEntities db = new AMWPEntities();
 
-        int pageSize = 15;
-        // GET: Weekly
-        public ActionResult Index(int page=1)
+        public ActionResult Index(string order, int page = 1)
         {
+            int pageSize = 15;
             int currentPage = page < 1 ? 1 : page;
-            var weekly = db.Weekly.OrderBy(w => w.SecID).ThenBy(w => w.Date);
-            var result = weekly.ToPagedList(currentPage, pageSize);
-            return View(result);
+            int pageCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(db.Weekly.Count()) / Convert.ToDouble(pageSize)));
+            int skipRows = (currentPage - 1) * pageSize;
+            var weekly = db.Weekly.OrderBy(d => d.SecID).ThenBy(w => w.Date);
+            switch (order)
+            {
+                case "Symbol":
+                    weekly = db.Weekly.OrderBy(d => d.Securities.Symbol).ThenBy(d => d.Date);
+                    break;
+                case "Symbol_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Securities.Symbol).ThenBy(d => d.Date);
+                    break;
+                case "Date":
+                    weekly = db.Weekly.OrderBy(d => d.Date).ThenBy(d => d.Securities.Symbol);
+                    break;
+                case "Date_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Date).ThenBy(d => d.Securities.Symbol);
+                    break;
+                case "Open":
+                    weekly = db.Weekly.OrderBy(d => d.Open).ThenBy(d => d.Date);
+                    break;
+                case "Open_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Open).ThenBy(d => d.Date);
+                    break;
+                case "High":
+                    weekly = db.Weekly.OrderBy(d => d.High).ThenBy(d => d.Date);
+                    break;
+                case "High_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.High).ThenBy(d => d.Date);
+                    break;
+                case "Low":
+                    weekly = db.Weekly.OrderBy(d => d.Low).ThenBy(d => d.Date);
+                    break;
+                case "Low_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Low).ThenBy(d => d.Date);
+                    break;
+                case "Close":
+                    weekly = db.Weekly.OrderBy(d => d.Close).ThenBy(d => d.Date);
+                    break;
+                case "Close_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Close).ThenBy(d => d.Date);
+                    break;
+                case "AdjClose":
+                    weekly = db.Weekly.OrderBy(d => d.AdjClose).ThenBy(d => d.Date);
+                    break;
+                case "AdjClose_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.AdjClose).ThenBy(d => d.Date);
+                    break;
+                case "Dividend":
+                    weekly = db.Weekly.OrderBy(d => d.Dividend).ThenBy(d => d.Date);
+                    break;
+                case "Dividend_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Dividend).ThenBy(d => d.Date);
+                    break;
+                case "Volume":
+                    weekly = db.Weekly.OrderBy(d => d.Volume).ThenBy(d => d.Date);
+                    break;
+                case "Volume_desc":
+                    weekly = db.Weekly.OrderByDescending(d => d.Volume).ThenBy(d => d.Date);
+                    break;
+            }
+            ViewBag.PageNumber = currentPage;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageCount = pageCount;
+            ViewBag.Order = order;
+            var newWeekly = weekly.Skip(skipRows).Take(pageSize);
+            return View(newWeekly);
         }
+
 
         // GET: Weekly/Details/5
         public ActionResult Details(long? id)

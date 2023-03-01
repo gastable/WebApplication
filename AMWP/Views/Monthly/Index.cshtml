@@ -1,11 +1,9 @@
-﻿@using PagedList;
-@using PagedList.Mvc;
-
-@model IPagedList<AMWP.Models.Monthly>
+﻿@model IEnumerable<AMWP.Models.Monthly>
 
 
 @{
     ViewBag.Title = "證券歷史資料";
+    string orderStr = Convert.ToString(ViewBag.Order);
 }
 <hr />
 <h3 class="alert alert-info text-center">證券月成交資訊</h3>
@@ -14,40 +12,146 @@
     </p>*@
 <table class="table table-striped table-hover text-center">
     <thead class="thead-dark">
-
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Securities.Symbol)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Securities.Symbol)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Symbol_desc" href=@Url.Action("Index", new {page=1,order="Symbol_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Symbol" href=@Url.Action("Index", new {page=1,order="Symbol"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Date)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Date_desc" href=@Url.Action("Index", new {page=1,order="Date_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Date" href=@Url.Action("Index", new {page=1,order="Date"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Open)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Open)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Open_desc" href=@Url.Action("Index", new {page=1,order="Open_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Open" href=@Url.Action("Index", new {page=1,order="Open"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().High)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.High)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row High_desc" href=@Url.Action("Index", new {page=1,order="High_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row High" href=@Url.Action("Index", new {page=1,order="High"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Low)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Low)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Low_desc" href=@Url.Action("Index", new {page=1,order="Low_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Low" href=@Url.Action("Index", new {page=1,order="Low"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Close)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Close)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Close_desc" href=@Url.Action("Index", new {page=1,order="Close_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Close" href=@Url.Action("Index", new {page=1,order="Close"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdjClose)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.AdjClose)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row AdjClose_desc" href=@Url.Action("Index", new {page=1,order="AdjClose_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row AdjClose" href=@Url.Action("Index", new {page=1,order="AdjClose"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Dividend)
+                <div class="row align-items-center">
+                    <div class="col-8 text-right">
+                        @Html.DisplayNameFor(model => model.Dividend)
+                    </div>
+                    <div class="col-4 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Dividend_desc" href=@Url.Action("Index", new {page=1,order="Dividend_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Dividend" href=@Url.Action("Index", new {page=1,order="Dividend"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Volume)
+                <div class="row align-items-center">
+                    <div class="col-9 text-right">
+                        @Html.DisplayNameFor(model => model.Volume)
+                    </div>
+                    <div class="col-3 text-left">
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Volume_desc" href=@Url.Action("Index", new {page=1,order="Volume_desc"})><i class="bi bi-caret-up-fill"></i></a>
+                        </div>
+                        <div class="btn-order">
+                            <a class="text-light btn-sm row Volume" href=@Url.Action("Index", new {page=1,order="Volume"})><i class="bi bi-caret-down-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
             </th>
-
             @*<th>資料管理</th>*@
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody">
         @foreach (var item in Model)
         {
             <tr>
@@ -58,25 +162,25 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Open)
+                    @Math.Round(Convert.ToDouble(item.Open), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.High)
+                    @Math.Round(Convert.ToDouble(item.High), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Low)
+                    @Math.Round(Convert.ToDouble(item.Low), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Close)
+                    @Math.Round(Convert.ToDouble(item.Close), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AdjClose)
+                    @Math.Round(Convert.ToDouble(item.AdjClose), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Dividend)
+                    @Math.Round(Convert.ToDouble(item.Dividend), 4)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Volume)
+                    @Math.Round(Convert.ToDouble(item.Volume), 4)
                 </td>
 
                 @*<td>
@@ -88,9 +192,109 @@
         }
     </tbody>
 </table>
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-
+@if (ViewBag.PageCount != null)
+{
+    if (ViewBag.PageCount > 1)
+    {
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.PageCount <= 10)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href=@Url.Action("Index", new {page=ViewBag.PageNumber-1,order=orderStr})>
+                            <span>&laquo;</span>
+                        </a>
+                    </li>
+                    for (int i = 1; i <= ViewBag.PageCount; i++)
+                    {
+                        string active = ViewBag.PageNumber == i ? "active page-item" : "page-item";
+                        <li class="@active"><a class="page-link" href=@Url.Action("Index", new {page=i,order=orderStr})>@i</a></li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href=@Url.Action("Index", new {page=ViewBag.PageNumber+1,order=orderStr})>
+                            <span>&raquo;</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    if ((ViewBag.PageNumber - 5) >= 2)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href=@Url.Action("Index", new {page=1,order=orderStr})>
+                                <span>&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    if (ViewBag.PageNumber > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href=@Url.Action("Index", new {page=ViewBag.PageNumber-1,order=orderStr})>
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    if (ViewBag.PageNumber >= 7)
+                    {
+                        <li class="page-item">
+                            <a class="page-link">
+                                <span>...</span>
+                            </a>
+                        </li>
+                    }
+                    if ((ViewBag.PageNumber - 5) <= 0)
+                    {
+                        for (int i = 1; i <= 10; i++)
+                        {
+                            string active = ViewBag.PageNumber == i ? "active page-item" : "page-item";
+                            <li class="@active"><a class="page-link" href=@Url.Action("Index", new {page=i,order=orderStr})>@i</a></li>
+                        }
+                    }
+                    if ((ViewBag.PageNumber - 5) > 0 && (ViewBag.PageCount - ViewBag.PageNumber) >= 4)
+                    {
+                        for (int i = (ViewBag.PageNumber - 5); i <= ViewBag.PageNumber + 4; i++)
+                        {
+                            string active = ViewBag.PageNumber == i ? "active page-item" : "page-item";
+                            <li class="@active"><a class="page-link" href=@Url.Action("Index", new {page=i,order=orderStr})>@i</a></li>
+                        }
+                    }
+                    if ((ViewBag.PageNumber - 5) > 0 && (ViewBag.PageCount - ViewBag.PageNumber) < 4)
+                    {
+                        for (int i = ViewBag.PageCount - 9; i <= ViewBag.PageCount; i++)
+                        {
+                            string active = ViewBag.PageNumber == i ? "active page-item" : "page-item";
+                            <li class="@active"><a class="page-link" href=@Url.Action("Index", new {page=i,order=orderStr})>@i</a></li>
+                        }
+                    }
+                    if (ViewBag.PageNumber < ViewBag.PageCount - 4)
+                    {
+                        <li class="page-item">
+                            <a class="page-link">
+                                <span> ...</span>
+                            </a>
+                        </li>
+                    }
+                    if (ViewBag.PageNumber < ViewBag.PageCount)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href=@Url.Action("Index", new { page = ViewBag.PageNumber + 1, order = orderStr })>
+                                <span> &raquo;</span>
+                            </a>
+                        </li>
+                    }
+                    if ((ViewBag.PageCount - ViewBag.PageNumber) >= 2 && (ViewBag.PageCount - ViewBag.PageNumber > 4))
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href=@Url.Action("Index", new { page = ViewBag.PageCount, order = orderStr })>
+                                <span> &raquo; &raquo;</span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+    }
+}
 @section CSS{
     <style>
         .alert-info {
@@ -98,14 +302,21 @@
             background-color: #a9f6f6;
             border-color: #bee5eb;
         }
+
+        .btn-order {
+            margin: -10px;
+        }
     </style>
 }
 
 @section scripts{
     <script>
-        $('.pagination-container >ul').addClass('justify-content-center');
-        $('.pagination-container >ul>li').removeClass().addClass('page-item');
-        $('.pagination-container >ul>li>a').addClass('page-link');
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem5').addClass('active');
+
+        var orderStr = "@ViewBag.Order";
+        $('.text-warning').removeClass("text-warning").addClass("text-light");
+        $('.@ViewBag.Order').removeClass("text-light").addClass("text-warning");
 
     </script>
 

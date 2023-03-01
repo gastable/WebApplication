@@ -10,6 +10,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
+using Newtonsoft.Json;
+using ServiceStack;
 
 namespace AMWP.Controllers
 {
@@ -135,26 +137,77 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-            [HttpPost]
+     
+        
+        public ActionResult UploadAPI(string interval,string symbol,string secid,string sqlSP)
+        {
+            var api = $"https://www.alphavantage.co/query?function=TIME_SERIES_{interval}&symbol={symbol}&apikey=XBRCUGRFRDK9P0HJ&datatype=csv";
+            GetAlphaData gad = new GetAlphaData();
+            SetData sd = new SetData();
+            try
+            {
+                gad.TimeSeries(api);
+                string sql = sqlSP;
+                List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("secid",secid)
+            };
+
+                sd.executeSP(sql,list);
+                TempData["uploads"] = symbol +"的"+ interval.Substring(0, interval.IndexOf("_"))+"資料已更新！";
+
+            }
+            catch
+            {
+                TempData["uploads"] = symbol + "的" + interval.Substring(0, interval.IndexOf("_")) + "資料更新失敗！";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult UploadAPIWM(string interval, string symbol, string secid, string sqlSP)
+        {
+            var api = $"https://www.alphavantage.co/query?function=TIME_SERIES_{interval}&symbol={symbol}&apikey=XBRCUGRFRDK9P0HJ&datatype=csv";
+            GetAlphaData gad = new GetAlphaData();
+            SetData sd = new SetData();
+            try
+            {
+                gad.TimeSeriesWM(api);
+                string sql = sqlSP;
+                List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("secid",secid)
+            };
+
+                sd.executeSP(sql, list);
+                TempData["uploads"] = symbol + "的" + interval.Substring(0, interval.IndexOf("_")) + "資料已更新！";
+
+            }
+            catch
+            {
+                TempData["uploads"] = symbol + "的" + interval.Substring(0, interval.IndexOf("_")) + "資料更新失敗！";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
         public ActionResult Upload(HttpPostedFileBase postedFile)
-        {            
-                string filePath = string.Empty;
-                if (postedFile != null)
+        {
+            string filePath = string.Empty;
+            if (postedFile != null)
+            {
+                string path = Server.MapPath("~/Uploads/");
+                if (!Directory.Exists(path))
                 {
-                    string path = Server.MapPath("~/Uploads/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
+                    Directory.CreateDirectory(path);
+                }
 
-                    filePath = path + Path.GetFileName(postedFile.FileName);
-                    string extension = Path.GetExtension(postedFile.FileName);
-                    postedFile.SaveAs(filePath);
+                filePath = path + Path.GetFileName(postedFile.FileName);
+                string extension = Path.GetExtension(postedFile.FileName);
+                postedFile.SaveAs(filePath);
 
-                    //Create a DataTable.
-                    DataTable dt = new DataTable();
-                    //dt.Columns.Add("SecID",typeof(string)).DefaultValue = "B00001";
-                    dt.Columns.AddRange(new DataColumn[9] {                                 
+                //Create a DataTable.
+                DataTable dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[9] {
                                 new DataColumn("Date", typeof(DateTime)),
                                 new DataColumn("Open",typeof(double)),
                                 new DataColumn("High",typeof(double)),
@@ -164,61 +217,59 @@ namespace AMWP.Controllers
                                 new DataColumn("Volume",typeof(long)),
                                 new DataColumn("Dividend",typeof(double)),
                                 new DataColumn("SplitCoefficient",typeof(double))});
-                    DataColumn dc = new DataColumn("SecID", typeof(string));
-                    dc.DefaultValue = "A00002";
-                    dt.Columns.Add(dc);
+                DataColumn dc = new DataColumn("SecID", typeof(string));
+                dc.DefaultValue = "B00002";
+                dt.Columns.Add(dc);
 
-                    //Read the contents of CSV file.
-                    string csvData = System.IO.File.ReadAllText(filePath);
+                //Read the contents of CSV file.
+                string csvData = System.IO.File.ReadAllText(filePath);
 
-                    //Execute a loop over the rows.
-                    foreach (string row in csvData.Split('\n'))
+                //Execute a loop over the rows.
+                foreach (string row in csvData.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(row))
                     {
-                        if (!string.IsNullOrEmpty(row))
+                        dt.Rows.Add();
+                        int i = 0;
+
+                        //Execute a loop over the columns.
+                        foreach (string cell in row.Split(','))
                         {
-                            dt.Rows.Add();
-                            int i = 0;
-
-                            //Execute a loop over the columns.
-                            foreach (string cell in row.Split(','))
-                            {
-                                dt.Rows[dt.Rows.Count - 1][i] = cell;
-                                i++;
-                            }
-                        }
-                    }
-
-                    string conString = ConfigurationManager.ConnectionStrings["AMWPConnection"].ConnectionString;
-                    using (SqlConnection con = new SqlConnection(conString))
-                    {
-                        using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                        {
-                            //Set the database table name.
-                            sqlBulkCopy.DestinationTableName = "dbo.Daily";
-
-                        //[OPTIONAL]: Map the DataTable columns with that of the database table
-                            sqlBulkCopy.ColumnMappings.Add("SecID", "SecID");
-                            sqlBulkCopy.ColumnMappings.Add("Date", "Date");
-                            sqlBulkCopy.ColumnMappings.Add("Open", "Open"); 
-                            sqlBulkCopy.ColumnMappings.Add("High", "High");
-                            sqlBulkCopy.ColumnMappings.Add("Low", "Low"); 
-                            sqlBulkCopy.ColumnMappings.Add("Close", "Close");
-                            sqlBulkCopy.ColumnMappings.Add("AdjClose", "AdjClose");
-                            sqlBulkCopy.ColumnMappings.Add("Volume", "Volume");
-                            sqlBulkCopy.ColumnMappings.Add("Dividend", "Dividend");
-
-                        con.Open();
-                            sqlBulkCopy.WriteToServer(dt);
-                            con.Close();
+                            dt.Rows[dt.Rows.Count - 1][i] = cell;
+                            i++;
                         }
                     }
                 }
 
-                return RedirectToAction("Index");
-           
+                string conString = ConfigurationManager.ConnectionStrings["AMWPConnection"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                    {
+                        //Set the database table name.
+                        sqlBulkCopy.DestinationTableName = "dbo.Weekly";
+
+                        //[OPTIONAL]: Map the DataTable columns with that of the database table
+                        sqlBulkCopy.ColumnMappings.Add("SecID", "SecID");
+                        sqlBulkCopy.ColumnMappings.Add("Date", "Date");
+                        sqlBulkCopy.ColumnMappings.Add("Open", "Open");
+                        sqlBulkCopy.ColumnMappings.Add("High", "High");
+                        sqlBulkCopy.ColumnMappings.Add("Low", "Low");
+                        sqlBulkCopy.ColumnMappings.Add("Close", "Close");
+                        sqlBulkCopy.ColumnMappings.Add("AdjClose", "AdjClose");
+                        sqlBulkCopy.ColumnMappings.Add("Volume", "Volume");
+                        sqlBulkCopy.ColumnMappings.Add("Dividend", "Dividend");
+
+                        con.Open();
+                        sqlBulkCopy.WriteToServer(dt);
+                        con.Close();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
+
         }
-
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -227,5 +278,6 @@ namespace AMWP.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

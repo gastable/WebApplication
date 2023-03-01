@@ -20,10 +20,10 @@
     <h3 class="alert alert-info text-center">展示畫面</h3>
     }*@
 <div class="">
-    <div class="row justify-content-around align-items-end">
-        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
-            <div class="col">
-                <h4 class="text-center">資產淨值</h4>
+    <div class="row justify-content-around align-items-center">
+        <div class="row col-md-6 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
+                <h5 class="text-center col-md-12">各類資產淨值</h5>
+            <div class="col-md-6 mt-3">
                 <table class="table table-sm text-center">
                     <thead class="thead">
                         <tr>
@@ -38,7 +38,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a class="btn btn-cash" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">現金</a>
+                                <a class="btn btn-cash btn-sm" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">現金</a>
                             </td>
                             <td class="align-middle">
                                 @cashSum
@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a class="btn btn-securities" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">證券</a>
+                                <a class="btn btn-securities btn-sm" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">證券</a>
                             </td>
                             <td class="align-middle">
                                 @secSum
@@ -54,7 +54,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a class="btn btn-property" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:3,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
+                                <a class="btn btn-property btn-sm" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
                             </td>
                             <td class="align-middle">
                                 0
@@ -63,51 +63,21 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col">
-                <canvas id="assetTypeDoughnut" aria-label="各類資產配置" role="img"></canvas>
-                <div class="text-center">各類資產配置</div>
+            <div class="col-md-6">
+                <canvas id="assetTypeDoughnut" aria-label="資產佔比" role="img"></canvas>
+                <div class="text-center">資產佔比</div>
             </div>
         </div>
-        <div class="row col-md-6 row-cols-2 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
-            <div class="col">
-                <h4 class="text-center">證券配置</h4>
-                <table class="table table-sm text-center">
-                    <thead class="thead">
-                        <tr>
-                            <th>
-                                代號
-                            </th>
-                            <th>
-                                股數
-                            </th>
-                            <th>
-                                現值(@CCY)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.secOrders)
-                        {
-                            <tr>
-                                <td>
+        <div class="row col-md-6 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
+            <h5 class="text-center col-md-12">證券配置</h5>
 
-                                    @Html.ActionLink(item.SecID, "Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] : 3, symbol = symbolstr }, new { @class = "btn btn-cash" })
-                                </td>
-                                <td class="align-middle">
-                                    @item.Share
-                                </td>
-                                <td class="align-middle">
-                                    @(Math.Round(Convert.ToDouble(item.Share*item.Price),2))
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="col-md-6">
+                @Html.Action("_GetSecTypeList", "MemberSecurities")
             </div>
-            <div class="col ">
+            <div class="col-md-6">
                 <canvas id="secAllocDoughnut"></canvas>
 
-                <div class="text-center">證券類別佔比</div>
+                <div class="text-center">各類證券佔比</div>
             </div>
         </div>
 
@@ -125,27 +95,9 @@
     @Html.Action("_GetMemberSecList", "MemberSecurities")
     @Html.Action("Display", "MemberCash")
 </div>
-@section dashboardCSS{
+@section CSS{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
-    <style>
-        .btn-securities {
-            color: #1f1a1a;
-            background-color: #bd7ebe;
-            border-color: #bd7ebe;
-        }
-
-        .btn-property {
-            color: #1f1a1a;
-            background-color: #b2e061;
-            border-color: #b2e061;
-        }
-
-        .btn-cash {
-            color: #1f1a1a;
-            background-color: #ffb55a;
-            border-color: #ffb55a;
-        }
-    </style>
+   
 }
 
 @section scripts{
@@ -157,28 +109,45 @@
         const chartType1 = 'doughnut'
         const dataLegend1 = ['現金', '證券', '房產'];
         const dataset1 = [@cashSum,@secSum, @pptySum];
-        circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1);
+        const color1 = ["#ffb55a", "#bd7ebe", "#b2e061", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"];
+        circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1, color1);
+
+        var doughnutChart;
+        var doughnutData=[];
+        var doughnutLabels = []; 
+        function getMemberSecDough(id) {
+            $.ajax({
+                type: "get",
+                url: 'http://localhost:56540/MemberSecurities/GetSecTypeDoughnutChart/'+id,
+                async: false,
+                success: function (data) {
+                    let i;
+                    for (i = 0; i < data['data'].length; i++) {
+                        doughnutData.push(data['data'][i]);
+                        doughnutLabels.push(data['labels'][i]);
+                    }
+                }
+            });
+        };
+        getMemberSecDough(id);
 
         const chartType2 = 'doughnut'
-        const dataLegend2 = ['VT', 'SPY', 'BND'];
-        const dataset2 = [1500000, 5000000, 1600000];
-        circleChart('secAllocDoughnut', chartType2, dataLegend2, dataset2);
+        const dataLegend2 = doughnutLabels;
+        const dataset2 = doughnutData;
+        const color2 = ["#f59b9b", "#f7f472", "#8cd9f5", "#df95f7", "#b3f67c"];
+        circleChart('secAllocDoughnut', chartType2, dataLegend2, dataset2, color2);
 
-
-
-        
 
         //圓形圖
-            function circleChart(id, chartType, types, assetNets) {
+            function circleChart(id, chartType, types, assetNets,color) {
                 const data = {
                     labels: types,
                     datasets: [{
                         label: ['現值'],
                         data: assetNets,
-                        backgroundColor: ["#ffb55a", "#bd7ebe", "#b2e061", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+                        backgroundColor: color
                     }]
                 };
-                var legendON = assetNets.length < 5 ? true : false;
 
                 const config = {
                     type: chartType,
@@ -202,7 +171,7 @@
                                 }
                             },
                             legend: {
-                                display: legendON,
+                                display: false,
                                 onHover: (event, chartElement) => {
                                     event.native.target.style.cursor = 'pointer';
                                 },
@@ -228,7 +197,7 @@
                 type: "get",
                 url: 'http://localhost:56540/MemberSecurities/GetValueLineChart/'+id,
                 async: false,
-                success: function (data) {                    
+                success: function (data) {
                     for (let i = 0; i < data['data'].length; i++) {
                         lineData.push(data['data'][i]);
                         lineLabels.push(data['labels'][i]);

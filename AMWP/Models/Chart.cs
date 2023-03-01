@@ -7,8 +7,8 @@ namespace AMWP.Models
 {
     public class Chart
     {
-        public List<string> labels { get; set; }
-        public List<double> data { get; set; }
+        public List<string> Labels { get; set; }
+        public List<double> Data { get; set; }
     }
     
 }

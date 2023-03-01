@@ -78,7 +78,7 @@
                         }
                     </td>
                     <td>
-                        @row["Symbol"]
+                        <a class="btn btn-@row["TypeID"] btn-sm" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :memberID,symbol =@row["Symbol"] })">@row["Symbol"]</a>
 
                     </td>
                     <td>
@@ -129,13 +129,13 @@
             let id = evt.target.id;
             //let value = evt.target.value;
             $('#editModal .modal-body').load("/SecOrders/_Edit/" + id);
-        }    
+        }
 
         function showCreateModal(evt) {
             let id = evt.target.id;
             //let value = evt.target.value;
             $('#createModal .modal-body').load("/SecOrders/_Create/?memId=" + id);
-        } 
+        }
 
         var pieChart;
         var pieData=[];

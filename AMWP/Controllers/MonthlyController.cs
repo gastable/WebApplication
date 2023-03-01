@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
-using PagedList;
 
 namespace AMWP.Controllers
 {
@@ -15,15 +14,78 @@ namespace AMWP.Controllers
     {
         private AMWPEntities db = new AMWPEntities();
 
-        int pageSize = 15;
-        // GET: Monthly
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(string order, int page = 1)
         {
+            int pageSize = 15;
             int currentPage = page < 1 ? 1 : page;
-            var monthly = db.Monthly.OrderBy(w => w.SecID).ThenBy(w => w.Date);
-            var result = monthly.ToPagedList(currentPage, pageSize);
-            return View(result);
+            int pageCount = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(db.Monthly.Count()) / Convert.ToDouble(pageSize)));
+            int skipRows = (currentPage - 1) * pageSize;
+            var monthly = db.Monthly.OrderBy(d => d.SecID).ThenBy(w => w.Date);
+            switch (order)
+            {
+                case "Symbol":
+                    monthly = db.Monthly.OrderBy(d => d.Securities.Symbol).ThenBy(d => d.Date);
+                    break;
+                case "Symbol_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Securities.Symbol).ThenBy(d => d.Date);
+                    break;
+                case "Date":
+                    monthly = db.Monthly.OrderBy(d => d.Date).ThenBy(d => d.Securities.Symbol);
+                    break;
+                case "Date_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Date).ThenBy(d => d.Securities.Symbol);
+                    break;
+                case "Open":
+                    monthly = db.Monthly.OrderBy(d => d.Open).ThenBy(d => d.Date);
+                    break;
+                case "Open_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Open).ThenBy(d => d.Date);
+                    break;
+                case "High":
+                    monthly = db.Monthly.OrderBy(d => d.High).ThenBy(d => d.Date);
+                    break;
+                case "High_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.High).ThenBy(d => d.Date);
+                    break;
+                case "Low":
+                    monthly = db.Monthly.OrderBy(d => d.Low).ThenBy(d => d.Date);
+                    break;
+                case "Low_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Low).ThenBy(d => d.Date);
+                    break;
+                case "Close":
+                    monthly = db.Monthly.OrderBy(d => d.Close).ThenBy(d => d.Date);
+                    break;
+                case "Close_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Close).ThenBy(d => d.Date);
+                    break;
+                case "AdjClose":
+                    monthly = db.Monthly.OrderBy(d => d.AdjClose).ThenBy(d => d.Date);
+                    break;
+                case "AdjClose_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.AdjClose).ThenBy(d => d.Date);
+                    break;
+                case "Dividend":
+                    monthly = db.Monthly.OrderBy(d => d.Dividend).ThenBy(d => d.Date);
+                    break;
+                case "Dividend_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Dividend).ThenBy(d => d.Date);
+                    break;
+                case "Volume":
+                    monthly = db.Monthly.OrderBy(d => d.Volume).ThenBy(d => d.Date);
+                    break;
+                case "Volume_desc":
+                    monthly = db.Monthly.OrderByDescending(d => d.Volume).ThenBy(d => d.Date);
+                    break;
+            }
+            ViewBag.PageNumber = currentPage;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageCount = pageCount;
+            ViewBag.Order = order;
+            var newMonthly = monthly.Skip(skipRows).Take(pageSize);
+            return View(newMonthly);
         }
+
 
         // GET: Monthly/Details/5
         public ActionResult Details(long? id)

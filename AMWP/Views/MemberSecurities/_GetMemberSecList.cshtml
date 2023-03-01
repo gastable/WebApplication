@@ -44,7 +44,7 @@
         {
             <tr>
                 <td>
-                    <a class="btn btn-warning" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :memberID,symbol =@row["Symbol"] })">@row["Symbol"]</a>
+                    <a class="btn btn-@row["TypeID"] btn-sm" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :memberID,symbol =@row["Symbol"] })">@row["Symbol"]</a>
                 </td>
                 <td>
                     @Math.Round(Convert.ToDecimal(row["Share"]), 2)
@@ -101,3 +101,4 @@
 </table>
 
 
+    

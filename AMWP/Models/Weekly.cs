@@ -40,7 +40,7 @@ namespace AMWP.Models
         [DisplayName("調整收盤價")]
         public double AdjClose { get; set; }
 
-        [DisplayName("股利")]
+        [DisplayName("配息")]
         public double Dividend { get; set; }
 
         [DisplayName("成交量")]

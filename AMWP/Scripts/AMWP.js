@@ -192,7 +192,28 @@ function getTimeSeries(symbol, interval) {
         }
     });
 };
-
+//取得日成交資料
+function getDailyData(symbol, num) {
+    $.ajax({
+        type: "get",
+        url: "http://localhost:56540/Daily/GetDailyData?symbol=" + symbol + "&num=" + num,
+        async: false,
+        success: function (data) {
+            let i;
+            console.log(data);
+            for (i = 0; i < data['Date'].length; i++) {
+                dates.push(data['Date'][i]);
+                opens.push(data['Open'][i]);
+                highs.push(data['High'][i]);
+                lows.push(data['Low'][i]);
+                closes.push(data['Close'][i]);
+                adjCloses.push(data['AdjClose'][i]);
+                dividends.push(data['Dividend'][i]);
+                volumes.push(data['Volume'][i]);
+            }
+        }
+    });
+};
 
 //年化報酬率(%)
 function getCAGR(dates, prices) {

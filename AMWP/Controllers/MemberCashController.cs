@@ -60,8 +60,8 @@ namespace AMWP.Controllers
                 _labels.Add(Convert.ToString(row["Name"]));
                 _data.Add(Math.Round(Convert.ToDouble(row["ToCCY"]), 2));
             };
-            pie.labels = _labels;
-            pie.data = _data;
+            pie.Labels = _labels;
+            pie.Data = _data;
             return Json(pie, JsonRequestBehavior.AllowGet);
 
         }

@@ -24,7 +24,7 @@
             </th>
             <th>資料管理</th>
         </tr>
-        </thead>
+    </thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("修改", "Edit", new { id = item.CountryID }, new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("修改", "Edit", new { id = item.CountryID }, new { @class = "btn btn-warning" })
                     @Html.ActionLink("刪除", "Delete", new { id = item.CountryID }, new { @class = "btn btn-danger", onclick = "return confirm('您確定要刪除「" + item.Name + "」的註冊國家嗎？')" })
                 </td>
             </tr>
@@ -53,4 +53,13 @@
             border-color: #bee5eb;
         }
     </style>
+}
+
+@section scripts{
+    <script>
+        $('#navbar .nav-item').removeClass('active');
+        $('#navItem6').addClass('active');
+
+    </script>
+
 }
