@@ -21,7 +21,7 @@ namespace AMWP.Models
         [DataMember(Name = "Adjusted Close")]
         public double Adjusted_Close { get; set; }
 
-        [DataMember(Name = "Dividend Amoun")]
+        [DataMember(Name = "Dividend Amount")]
         public double Dividend_Amount { get; set; }
 
 

@@ -116,5 +116,40 @@ namespace AMWP.Models
             cmd.ExecuteNonQuery(); /* 存入資料改用這個(cmd.ExecuteNonQuery)*/            
             conn.Close();           
         }
+
+        public TimeSeries GetTimeSeries()
+        {
+            TimeSeries ts = new TimeSeries();
+            List<string> secIDs = new List<string>();
+            List<string> dates = new List<string>();
+            List<double> opens = new List<double>();
+            List<double> highs = new List<double>();
+            List<double> lows = new List<double>();
+            List<double> closes = new List<double>();
+            List<double> adjCloses = new List<double>();
+            List<double> dividends = new List<double>();
+            List<long> volumes = new List<long>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                dates.Add(Convert.ToDateTime(row["Date"]).ToString("yyyy-MM-dd"));
+                opens.Add(Math.Round(Convert.ToDouble(row["Open"]), 2));
+                highs.Add(Math.Round(Convert.ToDouble(row["High"]), 2));
+                lows.Add(Math.Round(Convert.ToDouble(row["Low"]), 2));
+                closes.Add(Math.Round(Convert.ToDouble(row["Close"]), 2));
+                adjCloses.Add(Math.Round(Convert.ToDouble(row["AdjClose"]), 2));
+                dividends.Add(Math.Round(Convert.ToDouble(row["Dividend"]), 2));
+                volumes.Add(Convert.ToInt64(row["Volume"]));
+            };
+            ts.Date = dates;
+            ts.Open = opens;
+            ts.High = highs;
+            ts.Low = lows;
+            ts.Close = closes;
+            ts.AdjClose = adjCloses;
+            ts.Dividend = dividends;
+            ts.Volume = volumes;
+            return ts;
+        }
     }
 }

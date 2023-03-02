@@ -30,7 +30,7 @@ namespace AMWP.Models
 
         [DisplayName("會員帳號")]
         [Required(ErrorMessage = "請輸入會員帳號")]
-        [EmailAddress(ErrorMessage = "帳號請輸入電子郵件信箱")]
+        [EmailAddress(ErrorMessage = "帳號請輸入電子郵件信箱")]        
         public string Account { get; set; }
 
         string password;

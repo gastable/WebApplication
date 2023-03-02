@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -14,7 +15,7 @@ namespace AMWP.Controllers
     public class WeeklyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
-
+        GetData gd = new GetData();
         public ActionResult Index(string order, int page = 1)
         {
             int pageSize = 15;
@@ -185,6 +186,19 @@ namespace AMWP.Controllers
             db.Weekly.Remove(weekly);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetWeeklyData(string symbol, int num)
+        {
+            string sql = "select w.* from Weekly as w inner join Securities as s on w.SecID = s.SecID where s.Symbol=@symbol and w.[Date] between DATEADD(week,-@num,GETDATE()) and GETDATE() order by w.[Date]";
+            List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("symbol",symbol),
+                 new SqlParameter("num",num)
+            };
+            DataTable dt = gd.TableQuery(sql, list);
+            var timeseries = gd.GetTimeSeries();
+
+            return Json(timeseries, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

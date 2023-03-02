@@ -150,11 +150,9 @@ namespace AMWP.Controllers
                 string sql = sqlSP;
                 List<SqlParameter> list = new List<SqlParameter> {
                  new SqlParameter("secid",secid)
-            };
-
+                };
                 sd.executeSP(sql,list);
-                TempData["uploads"] = symbol +"的"+ interval.Substring(0, interval.IndexOf("_"))+"資料已更新！";
-
+                TempData["uploads"] = symbol + "的" + interval.Substring(0, interval.IndexOf("_")) + "資料已更新！";
             }
             catch
             {
@@ -175,11 +173,10 @@ namespace AMWP.Controllers
                 string sql = sqlSP;
                 List<SqlParameter> list = new List<SqlParameter> {
                  new SqlParameter("secid",secid)
-            };
+                };
 
                 sd.executeSP(sql, list);
                 TempData["uploads"] = symbol + "的" + interval.Substring(0, interval.IndexOf("_")) + "資料已更新！";
-
             }
             catch
             {
@@ -190,86 +187,7 @@ namespace AMWP.Controllers
         }
 
 
-        public ActionResult Upload(HttpPostedFileBase postedFile)
-        {
-            string filePath = string.Empty;
-            if (postedFile != null)
-            {
-                string path = Server.MapPath("~/Uploads/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
 
-                filePath = path + Path.GetFileName(postedFile.FileName);
-                string extension = Path.GetExtension(postedFile.FileName);
-                postedFile.SaveAs(filePath);
-
-                //Create a DataTable.
-                DataTable dt = new DataTable();
-                dt.Columns.AddRange(new DataColumn[9] {
-                                new DataColumn("Date", typeof(DateTime)),
-                                new DataColumn("Open",typeof(double)),
-                                new DataColumn("High",typeof(double)),
-                                new DataColumn("Low",typeof(double)),
-                                new DataColumn("Close",typeof(double)),
-                                new DataColumn("AdjClose",typeof(double)),
-                                new DataColumn("Volume",typeof(long)),
-                                new DataColumn("Dividend",typeof(double)),
-                                new DataColumn("SplitCoefficient",typeof(double))});
-                DataColumn dc = new DataColumn("SecID", typeof(string));
-                dc.DefaultValue = "B00002";
-                dt.Columns.Add(dc);
-
-                //Read the contents of CSV file.
-                string csvData = System.IO.File.ReadAllText(filePath);
-
-                //Execute a loop over the rows.
-                foreach (string row in csvData.Split('\n'))
-                {
-                    if (!string.IsNullOrEmpty(row))
-                    {
-                        dt.Rows.Add();
-                        int i = 0;
-
-                        //Execute a loop over the columns.
-                        foreach (string cell in row.Split(','))
-                        {
-                            dt.Rows[dt.Rows.Count - 1][i] = cell;
-                            i++;
-                        }
-                    }
-                }
-
-                string conString = ConfigurationManager.ConnectionStrings["AMWPConnection"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(conString))
-                {
-                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
-                    {
-                        //Set the database table name.
-                        sqlBulkCopy.DestinationTableName = "dbo.Weekly";
-
-                        //[OPTIONAL]: Map the DataTable columns with that of the database table
-                        sqlBulkCopy.ColumnMappings.Add("SecID", "SecID");
-                        sqlBulkCopy.ColumnMappings.Add("Date", "Date");
-                        sqlBulkCopy.ColumnMappings.Add("Open", "Open");
-                        sqlBulkCopy.ColumnMappings.Add("High", "High");
-                        sqlBulkCopy.ColumnMappings.Add("Low", "Low");
-                        sqlBulkCopy.ColumnMappings.Add("Close", "Close");
-                        sqlBulkCopy.ColumnMappings.Add("AdjClose", "AdjClose");
-                        sqlBulkCopy.ColumnMappings.Add("Volume", "Volume");
-                        sqlBulkCopy.ColumnMappings.Add("Dividend", "Dividend");
-
-                        con.Open();
-                        sqlBulkCopy.WriteToServer(dt);
-                        con.Close();
-                    }
-                }
-            }
-
-            return RedirectToAction("Index");
-
-        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

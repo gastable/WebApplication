@@ -5,7 +5,7 @@ using System.Web;
 
 namespace AMWP.Models
 {
-    public class DailyData
+    public class TimeSeries
     {
         public List<string> SecID { get; set; }
         public List<string> Date { get; set; }

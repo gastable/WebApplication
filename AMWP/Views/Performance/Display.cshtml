@@ -3,7 +3,7 @@
     ViewBag.Title = "資產表現";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
-    int memberID = 3;
+    int memberID = 24;
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
@@ -19,8 +19,8 @@
         <button class="btn btn-outline-secondary" value="2">6個月</button>
         <button class="btn btn-outline-secondary" value="3">年度迄今</button>
         <button class="btn btn-outline-secondary" value="4">1年</button>
-        <button class="btn btn-outline-secondary" value="5">5年</button>
-        <button class="btn btn-outline-secondary active" value="6">最長</button>
+        <button class="btn btn-outline-secondary active" value="5">5年</button>
+        <button class="btn btn-outline-secondary" value="6">最長</button>
     </div> 
         @Html.ActionLink("回上頁", "Dashboard", "Dashboard", null, new {@class="btn btn-primary"})
         <canvas id="lineChart" aria-label="" role="img">
@@ -66,13 +66,10 @@
             var symbolstr = queryArr2 == null ? "VT" : queryArr2[1].toString();
         }
         catch { var symbolstr = "VT"; }
-
         
-        getDailyData(symbolstr,1825);
-
+        getWeeklyData(symbolstr,260);
 
         //取得api
-        /*getTimeSeries(symbolstr, "WEEKLY");  */      
         var data;
         var config;
         var lineChart
@@ -102,7 +99,7 @@
                     },
                     plugins: {
                         legend: {
-                            display: true,
+                            display: false,
                             onHover: (event, chartElement) => {
                                 event.native.target.style.cursor = 'pointer';
                             },
@@ -142,7 +139,7 @@
                     },
                     plugins: {
                         legend: {
-                            display: true,
+                            display: false,
                             onHover: (event, chartElement) => {
                                 event.native.target.style.cursor = 'pointer';
                             },
@@ -159,17 +156,16 @@
         };
 
        //換計算區間及指定按鈕要給的值
-        const tdays = getYearTradeDays();
-        const sliceNum = [-21, -63, -126, -tdays, -252, -1260,0];
-        const intervalIndex = ["DAILY", "DAILY", "DAILY", "DAILY", "DAILY", "DAILY", "DAILY"];
-        var stdIndex = [252, 252, 252, 252, 252, 252, 252];
+        const tdays = getDaysOfYear();
+        const sliceNum = [30, 92, 183, tdays, 52, 260,1500];
+        var stdIndex = [252, 252, 252, 252, 52, 52, 52];
                       
         //計算資產表現數據
         var lastPrice; //前日收盤價
         var change;  //漲跌額
-        var changePer  //漲跌幅
-        var fcloses //收盤價數值
-        var fAdjCloses //調整收盤價數值
+        var changePer;  //漲跌幅
+        var fcloses = []; //收盤價數值
+        var fAdjCloses = []; //調整收盤價數值
         var returnAry = []; //報酬
         var cagr; //年化報酬率
         var std;  //標準差
@@ -178,7 +174,7 @@
         var gross; //總報酬率
         var stdi = 52; //標準差乘數
 
-        getPerformance()
+        getPerformance();
         function getPerformance() {
             lastPrice = closes[closes.length - 1];
             change = (lastPrice - closes[closes.length - 2]).toFixed(2);
@@ -200,7 +196,7 @@
                     returnAry.push(value);
                 }
                 i++;
-            });            
+            });     
             std = math.round((math.std(returnAry) * math.sqrt(stdi)) * 100, 2);
             
             //畫表格
@@ -221,18 +217,25 @@
         $('#btngroup button').click(function (evt) {
             $('#btngroup button').removeClass('active');
             $(evt.target).addClass('active');
-            num = parseFloat($(evt.target).val());
-            stdi = stdIndex[num];
+            
             dates = [];
+            opens = [];
+            highs = [];
+            lows = [];
             closes = [];
             adjCloses = [];
             dividends = [];
+            volumes = [];
             returnAry = [];
-            getTimeSeries(symbolstr, intervalIndex[num]);  //依據區間再取一次api
-            dates = dates.slice(sliceNum[num]);
-            closes = closes.slice(sliceNum[num]);
-            adjCloses = adjCloses.slice(sliceNum[num]);
-            dividends = dividends.slice(sliceNum[num]);
+            fcloses = [];
+            fAdjCloses = [];
+
+            num = parseFloat($(evt.target).val());
+            if (num < 4)
+                getDailyData(symbolstr, sliceNum[num]);
+            else getWeeklyData(symbolstr, sliceNum[num]);
+
+            stdi = stdIndex[num];  
             annl = stdIndex[num];
             lineChart.destroy();
             barChart.destroy();
@@ -287,11 +290,8 @@
                 datasets: [{
                     label: symbolstr,
                     data: dividends,
-                    //borderColor: Utils.CHART_COLORS.blue,
-                    //backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
                     borderWidth: 2,
-                    borderRadius: 5,
-                    /*borderSkipped: false,*/
+                    borderRadius: 5
                 }]
             };
             config = {

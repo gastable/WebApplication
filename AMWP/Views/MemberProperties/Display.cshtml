@@ -1,98 +1,98 @@
-﻿@model IEnumerable<AMWP.Models.Properties>
+﻿@using System.Data;
 
+@model System.Data.DataTable
 @{
-    ViewBag.Title = "會員房產";
+    ViewBag.Title = "會員房產狀況";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
-    int memberID = 3;
+    int memberID = 24;
     string CCY = "USD";
+
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
         CCY = Convert.ToString(Session["CCY"]);
-    }
+    };
 }
 
-<h3 class="alert alert-info text-center">會員房產</h3>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Loan)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Term)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Principal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PayDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Currencies.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Members.Account)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-responsive">
+    <table class="table text-center">
+        <thead>
+            <tr>
+                @for(int i = 1; i < Model.Columns.Count; i++) { 
+                    <th width="11%">
+                        @Model.Columns[i]
+                    </th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Loan)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Term)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Principal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PayDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currencies.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Members.Account)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SSN }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SSN }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SSN })
-            </td>
-        </tr>
-    }
+                }
 
-</table>
+                <th>
+                    <button class="btn btn-primary" id="showAddForm"><i class="bi bi-plus-circle"></i> </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>
+                        @row["房產名稱"]
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(row["購置日期"]).ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                        @row["價格"]
+                    </td>
+                    <td>
+                        @row["貸款金額"]
+                    </td>
+                    <td>
+                        @row["貸款期數"]
+                    </td>
+                    <td>
+                        @row["每月還本金額"]
+                    </td>
+                    <td>
+                        @row["每月還款日"]
+                    </td>
+                    <td>
+                        @row["資產幣別"]
+                    </td>
+
+                    <td>
+                        <button class="btn bi-pencil-fill text-info" id="@(Convert.ToInt32(row["SSN"]))"></button>
+                        <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Properties", new { id = @row["SSN"] })" onclick="return confirm('您確定要刪除本筆房產嗎？')"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot id="addProperties">
+            <tr>
+                @Html.Action("_Create", "Properties")
+            </tr>
+        </tfoot>
+
+
+
+    </table>
+</div>
 @section CSS{
     <style>
-        .alert-info {
-            color: #0c5460;
-            background-color: #f6b0e8;
-            border-color: #bee5eb;
+        #addProperties {
+            display: none;
         }
     </style>
+}
+@section scripts{
+    <script>
+        $('#sidebarMenu .nav-link').removeClass('active');
+        $('#navLink4').addClass('active');
+
+       
+        $('#showAddForm').click(function () {
+
+            $('#addProperties').slideToggle(500);
+        });
+    </script>
 }

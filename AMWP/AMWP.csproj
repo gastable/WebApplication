@@ -166,6 +166,7 @@
     <Compile Include="Controllers\ManagementsController.cs" />
     <Compile Include="Controllers\MemberCashController.cs" />
     <Compile Include="Controllers\MemberLoginController.cs" />
+    <Compile Include="Controllers\MemberPropertiesController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\MemberSecuritiesController.cs" />
     <Compile Include="Controllers\MonthlyController.cs" />
@@ -212,7 +213,6 @@
     <Compile Include="Models\Daily.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DailyData.cs" />
     <Compile Include="Models\GetAlphaData.cs" />
     <Compile Include="Models\GetData.cs" />
     <Compile Include="Models\Managements.cs">
@@ -237,6 +237,7 @@
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SetData.cs" />
+    <Compile Include="Models\TimeSeries.cs" />
     <Compile Include="Models\Weekly.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
@@ -447,12 +448,6 @@
     <Content Include="Views\Managements\Index.cshtml" />
     <Content Include="Views\MemberCash\Display.cshtml" />
     <Content Include="Views\MemberLogin\Login.cshtml" />
-    <Content Include="Views\MemberProperties\Create.cshtml" />
-    <Content Include="Views\MemberProperties\Delete.cshtml" />
-    <Content Include="Views\MemberProperties\Details.cshtml" />
-    <Content Include="Views\MemberProperties\Display.cshtml" />
-    <Content Include="Views\MemberProperties\Edit.cshtml" />
-    <Content Include="Views\MemberProperties\Index.cshtml" />
     <Content Include="Views\MemberSecurities\DisplaySecOrders.cshtml" />
     <Content Include="Views\MemberSecurities\GetMemberSecPie.cshtml" />
     <Content Include="Views\MemberSecurities\_GetMemberSecList.cshtml" />
@@ -467,7 +462,7 @@
     <Content Include="Views\Monthly\Edit.cshtml" />
     <Content Include="Views\Monthly\Index.cshtml" />
     <Content Include="Views\Performance\Display.cshtml" />
-    <Content Include="Views\Properties\Create.cshtml" />
+    <Content Include="Views\Properties\_Create.cshtml" />
     <Content Include="Views\Properties\Delete.cshtml" />
     <Content Include="Views\Properties\Details.cshtml" />
     <Content Include="Views\Properties\Edit.cshtml" />
@@ -506,6 +501,7 @@
     <Content Include="Uploads\weekly_adjusted_VT.csv" />
     <Content Include="Views\MemberSecurities\_GetSecTypeList.cshtml" />
     <Content Include="Views\Securities\UploadAPI.cshtml" />
+    <Content Include="Views\MemberProperties\Display.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

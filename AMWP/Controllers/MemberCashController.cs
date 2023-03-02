@@ -52,16 +52,16 @@ namespace AMWP.Controllers
             DataTable ms = gd.TableQuery(sql, list);
 
             Chart pie = new Chart();
-            List<string> _labels = new List<string>();
-            List<double> _data = new List<double>();
+            List<string> labels = new List<string>();
+            List<double> data = new List<double>();
 
             foreach (DataRow row in ms.Rows)
             {
-                _labels.Add(Convert.ToString(row["Name"]));
-                _data.Add(Math.Round(Convert.ToDouble(row["ToCCY"]), 2));
+                labels.Add(Convert.ToString(row["Name"]));
+                data.Add(Math.Round(Convert.ToDouble(row["ToCCY"]), 2));
             };
-            pie.Labels = _labels;
-            pie.Data = _data;
+            pie.Labels = labels;
+            pie.Data = data;
             return Json(pie, JsonRequestBehavior.AllowGet);
 
         }

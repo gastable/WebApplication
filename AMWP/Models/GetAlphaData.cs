@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web;
-using Newtonsoft.Json;
 using ServiceStack;
 
 namespace AMWP.Models
@@ -16,6 +15,7 @@ namespace AMWP.Models
         public void TimeSeries(string apiUrl)
         {
             apiUrl = apiUrl.GetStringFromUrl();
+            
             var timeSeries = apiUrl.FromCsv<List<AlphaVantageData>>().ToList();
 
 
@@ -72,9 +72,9 @@ namespace AMWP.Models
                     sqlBulkCopy.ColumnMappings.Add("High", "High");
                     sqlBulkCopy.ColumnMappings.Add("Low", "Low");
                     sqlBulkCopy.ColumnMappings.Add("Close", "Close");
-                    sqlBulkCopy.ColumnMappings.Add("Adjusted Close", "AdjClose");
+                    sqlBulkCopy.ColumnMappings.Add("Adjusted_Close", "AdjClose");
                     sqlBulkCopy.ColumnMappings.Add("Volume", "Volume");
-                    sqlBulkCopy.ColumnMappings.Add("Dividend Amount", "Dividend");
+                    sqlBulkCopy.ColumnMappings.Add("Dividend_Amount", "Dividend");
 
                     con.Open();
                     sqlBulkCopy.WriteToServer(set.Tables[0]);

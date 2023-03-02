@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,6 +14,7 @@ namespace AMWP.Controllers
     public class MonthlyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
+        GetData gd = new GetData();
 
         public ActionResult Index(string order, int page = 1)
         {
@@ -184,6 +186,19 @@ namespace AMWP.Controllers
             db.Monthly.Remove(monthly);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetMonthlyData(string symbol, int num)
+        {
+            string sql = "select m.* from Monthly as m inner join Securities as s on m.SecID = s.SecID where s.Symbol=@symbol and m.[Date] between DATEADD(month,-@num,GETDATE()) and GETDATE() order by m.[Date]";
+            List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("symbol",symbol),
+                 new SqlParameter("num",num)
+            };
+            DataTable dt = gd.TableQuery(sql, list);
+            var timeseries = gd.GetTimeSeries();
+
+            return Json(timeseries, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

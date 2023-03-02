@@ -1,0 +1,81 @@
+﻿@model AMWP.Models.Properties
+
+@{
+
+    int memberID = 24;
+    string CCY = "USD";
+    if (Session["mem"] != null)
+    {
+        memberID = Convert.ToInt32(Session["mem"]);
+        CCY = Convert.ToString(Session["CCY"]);
+    };
+}
+
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "addForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <td hidden>
+        @Html.EditorFor(model => model.MemID, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.MemID, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Loan, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Loan, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Term, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Principal, new { htmlAttributes = new { @class = "form-control" }, style = "max-width:50" })
+        @Html.ValidationMessageFor(model => model.Principal, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.PayDay, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.PayDay, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownList("CCYID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
+    </td>
+
+    <td>
+        <input type="submit" value="確定" class="btn btn-success" id="btnSubmit" onclick="getDefault()" />
+    </td>
+
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+
+    function getDefault() {
+        document.getElementById("MemID").defaultValue = @memberID;
+        if ($('#addForm').valid()) {
+
+        };
+    };
+
+
+</script>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

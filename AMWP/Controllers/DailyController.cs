@@ -197,38 +197,9 @@ namespace AMWP.Controllers
                  new SqlParameter("num",num)
             };
             DataTable dt = gd.TableQuery(sql, list);
-
-            DailyData data = new DailyData();
-            List<string> secIDs = new List<string>();
-            List<string> dates = new List<string>();
-            List<double> opens = new List<double>();
-            List<double> highs = new List<double>();
-            List<double> lows = new List<double>();
-            List<double> closes = new List<double>();
-            List<double> adjCloses = new List<double>();
-            List<double> dividends = new List<double>();
-            List<long> volumes = new List<long>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                dates.Add(Convert.ToDateTime(row["Date"]).ToString("yyyy-MM-dd"));
-                opens.Add(Math.Round(Convert.ToDouble(row["Open"]) , 2));
-                highs.Add(Math.Round(Convert.ToDouble(row["High"]), 2));
-                lows.Add(Math.Round(Convert.ToDouble(row["Low"]), 2));
-                closes.Add(Math.Round(Convert.ToDouble(row["Close"]), 2));
-                adjCloses.Add(Math.Round(Convert.ToDouble(row["AdjClose"]), 2));
-                dividends.Add(Math.Round(Convert.ToDouble(row["Dividend"]), 2));
-                volumes.Add(Convert.ToInt64(row["Volume"]));
-            };
-            data.Date = dates;
-            data.Open = opens;
-            data.High = highs;
-            data.Low = lows;
-            data.Close = closes;
-            data.AdjClose = adjCloses;
-            data.Dividend = dividends;
-            data.Volume = volumes;
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var timeseries=gd.GetTimeSeries();
+            
+            return Json(timeseries, JsonRequestBehavior.AllowGet);
         }
 
 

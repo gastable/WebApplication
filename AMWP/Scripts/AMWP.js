@@ -106,7 +106,7 @@ function toUSD() {
 };
 
 
-//取資產成交資料
+//取AlphaVantage成交資料
 function getTimeSeries(symbol) {
     $.ajax({
         type: 'get',
@@ -149,7 +149,7 @@ function getTimeSeries(symbol) {
     });
 };
 
-//取資產成交資料+指定時間
+//取AlphaVantage成交資料+指定時間
 function getTimeSeries(symbol, interval) {
     $.ajax({
         type: 'get',
@@ -200,7 +200,49 @@ function getDailyData(symbol, num) {
         async: false,
         success: function (data) {
             let i;
-            console.log(data);
+            for (i = 0; i < data['Date'].length; i++) {
+                dates.push(data['Date'][i]);
+                opens.push(data['Open'][i]);
+                highs.push(data['High'][i]);
+                lows.push(data['Low'][i]);
+                closes.push(data['Close'][i]);
+                adjCloses.push(data['AdjClose'][i]);
+                dividends.push(data['Dividend'][i]);
+                volumes.push(data['Volume'][i]);
+            }
+        }
+    });
+};
+
+//取得周成交資料
+function getWeeklyData(symbol, num) {
+    $.ajax({
+        type: "get",
+        url: "http://localhost:56540/Weekly/GetWeeklyData?symbol=" + symbol + "&num=" + num,
+        async: false,
+        success: function (data) {
+            let i;
+            for (i = 0; i < data['Date'].length; i++) {
+                dates.push(data['Date'][i]);
+                opens.push(data['Open'][i]);
+                highs.push(data['High'][i]);
+                lows.push(data['Low'][i]);
+                closes.push(data['Close'][i]);
+                adjCloses.push(data['AdjClose'][i]);
+                dividends.push(data['Dividend'][i]);
+                volumes.push(data['Volume'][i]);
+            }
+        }
+    });
+};
+
+function getMonthlyData(symbol, num) {
+    $.ajax({
+        type: "get",
+        url: "http://localhost:56540/Monthly/GetMonthlyData?symbol=" + symbol + "&num=" + num,
+        async: false,
+        success: function (data) {
+            let i;
             for (i = 0; i < data['Date'].length; i++) {
                 dates.push(data['Date'][i]);
                 opens.push(data['Open'][i]);
@@ -244,3 +286,11 @@ function getYearTradeDays() {
     tdays += now.getDay() < 6 ? now.getDay() : 5;  //判斷本週天數(週日從0開始)後加上去
     return tdays;
 };
+
+//取得今年天數
+function getDaysOfYear() {
+    const today = new Date(year.toString(), now.getMonth(), now.getDate());
+    const firstday = new Date(year.toString(), 0, 1);
+    const dayDiff = parseFloat((today.getTime() - firstday.getTime()) / (1000 * 3600 * 24));
+    return dayDiff;
+}

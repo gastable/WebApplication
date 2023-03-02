@@ -122,9 +122,9 @@
                 async: false,
                 success: function (data) {
                     let i;
-                    for (i = 0; i < data['data'].length; i++) {
-                        doughnutData.push(data['data'][i]);
-                        doughnutLabels.push(data['labels'][i]);
+                    for (i = 0; i < data['Data'].length; i++) {
+                        doughnutData.push(data['Data'][i]);
+                        doughnutLabels.push(data['Labels'][i]);
                     }
                 }
             });
@@ -198,9 +198,9 @@
                 url: 'http://localhost:56540/MemberSecurities/GetValueLineChart/'+id,
                 async: false,
                 success: function (data) {
-                    for (let i = 0; i < data['data'].length; i++) {
-                        lineData.push(data['data'][i]);
-                        lineLabels.push(data['labels'][i]);
+                    for (let i = 0; i < data['Data'].length; i++) {
+                        lineData.push(data['Data'][i]);
+                        lineLabels.push(data['Labels'][i]);
                     }
                 }
             });

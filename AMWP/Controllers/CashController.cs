@@ -114,23 +114,23 @@ namespace AMWP.Controllers
             Cash cash = db.Cash.Find(id);
             if (cash == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Display", "MemberCash");
             }
             db.Cash.Remove(cash);
             db.SaveChanges();
             return RedirectToAction("Display", "MemberCash");
         }
 
-        // POST: Cash/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Cash cash = db.Cash.Find(id);
-            db.Cash.Remove(cash);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Cash/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Cash cash = db.Cash.Find(id);
+        //    db.Cash.Remove(cash);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
