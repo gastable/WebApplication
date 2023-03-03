@@ -56,11 +56,10 @@ namespace AMWP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var id = cash.MemID;
                 
                 db.Cash.Add(cash);
                 db.SaveChanges();
-                return RedirectToAction("Display", "MemberCash", new {id= id });
+                return RedirectToAction("Display", "MemberCash", new {id= cash.MemID });
             }
 
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
@@ -97,15 +96,15 @@ namespace AMWP.Controllers
             {
                 db.Entry(cash).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Display", "MemberCash");
+                return RedirectToAction("Display", "MemberCash", new { id = cash.MemID });
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", cash.MemID);
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", cash.CCYID);
-            return PartialView(cash);
+            return RedirectToAction("Display", "MemberCash", new { id = cash.MemID });
         }
 
         // GET: Cash/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id,int memid)
         {
             if (id == null)
             {
@@ -114,23 +113,15 @@ namespace AMWP.Controllers
             Cash cash = db.Cash.Find(id);
             if (cash == null)
             {
-                return RedirectToAction("Display", "MemberCash");
+                TempData["cash"] = "此種貨幣已歸零";
+                return RedirectToAction("Display", "MemberCash", new { id = memid });
             }
             db.Cash.Remove(cash);
             db.SaveChanges();
-            return RedirectToAction("Display", "MemberCash");
+            return RedirectToAction("Display", "MemberCash", new { id = memid });
         }
 
-        //// POST: Cash/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Cash cash = db.Cash.Find(id);
-        //    db.Cash.Remove(cash);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+       
 
         protected override void Dispose(bool disposing)
         {

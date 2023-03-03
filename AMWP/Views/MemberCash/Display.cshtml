@@ -35,8 +35,8 @@
                     <th>
                         現值(@CCY)
                     </th>
-                    <th>
-                       
+                    <th class="text-danger">
+                       @TempData["cash"]
                     </th>
                 </tr>
             </thead>
@@ -55,9 +55,12 @@
                             @Math.Round(Convert.ToDouble(@row["ToCCY"]), 2)
                         </td>
                         <td>
-                            <button class="btn bi-pencil-fill text-info" id="@(Convert.ToInt32(row["SSN"])==0? ""+"?CCYID=" + row["CCYID"] + "&name=" + row["Name"] : "/"+row["SSN"]+"?CCYID=" + row["CCYID"]+ "&name=" + row["Name"])" value="@(Convert.ToInt32(row["SSN"])==0? "_create":"_edit")" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)"></button>
-                            <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Cash", new { id = @row["SSN"] })" onclick="return confirm('您確定要清空本筆貨幣嗎？')"></a>
-
+                            <span data-toggle="tooltip" data-placement="top" title="修改金額">
+                                <button class="btn bi-pencil-fill text-info" id="@(Convert.ToInt32(row["SSN"])==0? ""+"?CCYID=" + row["CCYID"] + "&name=" + row["Name"] : "/"+row["SSN"]+"?CCYID=" + row["CCYID"]+ "&name=" + row["Name"])" value="@(Convert.ToInt32(row["SSN"])==0? "_create":"_edit")" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)"></button>
+                            </span>
+                            <span data-toggle="tooltip" data-placement="top" title="清空貨幣">
+                                <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Cash", new { id = @row["SSN"],memid=memberID })" onclick="return confirm('您確定要清空本筆貨幣嗎？')"></a>
+                            </span>
                         </td>
                     </tr>
 
@@ -109,6 +112,9 @@
             $('#editModal .modal-body').load("/Cash/"+value+ id);
         }    
 
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
         var pieChart;
         var pieData=[];
         var pieLabels = [];

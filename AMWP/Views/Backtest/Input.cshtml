@@ -9,19 +9,18 @@
         memberID = Convert.ToInt32(Session["mem"]);
     }
 }
-<h3 class="alert alert-info text-center">投資組合回測</h3>
+<h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
 
 
-<hr />
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-row align-items-end">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group col-md-4">
-            @Html.LabelFor(model => model.StartYear, htmlAttributes: new { @class = "control-label" })
-            <div class="">
+        <div class="form-group col-md-4 row align-items-baseline">
+            @Html.LabelFor(model => model.StartYear, htmlAttributes: new { @class = "control-label col text-right" })
+            <div class="col text-left">
                 <select id="StartYear" name="StartYear" class="form-control">
                     @for (int i = 2000; i <= 2023; i++)
                     {
@@ -31,9 +30,9 @@
                 @Html.ValidationMessageFor(model => model.StartYear, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group col-md-4">
-            @Html.LabelFor(model => model.EndYear, htmlAttributes: new { @class = "control-label" })
-            <div class="">
+        <div class="form-group col-md-4 row align-items-baseline">
+            @Html.LabelFor(model => model.EndYear, htmlAttributes: new { @class = "control-label col text-right" })
+            <div class="col text-left">
                 <select id="EndYear" name="EndYear" class="form-control">
                     @for (int i = 2000; i <= 2023; i++)
                     {
@@ -43,9 +42,9 @@
                 @Html.ValidationMessageFor(model => model.EndYear, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group col-md-4">
-            @Html.LabelFor(model => model.InitAmount, htmlAttributes: new { @class = "control-label" })
-            <div class="">
+        <div class="form-group col-md-4 row align-items-baseline">
+            @Html.LabelFor(model => model.InitAmount, htmlAttributes: new { @class = "control-label col text-right" })
+            <div class="col text-left">
                 <input id="InitAmount" name="InitAmount" type="text" class="form-control" value="10000" />
                 @Html.ValidationMessageFor(model => model.InitAmount, "", new { @class = "text-danger" })
             </div>
@@ -298,6 +297,50 @@
     </div>
 
 
+    <div class="form-row align-items-end">
+        <div class="form-group col-md-3 hidden">
+           
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="input-group-append">
+                <select id="Slice13" name="Slice13" class="form-control">
+                    @for (int i = 0; i <= 100; i = i + 5)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span class="input-group-text">%</span>
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="input-group-append">
+                <select id="Slice14" name="Slice14" class="form-control">
+                    @for (int i = 0; i <= 100; i = i + 5)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span class="input-group-text">%</span>
+                @Html.ValidationMessageFor(model => model.Slice14, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="input-group-append">
+                <select id="Slice15" name="Slice15" class="form-control">
+                    @for (int i = 0; i <= 100; i = i + 5)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span class="input-group-text">%</span>
+                @Html.ValidationMessageFor(model => model.Slice15, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
 
 
     <div class="form-group">
@@ -320,9 +363,9 @@
 }
 
 @section scripts {
-    <script> 
+    <script>
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink5 ').addClass('active');
     </script>
-   
+
 }

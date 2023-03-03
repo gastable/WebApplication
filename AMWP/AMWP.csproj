@@ -465,9 +465,7 @@
     <Content Include="Views\Properties\_Create.cshtml" />
     <Content Include="Views\Properties\Delete.cshtml" />
     <Content Include="Views\Properties\Details.cshtml" />
-    <Content Include="Views\Properties\Edit.cshtml" />
     <Content Include="Views\Properties\Index.cshtml" />
-    <Content Include="Views\Properties\OldIndex.cshtml" />
     <Content Include="Views\SecOrders\_Create.cshtml" />
     <Content Include="Views\SecOrders\Delete.cshtml" />
     <Content Include="Views\SecOrders\Details.cshtml" />
@@ -502,6 +500,7 @@
     <Content Include="Views\MemberSecurities\_GetSecTypeList.cshtml" />
     <Content Include="Views\Securities\UploadAPI.cshtml" />
     <Content Include="Views\MemberProperties\Display.cshtml" />
+    <Content Include="Views\Properties\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

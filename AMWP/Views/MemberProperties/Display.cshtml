@@ -15,34 +15,38 @@
 }
 
 <div class="table-responsive">
+    
     <table class="table text-center">
         <thead>
             <tr>
-                @for(int i = 1; i < Model.Columns.Count; i++) { 
-                    <th width="11%">
+                @for (int i = 1; i < Model.Columns.Count; i++)
+                {
+                    <th>
                         @Model.Columns[i]
                     </th>
 
                 }
 
-                <th>
-                    <button class="btn btn-primary" id="showAddForm"><i class="bi bi-plus-circle"></i> </button>
-                </th>
+            <th>
+                <span data-toggle="tooltip" data-placement="left" title="新增房產">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal" onclick="showCreateModal(event)" id="@memberID"><i class="bi bi-plus-circle"></i> </button>
+                </span>
+            </th>
             </tr>
         </thead>
         <tbody>
 
             @foreach (DataRow row in Model.Rows)
             {
-                <tr>
+                <tr id="@row["SSN"]">
                     <td>
                         @row["房產名稱"]
                     </td>
                     <td>
-                        @Convert.ToDateTime(row["購置日期"]).ToString("yyyy/MM/dd")
+                        @Convert.ToDateTime(row["貸款日期"]).ToString("yyyy/MM/dd")
                     </td>
                     <td>
-                        @row["價格"]
+                        @row["房產估值"]
                     </td>
                     <td>
                         @row["貸款金額"]
@@ -57,25 +61,40 @@
                         @row["每月還款日"]
                     </td>
                     <td>
-                        @row["資產幣別"]
+                        @row["貸款幣別"]
                     </td>
 
                     <td>
-                        <button class="btn bi-pencil-fill text-info" id="@(Convert.ToInt32(row["SSN"]))"></button>
-                        <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Properties", new { id = @row["SSN"] })" onclick="return confirm('您確定要刪除本筆房產嗎？')"></a>
+                        <span data-toggle="tooltip" data-placement="top" title="修改房產">
+                            <button class="btn bi-pencil-fill text-info" id="@(Convert.ToInt32(row["SSN"]))" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)"></button>
+                        </span>
+                        <span data-toggle="tooltip" data-placement="top" title="刪除房產">
+                            <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "Properties", new { id = @row["SSN"] })" onclick="return confirm('您確定要刪除本筆房產嗎？')"></a>
+                            </span>
                     </td>
                 </tr>
             }
         </tbody>
-        <tfoot id="addProperties">
-            <tr>
-                @Html.Action("_Create", "Properties")
-            </tr>
-        </tfoot>
-
-
-
     </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
 </div>
 @section CSS{
     <style>
@@ -89,10 +108,18 @@
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink4').addClass('active');
 
-       
-        $('#showAddForm').click(function () {
+        function showEditModal(evt) {
+            let id = evt.target.id;
+            $('#editModal .modal-body').load("/Properties/_Edit/" + id);
+        }
 
-            $('#addProperties').slideToggle(500);
-        });
+        function showCreateModal(evt) {
+            let id = evt.target.id;
+            $('#createModal .modal-body').load("/Properties/_Create?memId=" + id);
+        }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 }

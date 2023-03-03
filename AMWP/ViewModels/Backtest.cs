@@ -19,7 +19,7 @@ namespace AMWP.ViewModels
         [DisplayName("起始資金")]
         [DefaultValue(10000)]
         [Range(0,float.MaxValue)]
-        public decimal InitAmount { get; set; }
+        public float InitAmount { get; set; }
 
         [DisplayName("證券#1")]
         [Required(ErrorMessage ="請輸入證券代號")]

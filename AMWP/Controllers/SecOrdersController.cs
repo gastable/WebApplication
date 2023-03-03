@@ -55,7 +55,7 @@ namespace AMWP.Controllers
             {
                 db.SecOrders.Add(secOrders);
                 db.SaveChanges();
-                return RedirectToAction("DisplaySecOrders", "MemberSecurities");
+                return RedirectToAction("DisplaySecOrders", "MemberSecurities", new {id=secOrders.MemID});
             }
 
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
@@ -91,7 +91,7 @@ namespace AMWP.Controllers
             {
                 db.Entry(secOrders).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("DisplaySecOrders","MemberSecurities" );
+                return RedirectToAction("DisplaySecOrders","MemberSecurities", new { id = secOrders.MemID });
             }
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", secOrders.MemID);
             ViewBag.SecID = new SelectList(db.Securities, "SecID", "Symbol", secOrders.SecID);
@@ -112,7 +112,7 @@ namespace AMWP.Controllers
             }
             db.SecOrders.Remove(secOrders);
             db.SaveChanges();
-            return RedirectToAction("DisplaySecOrders", "MemberSecurities");
+            return RedirectToAction("DisplaySecOrders", "MemberSecurities", new { id = secOrders.MemID });
         }
 
        

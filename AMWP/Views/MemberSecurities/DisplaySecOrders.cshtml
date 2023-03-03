@@ -95,8 +95,12 @@
                         @Math.Round(Convert.ToDouble(row["Fee"]), 2)
                     </td>
                     <td>
-                        <button class="btn bi bi-pencil-fill text-info" id="@row["SSN"]" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)" value="@row["Date"]"></button>
-                        <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "SecOrders", new { id = @row["SSN"] })" onclick="return confirm('您確定要刪除本筆明細嗎？')"></a>
+                        <span data-toggle="tooltip" data-placement="top" title="修改交易明細">
+                            <button class="btn bi bi-pencil-fill text-info" id="@row["SSN"]" data-toggle="modal" data-target="#editModal" onclick="showEditModal(event)" value="@row["Date"]"></button>
+                        </span>
+                        <span data-toggle="tooltip" data-placement="top" title="刪除交易明細">
+                            <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Delete", "SecOrders", new { id = @row["SSN"] })" onclick="return confirm('您確定要刪除本筆明細嗎？')"></a>
+                        </span>
                     </td>
                 </tr>
             }
@@ -129,15 +133,17 @@
         $('#navLink2').addClass('active');
         function showEditModal(evt) {
             let id = evt.target.id;
-            //let value = evt.target.value;
             $('#editModal .modal-body').load("/SecOrders/_Edit/" + id);
         }
 
         function showCreateModal(evt) {
             let id = evt.target.id;
-            //let value = evt.target.value;
             $('#createModal .modal-body').load("/SecOrders/_Create/?memId=" + id);
         }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
 
         var pieChart;
         var pieData=[];

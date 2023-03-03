@@ -38,7 +38,7 @@ namespace MCSDD10.Models
         [DisplayName("單價")]
         [Required(ErrorMessage = ("請填寫單價"))]
         [Range(0,short.MaxValue,ErrorMessage ="單價不可小於0")]
-        [DisplayFormat(DataFormatString ="{0:C0}",ApplyFormatInEditMode =true)]
+        [DisplayFormat(DataFormatString ="{0:C0}",ApplyFormatInEditMode =false)]
         public short UnitPrice { get; set; }  //老師要求用短整數
 
         [DisplayName("產品說明")]

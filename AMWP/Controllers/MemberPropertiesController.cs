@@ -16,7 +16,7 @@ namespace AMWP.Controllers
         // GET: MemberProperties
         public ActionResult Display(int id = 24)
         {
-            string sql = "select p.SSN, p.[Name] as 房產名稱,p.[Date] as 購置日期,p.Price as 價格,p.Loan as 貸款金額,p.Term as 貸款期數,p.Principal as 每月還本金額,p.PayDay as 每月還款日,c.[Name] as 資產幣別 from Properties as p inner join Currencies as c on p.CCYID=c.CCYID where MemID=@id";
+            string sql = "select p.SSN, p.[Name] as 房產名稱,p.[Date] as 貸款日期,p.Price as 房產估值,p.Loan as 貸款金額,p.Term as 貸款期數,p.Principal as 每月還本金額,p.PayDay as 每月還款日,c.[Name] as 貸款幣別 from Properties as p inner join Currencies as c on p.CCYID=c.CCYID where MemID=@id";
             List<SqlParameter> list = new List<SqlParameter>()
             {
                 new SqlParameter("id", id)
@@ -32,6 +32,17 @@ namespace AMWP.Controllers
             }
             ViewBag.MemID = id;
             return View(mp);
+        }
+
+        public ActionResult GetPropertyNetValue(int id = 24)
+        {
+            var properties = db.Properties.Where(p => p.MemID == id);
+            Chart lieChart = new Chart();
+            List<string> labels = new List<string>();
+            List<double> data = new List<double>();
+            List<double> data2 = new List<double>();
+
+            return View(properties);
         }
     }
 }

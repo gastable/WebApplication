@@ -38,12 +38,10 @@ namespace AMWP.Controllers
         }
 
         // GET: Properties/Create
-        public ActionResult _Create(string name)
+        public ActionResult _Create(int memId)
         {
+            ViewBag.MemID = memId;
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name");
-            ViewBag.MemID = new SelectList(db.Members, "MemID", "Account");
-            ViewBag.Name = name;
-            TempData["CCYName"] = name;
             return PartialView();
         }
 
@@ -58,16 +56,15 @@ namespace AMWP.Controllers
             {
                 db.Properties.Add(properties);
                 db.SaveChanges();
-                return PartialView();
+                return RedirectToAction("Display", "MemberProperties", new {id=properties.MemID});
             }
 
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", properties.CCYID);
-            ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", properties.MemID);
-            return PartialView();
+            return PartialView(properties);
         }
 
         // GET: Properties/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult _Edit(int? id)
         {
             if (id == null)
             {
@@ -80,7 +77,7 @@ namespace AMWP.Controllers
             }
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", properties.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", properties.MemID);
-            return View(properties);
+            return PartialView(properties);
         }
 
         // POST: Properties/Edit/5
@@ -88,14 +85,13 @@ namespace AMWP.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SSN,MemID,Name,Price,Date,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
+        public ActionResult _Edit([Bind(Include = "SSN,MemID,Name,Price,Date,Loan,Term,Principal,PayDay,CCYID")] Properties properties)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(properties).State = EntityState.Modified;
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-                return Redirect("/Properties/Index");
+                return RedirectToAction("Display", "MemberProperties", new { id = properties.MemID });
             }
             ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", properties.CCYID);
             ViewBag.MemID = new SelectList(db.Members, "MemID", "Account", properties.MemID);
@@ -112,24 +108,13 @@ namespace AMWP.Controllers
             Properties properties = db.Properties.Find(id);
             if (properties == null)
             {
-                return RedirectToAction("Display", "MemberProperties");
+                return HttpNotFound();
             }
             db.Properties.Remove(properties);
             db.SaveChanges();
-            return RedirectToAction("Display", "MemberProperties");
+            return RedirectToAction("Display", "MemberProperties", new { id = properties.MemID });
         }
 
-        //// POST: Properties/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Properties properties = db.Properties.Find(id);
-        //    db.Properties.Remove(properties);
-        //    db.SaveChanges();
-        //    //return RedirectToAction("Index");
-        //    return Redirect("/Properties/Index");
-        //}
 
         protected override void Dispose(bool disposing)
         {

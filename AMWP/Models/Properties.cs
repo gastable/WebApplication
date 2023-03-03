@@ -50,7 +50,7 @@ namespace AMWP.Models
         [Range(0, short.MaxValue, ErrorMessage = "期數不可小於0")]
         public short Term { get; set; }
 
-        [DisplayName("每月還款本金")]
+        [DisplayName("每月還本金額")]
         [Required(ErrorMessage = "請填寫每月還款本金")]
         [Range(0, double.MaxValue, ErrorMessage = "金額不可小於0")]
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = false)]
