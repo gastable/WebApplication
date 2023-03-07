@@ -3,8 +3,16 @@
 @{
     int memberID = 24;
     string CCY = "USD";
-    decimal sum = 0;
-    decimal sumReturn = 0;
+    double sumCost = 0;
+    double sumPV = 0;
+    foreach (DataRow row in Model.Rows)
+    {
+        sumCost += (Math.Round(Convert.ToDouble(row["AvgCost"]) * Convert.ToDouble(row["Share"]) * Convert.ToDouble(row["ExchRate"]) * Convert.ToDouble(row["ToCCY"]), 2));
+        sumPV += (Math.Round(Convert.ToDouble(row["Close"]) * Convert.ToDouble(row["Share"]) * Convert.ToDouble(row["ExchRate"]) * Convert.ToDouble(row["ToCCY"]), 2));
+
+    }
+
+    Session["secSum"] = sumPV;
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
@@ -47,22 +55,22 @@
                     <a class="btn btn-@row["TypeID"] btn-sm" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :memberID,symbol =@row["Symbol"] })">@row["Symbol"]</a>
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["Share"]), 2)
+                    @Math.Round(Convert.ToDouble(row["Share"]), 2)
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["AvgCost"]), 2)
+                    @Math.Round(Convert.ToDouble(row["AvgCost"]), 2)
                 </td>
                 <td>
-                    @Math.Round(Convert.ToDecimal(row["Close"]), 2)
+                    @Math.Round(Convert.ToDouble(row["Close"]), 2)
                 </td>
                 <td>
-                    @(Math.Round(((Convert.ToDecimal(row["Close"])-Convert.ToDecimal(row["AvgCost"]))* Convert.ToDecimal(row["Share"])), 2))
+                    @(Math.Round(((Convert.ToDouble(row["Close"])-Convert.ToDouble(row["AvgCost"]))* Convert.ToDouble(row["Share"])), 2))
                 </td>
                 <td>
-                    @(Math.Round((((Convert.ToDecimal(row["Close"])-Convert.ToDecimal(row["AvgCost"]))* Convert.ToDecimal(row["Share"]))/(Convert.ToDecimal(row["AvgCost"])* Convert.ToDecimal(row["Share"])))*100, 2)) %
+                    @(Math.Round((((Convert.ToDouble(row["Close"])-Convert.ToDouble(row["AvgCost"]))* Convert.ToDouble(row["Share"]))/(Convert.ToDouble(row["AvgCost"])* Convert.ToDouble(row["Share"])))*100, 2)) %
                 </td>
                 <td>
-                    @(Math.Round(Convert.ToDecimal(row["Close"])*Convert.ToDecimal(row["Share"])*Convert.ToDecimal(row["ExchRate"])*Convert.ToDecimal(row["ToCCY"]),2))
+                    @(Math.Round(Convert.ToDouble(row["Close"])*Convert.ToDouble(row["Share"])*Convert.ToDouble(row["ExchRate"])*Convert.ToDouble(row["ToCCY"]),2))
                 </td>
             </tr>
         }
@@ -70,30 +78,25 @@
     <tfoot>
         <tr>
             <td>
-                總計
+                <strong>
+                    總計
+                </strong>
             </td>
             <td>
             </td>
             <td>
+                @sumCost
             </td>
             <td>
             </td>
             <td>
-                @foreach (DataRow row in Model.Rows)
-                {
-                    sumReturn += (Math.Round(((Convert.ToDecimal(row["Close"]) - Convert.ToDecimal(row["AvgCost"])) * Convert.ToDecimal(row["Share"])), 2));
-                }
-                @sumReturn
+                @Math.Round((sumPV - sumCost),2)
             </td>
             <td>
+                @(Math.Round((sumPV - sumCost)/ sumCost*100,2)) %
             </td>
-            <td>
-                @foreach (DataRow row in Model.Rows)
-                {
-                    sum += (Math.Round(Convert.ToDecimal(row["Close"]) * Convert.ToDecimal(row["Share"]) * Convert.ToDecimal(row["ExchRate"]) * Convert.ToDecimal(row["ToCCY"]), 2));
-
-                }
-                @(Session["secSum"] = sum)
+            <td>               
+                @sumPV
             </td>
         </tr>
     </tfoot>
@@ -101,4 +104,4 @@
 </table>
 
 
-    
+

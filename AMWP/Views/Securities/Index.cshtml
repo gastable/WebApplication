@@ -5,12 +5,12 @@
 }
 <hr />
 <h3 class="alert alert-info text-center">證券列表</h3>
-
+<div class="col-md-4 text-right mb-3">
+    @Html.ActionLink("新增證券", "Create", null, new { @class = "btn btn-primary", id = "btnCreate" })
+</div>
 <div class="row">
     <h4 class="col-md-8 text-right text-danger">@TempData["ForeignKey"] @TempData["uploads"]</h4>
-    <div class="col-md-4 text-right mb-3">
-        @Html.ActionLink("新增證券", "Create", null, new { @class = "btn btn-primary" })
-    </div>
+    
 </div>
 <table class="table table-striped table-hover text-center">
     <thead class="thead-dark">
@@ -108,6 +108,12 @@
             color: #212529;
             background-color: #8cd9f5;
             border-color: #8cd9f5;
+        }
+
+        #btnCreate {
+            position: fixed;
+            top: 95px;
+            right: 450px;
         }
     </style>
 }

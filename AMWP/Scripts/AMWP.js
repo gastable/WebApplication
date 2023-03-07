@@ -140,7 +140,6 @@ function getTimeSeries(symbol) {
             adjCloses.reverse();
             volumes.reverse();
             dividends.reverse();
-            console.log(adjCloses);
 
         },
         error: function () {
@@ -159,7 +158,7 @@ function getTimeSeries(symbol, interval) {
             if (data["Note"] != null) {
                 alert('市場資料提供網站發生錯誤，請稍後再使用，造成您的不便請見諒！');
             };
-            console.log(data['Weekly Adjusted Time Series']);
+            //console.log(data['Weekly Adjusted Time Series']);
             var i = 0;
             $.each(data, function (objectTitle, objects) {
 
@@ -196,7 +195,7 @@ function getTimeSeries(symbol, interval) {
 function getDailyData(symbol, num) {
     $.ajax({
         type: "get",
-        url: "http://localhost:56540/Daily/GetDailyData?symbol=" + symbol + "&num=" + num,
+        url: "http://localhost:56540/Performance/GetDailyData?symbol=" + symbol + "&num=" + num,
         async: false,
         success: function (data) {
             let i;
@@ -218,7 +217,7 @@ function getDailyData(symbol, num) {
 function getWeeklyData(symbol, num) {
     $.ajax({
         type: "get",
-        url: "http://localhost:56540/Weekly/GetWeeklyData?symbol=" + symbol + "&num=" + num,
+        url: "http://localhost:56540/Performance/GetWeeklyData?symbol=" + symbol + "&num=" + num,
         async: false,
         success: function (data) {
             let i;
@@ -239,7 +238,7 @@ function getWeeklyData(symbol, num) {
 function getMonthlyData(symbol, num) {
     $.ajax({
         type: "get",
-        url: "http://localhost:56540/Monthly/GetMonthlyData?symbol=" + symbol + "&num=" + num,
+        url: "http://localhost:56540/Performance/GetMonthlyData?symbol=" + symbol + "&num=" + num,
         async: false,
         success: function (data) {
             let i;

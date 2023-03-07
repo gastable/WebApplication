@@ -37,13 +37,19 @@ namespace AMWP.Controllers
 
             if (rd.HasRows)
             {
-                Session["mem"] = rd["MemID"];
-                Session["CCY"] = rd["CCYID"];
-                rd.Close();                
-                return RedirectToAction("Dashboard", "Dashboard", new {id= Session["mem"],ccy= Session["CCY"] });
+                if (Convert.ToBoolean(rd["Status"]) == true)
+                {
+                    Session["mem"] = rd["MemID"];
+                    Session["CCY"] = rd["CCYID"];
+                    rd.Close();  
+                    return RedirectToAction("Dashboard", "Dashboard", new {id= Session["mem"],ccy= Session["CCY"] });
+                }
+                ViewBag.ErrMsg = "會員帳號已封鎖！";                
             }
-
-            ViewBag.ErrMsg = "帳號或密碼錯誤";
+            else
+            {
+            ViewBag.ErrMsg = "帳號或密碼錯誤！";
+            }
             ViewBag.txtAccount = memberLogin.Account;
             ViewBag.txtPassword = memberLogin.Password;
             rd.Close();      //關閉讀取器，連帶關閉連線

@@ -186,7 +186,21 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-
+        public JsonResult SearchSymbol(string query)
+        {
+            query += "%";
+            string sql = "select Symbol from Securities where Symbol like @query";
+            List<SqlParameter> list = new List<SqlParameter> {
+                 new SqlParameter("query",query)
+            };
+            DataTable ms = gd.TableQuery(sql, list);
+            List<string> symbols = new List<string>();
+            foreach(DataRow row in ms.Rows)
+            {
+                symbols.Add(Convert.ToString(row["Symbol"]));
+            }
+            return Json(symbols, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {

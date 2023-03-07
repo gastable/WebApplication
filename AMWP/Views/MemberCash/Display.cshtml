@@ -19,9 +19,9 @@
 
 }
 
-<h4 class="text-danger">@ViewBag.CashMsg</h4>
+<h4 class="text-danger text-center">@ViewBag.CashMsg</h4>
 <div class="row justify-content-around align-items-center ">
-    <div class="col-md-8" >
+    <div class="col-md-8">
         <h3 class="text-center mb-3">會員現金庫存</h3>
         <table class="table text-center">
             <thead>
@@ -36,7 +36,7 @@
                         現值(@CCY)
                     </th>
                     <th class="text-danger">
-                       @TempData["cash"]
+                        @TempData["cash"]
                     </th>
                 </tr>
             </thead>
@@ -94,10 +94,10 @@
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">           
+        <div class="modal-content">
             <div class="modal-body">
-                
-            </div>           
+
+            </div>
         </div>
     </div>
 </div>
@@ -108,9 +108,9 @@
         $('#navLink3').addClass('active');
         function showEditModal(evt) {
             let id = evt.target.id;
-            let value = evt.target.value;            
+            let value = evt.target.value;
             $('#editModal .modal-body').load("/Cash/"+value+ id);
-        }    
+        }
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()

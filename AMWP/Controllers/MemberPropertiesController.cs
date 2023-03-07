@@ -28,7 +28,7 @@ namespace AMWP.Controllers
             }
             if (mp.Rows.Count == 0)
             {
-                ViewBag.Msg = "您目前無現金庫存資料！";
+                ViewBag.Msg = "您目前無房產資料！";
             }
             ViewBag.MemID = id;
             return View(mp);

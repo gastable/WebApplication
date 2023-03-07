@@ -189,19 +189,7 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult GetDailyData(string symbol,int num)
-        {
-            string sql = "select d.* from daily as d inner join Securities as s on d.SecID = s.SecID where s.Symbol=@symbol and d.[Date] between DATEADD(day,-@num,GETDATE()) and GETDATE() order by d.[Date]";
-            List<SqlParameter> list = new List<SqlParameter> {
-                 new SqlParameter("symbol",symbol),
-                 new SqlParameter("num",num)
-            };
-            DataTable dt = gd.TableQuery(sql, list);
-            var timeseries=gd.GetTimeSeries();
-            
-            return Json(timeseries, JsonRequestBehavior.AllowGet);
-        }
-
+        
 
         protected override void Dispose(bool disposing)
         {

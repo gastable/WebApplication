@@ -188,19 +188,7 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult GetMonthlyData(string symbol, int num)
-        {
-            string sql = "select m.* from Monthly as m inner join Securities as s on m.SecID = s.SecID where s.Symbol=@symbol and m.[Date] between DATEADD(month,-@num,GETDATE()) and GETDATE() order by m.[Date]";
-            List<SqlParameter> list = new List<SqlParameter> {
-                 new SqlParameter("symbol",symbol),
-                 new SqlParameter("num",num)
-            };
-            DataTable dt = gd.TableQuery(sql, list);
-            var timeseries = gd.GetTimeSeries();
-
-            return Json(timeseries, JsonRequestBehavior.AllowGet);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Action, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Action, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Action, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -74,9 +74,16 @@
             background-color: #acf2d4;
             border-color: #bee5eb;
         }
+        textarea{
+            width:100%;
+        }
     </style>
 }
 
-@section Scripts {
+@section scripts {
+    <script>    
+        $('textarea').attr('rows', '3');
+
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

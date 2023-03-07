@@ -188,19 +188,7 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult GetWeeklyData(string symbol, int num)
-        {
-            string sql = "select w.* from Weekly as w inner join Securities as s on w.SecID = s.SecID where s.Symbol=@symbol and w.[Date] between DATEADD(week,-@num,GETDATE()) and GETDATE() order by w.[Date]";
-            List<SqlParameter> list = new List<SqlParameter> {
-                 new SqlParameter("symbol",symbol),
-                 new SqlParameter("num",num)
-            };
-            DataTable dt = gd.TableQuery(sql, list);
-            var timeseries = gd.GetTimeSeries();
-
-            return Json(timeseries, JsonRequestBehavior.AllowGet);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

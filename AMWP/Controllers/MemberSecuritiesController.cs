@@ -128,5 +128,7 @@ namespace AMWP.Controllers
             var ms = gd.TableQueryBySP(sql, list);
             return PartialView(ms);
         }
+
+        
     }
 }

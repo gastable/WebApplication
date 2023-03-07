@@ -8,352 +8,371 @@
     {
         memberID = Convert.ToInt32(Session["mem"]);
     }
+    string selected = "";
 }
 <h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
+<div>
 
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        <div class="form-row align-items-end">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-md-4 row align-items-baseline">
+                @Html.LabelFor(model => model.StartYear, htmlAttributes: new { @class = "control-label col text-right" })
+                <div class="col text-left">
+                    <select id="StartYear" name="StartYear" class="form-control">
+                        @for (int i = 2000; i <= 2023; i++)
+                        {
+                            selected = i == ViewBag.StartYear ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.StartYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-md-4 row align-items-baseline">
+                @Html.LabelFor(model => model.EndYear, htmlAttributes: new { @class = "control-label col text-right" })
+                <div class="col text-left">
+                    <select id="EndYear" name="EndYear" class="form-control">
+                        @for (int i = 2000; i <= 2023; i++)
+                        {
+                            selected = i == ViewBag.EndYear ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.EndYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-md-4 row align-items-baseline">
+                @Html.LabelFor(model => model.InitAmount, htmlAttributes: new { @class = "control-label col text-right" })
+                <div class="col text-left">
+                    <input id="InitAmount" name="InitAmount" type="text" class="form-control" value="10000" />
+                    @Html.ValidationMessageFor(model => model.InitAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Symbol1, htmlAttributes: new { @class = "control-label" })
+                <div id="symbolInput">
+                    @Html.EditorFor(model => model.Symbol1, new { htmlAttributes = new { @class = "form-control symbol" } })
+                    @Html.ValidationMessageFor(model => model.Symbol1, "", new { @class = "text-danger" })
+                    <div class="list-group results">
 
-    <div class="form-row align-items-end">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group col-md-4 row align-items-baseline">
-            @Html.LabelFor(model => model.StartYear, htmlAttributes: new { @class = "control-label col text-right" })
-            <div class="col text-left">
-                <select id="StartYear" name="StartYear" class="form-control">
-                    @for (int i = 2000; i <= 2023; i++)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                @Html.ValidationMessageFor(model => model.StartYear, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4 row align-items-baseline">
-            @Html.LabelFor(model => model.EndYear, htmlAttributes: new { @class = "control-label col text-right" })
-            <div class="col text-left">
-                <select id="EndYear" name="EndYear" class="form-control">
-                    @for (int i = 2000; i <= 2023; i++)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                @Html.ValidationMessageFor(model => model.EndYear, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4 row align-items-baseline">
-            @Html.LabelFor(model => model.InitAmount, htmlAttributes: new { @class = "control-label col text-right" })
-            <div class="col text-left">
-                <input id="InitAmount" name="InitAmount" type="text" class="form-control" value="10000" />
-                @Html.ValidationMessageFor(model => model.InitAmount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <hr />
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Asset1, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Asset1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Asset1, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Slice1, "投資組合#1", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
-            <div class="input-group-append">
-                <select id="Slice1" name="Slice1" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice1, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Slice2, "投資組合#2", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
-            <div class="input-group-append">
-                <select id="Slice2" name="Slice2" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice2, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Slice1, "投資組合#1", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
+                <div class="input-group-append">
+                    <select id="Slice1" name="Slice1" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice1, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Slice3, "投資組合#3", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
-            <div class="input-group-append">
-                <select id="Slice3" name="Slice3" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice3, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Slice2, "投資組合#2", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
+                <div class="input-group-append">
+                    <select id="Slice2" name="Slice2" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice2, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Asset2, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Asset2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Asset2, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice4" name="Slice4" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice4, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Slice3, "投資組合#3", htmlAttributes: new { @class = "control-label" }) <i class="bi bi-gear" role="button"></i>
+                <div class="input-group-append">
+                    <select id="Slice3" name="Slice3" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice3, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
+        <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Symbol2, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Symbol2, new { htmlAttributes = new { @class = "form-control symbol" } })
+                    @Html.ValidationMessageFor(model => model.Symbol2, "", new { @class = "text-danger" })
+                    <div class="list-group results">
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice5" name="Slice5" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice5, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice6" name="Slice6" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice6, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice4" name="Slice4" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice4, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Asset3, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Asset3, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Asset3, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice7" name="Slice7" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice7, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice5" name="Slice5" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice5, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice8" name="Slice8" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice8, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice6" name="Slice6" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice6, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
+        <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Symbol3, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Symbol3, new { htmlAttributes = new { @class = "form-control symbol" } })
+                    @Html.ValidationMessageFor(model => model.Symbol3, "", new { @class = "text-danger" })
+                    <div class="list-group results">
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice9" name="Slice9" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice9, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Asset4, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Asset4, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Asset4, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice10" name="Slice10" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice10, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice7" name="Slice7" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice7, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice8" name="Slice8" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice8, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice9" name="Slice9" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice9, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
+        <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Symbol4, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Symbol4, new { htmlAttributes = new { @class = "form-control symbol" } })
+                    @Html.ValidationMessageFor(model => model.Symbol4, "", new { @class = "text-danger" })
+                    <div class="list-group results">
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice11" name="Slice11" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice11, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice12" name="Slice12" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice12, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice10" name="Slice10" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice10, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3">
-            @Html.LabelFor(model => model.Asset5, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Asset5, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Asset5, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice11" name="Slice11" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice11, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice13" name="Slice13" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice13, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice12" name="Slice12" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice12, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice14" name="Slice14" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice14, "", new { @class = "text-danger" })
+        <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+                @Html.LabelFor(model => model.Symbol5, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Symbol5, new { htmlAttributes = new { @class = "form-control symbol" } })
+                    @Html.ValidationMessageFor(model => model.Symbol5, "", new { @class = "text-danger" })
+                    <div class="list-group results" id="result5">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice13" name="Slice13" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice13, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice14" name="Slice14" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice14, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <select id="Slice15" name="Slice15" class="form-control">
+                        @for (int i = 0; i <= 100; i = i + 5)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="input-group-text">%</span>
+                    @Html.ValidationMessageFor(model => model.Slice15, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice15" name="Slice15" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice15, "", new { @class = "text-danger" })
+
+        <div class="form-row align-items-center">
+            <div class="form-group col-md-3 text-center">
+                佔比總計
             </div>
-        </div>
-    </div>
 
-
-    <div class="form-row align-items-end">
-        <div class="form-group col-md-3 hidden">
-           
-        </div>
-
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice13" name="Slice13" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <input id="sum1" name="sum1" class="form-control" readonly type="number"/>
+                        
+                    <span class="input-group-text">%</span>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice14" name="Slice14" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice14, "", new { @class = "text-danger" })
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <input id="sum2" name="sum2" class="form-control" readonly type="number" />
+
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="input-group-append">
+                    <input id="sum3" name="sum3" class="form-control" readonly type="number" />
+
+                    <span class="input-group-text">%</span>
+                </div>
             </div>
         </div>
 
-        <div class="form-group col-md-3">
-            <div class="input-group-append">
-                <select id="Slice15" name="Slice15" class="form-control">
-                    @for (int i = 0; i <= 100; i = i + 5)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-                <span class="input-group-text">%</span>
-                @Html.ValidationMessageFor(model => model.Slice15, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            <div class="col-md-11 text-right">
+                <input type="submit" value="開始回測" class="btn btn-primary" id="btnSubmit"/>
             </div>
         </div>
-    </div>
+    }
+</div>
+<button class="btn btn-success" id="btnJSON">測試json</button>
+<h5>@ViewBag.Results</h5>
+   
+    <h5 class="text-danger">@ViewBag.Nodata</h5>
+    <h5 class="text-danger">@ViewBag.NoSymbol</h5>
 
 
 
-    <div class="form-group">
-        <div class="col-md-11 text-right">
-            <input type="submit" value="開始回測" class="btn btn-primary" />
-        </div>
-    </div>
-
-}
 
 
 @section CSS{
     <style>
+        .results {
+            position: absolute;
+            width: 75%;
+            z-index: 2000;
+        }
+
         .alert-info {
             color: #0c5460;
             background-color: #dabef5;
@@ -366,6 +385,53 @@
     <script>
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink5 ').addClass('active');
+
+        // 當用戶輸入時，使用Ajax向控制器發送請求
+        $('.symbol').on('input', function (evt) {
+            $('.results').empty();
+            var id = evt.target.id;
+            id = "#" + id + " ~div";
+            var query = $(this).val();
+            if (query !== '') {
+                $.ajax({
+                    url: '/Securities/SearchSymbol',
+                    async: false,
+                    data: { query: query },
+                    success: function (data) {
+                        // 將查詢結果顯示在頁面上
+                        $.each(data, function (index, item) {
+                            $(id).append('<button class="list-group-item list-group-item-action" onclick="setValue(event)" id="' + item + '">' + item + '</button>');
+                        });
+                    }
+                });
+            };
+        });
+
+        function setValue(evt) {
+            var selectedValue = evt.target.id;
+            var id = "#" + selectedValue;
+            $(id).parent().prev().prev().val(selectedValue);
+            $('.results').hide();
+        }
+
+            $.ajax({
+                type: "get",
+                url: @Url.Action("Input"),
+                
+                success: function (data) {
+                    console.log(data);
+                    //let i;
+                    //for (i = 0; i < data['Data'].length; i++) {
+                    //    doughnutData.push(data['Data'][i]);
+                    //    doughnutLabels.push(data['Labels'][i]);
+                    //}
+                }
+            });
+
+
+
+            
+       
     </script>
 
 }

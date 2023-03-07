@@ -1,4 +1,4 @@
-﻿@model AMWP.ViewModels.Dashboard
+﻿
 
 @{
     ViewBag.Title = "會員資產管理";
@@ -6,9 +6,7 @@
 
     int memberID = 24;
     string CCY = "USD";
-    var cashSum = Convert.ToDouble(Session["cashSum"]);
-    var secSum = Convert.ToDouble(Session["secSum"]);
-    var pptySum = Convert.ToDouble(Session["pptySum"]);
+    
     if (Session["mem"] != null)
     {
         memberID = Convert.ToInt32(Session["mem"]);
@@ -23,44 +21,7 @@
         <div class="row col-md-6 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
                 <h5 class="text-center col-md-12">各類資產淨值</h5>
             <div class="col-md-6 mt-3">
-                <table class="table table-sm text-center">
-                    <thead class="thead">
-                        <tr>
-                            <th>
-                                類別
-                            </th>
-                            <th>
-                                現值(@CCY)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <a class="btn btn-cash btn-sm" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">現金</a>
-                            </td>
-                            <td class="align-middle">
-                                @cashSum
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a class="btn btn-securities btn-sm" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">證券</a>
-                            </td>
-                            <td class="align-middle">
-                                @secSum
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a class="btn btn-property btn-sm" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
-                            </td>
-                            <td class="align-middle">
-                                0
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+               @Html.Action("_GetAssetList")
             </div>
             <div class="col-md-6">
                 <canvas id="assetTypeDoughnut" aria-label="資產佔比" role="img"></canvas>
@@ -90,10 +51,7 @@
     </div>
 </div>
 
-<div hidden>
-    @Html.Action("_GetMemberSecList", "MemberSecurities")
-    @Html.Action("Display", "MemberCash")
-</div>
+
 @section CSS{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
    
@@ -107,7 +65,7 @@
         //CircleChart(canvasId,chartType,dataLegend,dataset,tooltipON)
         const chartType1 = 'doughnut'
         const dataLegend1 = ['現金', '證券', '房產'];
-        const dataset1 = [@cashSum,@secSum, @pptySum];
+        const dataset1 = [@Convert.ToDouble(TempData["CashSum"]),@Convert.ToDouble(TempData["SecSum"]), 0];
         const color1 = ["#ffb55a", "#bd7ebe", "#b2e061", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"];
         circleChart('assetTypeDoughnut', chartType1, dataLegend1, dataset1, color1);
 

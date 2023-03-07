@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.Mvc;
 
 namespace AMWP.Models
 {
@@ -52,7 +54,7 @@ namespace AMWP.Models
         public DataTable TableQuery(string sql)
         {
             adp.SelectCommand.CommandText = sql;  //指定 Select Command
-            adp.Fill(ds);  //把取到的Table填入DataSet
+            adp.Fill(ds);  //把取到的Table填入DataSet，Fill 方法會自動打開和關閉 SqlConnection。
 
             dt = ds.Tables[0];
 
@@ -69,7 +71,6 @@ namespace AMWP.Models
             }
 
             adp.Fill(ds);  //把取到的Table填入DataSet
-
             dt = ds.Tables[0];
 
             return dt;
@@ -80,10 +81,8 @@ namespace AMWP.Models
             adp.SelectCommand.CommandText = sql;  //指定 Select Command
             adp.SelectCommand.CommandType = CommandType.StoredProcedure;
 
-            adp.Fill(ds);  //把取到的Table填入DataSet
-
+            adp.Fill(ds);  //把取到的Table填入DataSet-1
             dt = ds.Tables[0];
-
             return dt;
         }
 
@@ -97,13 +96,13 @@ namespace AMWP.Models
                 adp.SelectCommand.Parameters.Add(p);
             }
 
-            adp.Fill(ds);  //把取到的Table填入DataSet
+            adp.Fill(ds);  //把取到的Table填入DataSet-2
 
             if (ds.Tables.Count == 0)
                 return dt;
 
             dt = ds.Tables[0];
-
+             
             return dt;
         }
 
@@ -151,5 +150,7 @@ namespace AMWP.Models
             ts.Volume = volumes;
             return ts;
         }
+
+        
     }
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AMWP.Models;
+using AMWP.ViewModels;
 using Microsoft.Ajax.Utilities;
 
 namespace AMWP.Controllers
@@ -14,6 +16,7 @@ namespace AMWP.Controllers
     public class MembersController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
+        SetData sd = new SetData();
 
         // GET: Members
         public ActionResult Index()
@@ -51,12 +54,13 @@ namespace AMWP.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
-        {           
+        {
             if (ModelState.IsValid)
             {
                 db.Members.Add(members);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["SignUpOK"] = "註冊成功，請依您的帳號密碼登入本站！";
+                return RedirectToAction("Login","MemberLogin");
             }
 
             ViewBag.CCYID = db.Currencies.ToList();
@@ -113,7 +117,37 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
-       
+        public ActionResult ChangeStatus(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var member = db.Members.Find(id);
+            if (member != null)
+            {
+                string sql = "";
+                if (member.Status)
+                {
+                    sql = "update Members set [Status] = 'false' where MemID = @id";
+                }
+                else
+                {
+                    sql = "update Members set [Status] = 'true' where MemID = @id";
+                }  
+                List<SqlParameter> list = new List<SqlParameter> { new SqlParameter("id", id) };
+                sd.executeSql(sql,list);
+                TempData["Status"] = Convert.ToString(member.Account) + "會員狀態改變！";
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+            return RedirectToAction("Index"); 
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

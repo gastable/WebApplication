@@ -26,14 +26,19 @@ namespace AMWP.Controllers
                     new SqlParameter("id",id)
             };
 
-            var cash = gd.TableQuery(sql, list);
+            DataTable cash = gd.TableQuery(sql, list);
             if (cash == null)
             {
                 return View();
             }
-            if(cash.Rows.Count == 0)
+            double cashSum = 0;
+            foreach (DataRow row in cash.Rows)
             {
-                ViewBag.CashMsg = "您目前無現金庫存資料！";               
+                cashSum += Convert.ToDouble(row["ToCCY"]);
+            }
+            if (cashSum == 0)
+            {
+                ViewBag.CashMsg = "您目前無任何現金庫存！";               
             }
             ViewBag.MemID = id;
             return View(cash);

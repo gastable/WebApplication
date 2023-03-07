@@ -214,6 +214,7 @@
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetAlphaData.cs" />
+    <Compile Include="Models\GetAssets.cs" />
     <Compile Include="Models\GetData.cs" />
     <Compile Include="Models\Managements.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
@@ -238,6 +239,7 @@
     </Compile>
     <Compile Include="Models\SetData.cs" />
     <Compile Include="Models\TimeSeries.cs" />
+    <Compile Include="Models\TimeSeriesByYears.cs" />
     <Compile Include="Models\Weekly.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
@@ -449,7 +451,6 @@
     <Content Include="Views\MemberCash\Display.cshtml" />
     <Content Include="Views\MemberLogin\Login.cshtml" />
     <Content Include="Views\MemberSecurities\DisplaySecOrders.cshtml" />
-    <Content Include="Views\MemberSecurities\GetMemberSecPie.cshtml" />
     <Content Include="Views\MemberSecurities\_GetMemberSecList.cshtml" />
     <Content Include="Views\Members\Create.cshtml" />
     <Content Include="Views\Members\Delete.cshtml" />
@@ -501,6 +502,8 @@
     <Content Include="Views\Securities\UploadAPI.cshtml" />
     <Content Include="Views\MemberProperties\Display.cshtml" />
     <Content Include="Views\Properties\_Edit.cshtml" />
+    <Content Include="Views\Backtest\_searchSymbol.cshtml" />
+    <Content Include="Views\DashBoard\_GetAssetList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

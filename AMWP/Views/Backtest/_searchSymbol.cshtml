@@ -1,0 +1,13 @@
+﻿@model IEnumerable<AMWP.Models.Securities>
+
+    <div class="dropdown-menu">
+        @foreach(var item in Model)
+            {
+                <button class="dropdown-item">@item.Symbol</button>
+            }
+    </div>
+
+    
+
+
+
