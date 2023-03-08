@@ -1,4 +1,6 @@
 ﻿@model AMWP.ViewModels.Backtest
+@using AMWP.Models;
+@using AMWP.ViewModels;
 
 @{
     ViewBag.Title = "投資組合回測";
@@ -9,6 +11,8 @@
         memberID = Convert.ToInt32(Session["mem"]);
     }
     string selected = "";
+    List<TimeSeriesByYears> results = ViewBag.Result;
+    List<Backtest> inputs = ViewBag.Source;
 }
 <h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
 <div>
@@ -16,7 +20,6 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-
         <div class="form-row align-items-end">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group col-md-4 row align-items-baseline">
@@ -57,7 +60,7 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-3">
                 @Html.LabelFor(model => model.Symbol1, htmlAttributes: new { @class = "control-label" })
-                <div id="symbolInput">
+                <div class="symbolInput">
                     @Html.EditorFor(model => model.Symbol1, new { htmlAttributes = new { @class = "form-control symbol" } })
                     @Html.ValidationMessageFor(model => model.Symbol1, "", new { @class = "text-danger" })
                     <div class="list-group results">
@@ -73,7 +76,7 @@
                     <select id="Slice1" name="Slice1" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            <option value="@i" @(Convert.ToInt32(inputs[0].Slice1) ==i ? "selected" : "")>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -112,7 +115,7 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-3">
                 @Html.LabelFor(model => model.Symbol2, htmlAttributes: new { @class = "control-label" })
-                <div class="">
+                <div class="symbolInput">
                     @Html.EditorFor(model => model.Symbol2, new { htmlAttributes = new { @class = "form-control symbol" } })
                     @Html.ValidationMessageFor(model => model.Symbol2, "", new { @class = "text-danger" })
                     <div class="list-group results">
@@ -163,7 +166,7 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-3">
                 @Html.LabelFor(model => model.Symbol3, htmlAttributes: new { @class = "control-label" })
-                <div class="">
+                <div class="symbolInput">
                     @Html.EditorFor(model => model.Symbol3, new { htmlAttributes = new { @class = "form-control symbol" } })
                     @Html.ValidationMessageFor(model => model.Symbol3, "", new { @class = "text-danger" })
                     <div class="list-group results">
@@ -214,7 +217,7 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-3">
                 @Html.LabelFor(model => model.Symbol4, htmlAttributes: new { @class = "control-label" })
-                <div class="">
+                <div class="symbolInput">
                     @Html.EditorFor(model => model.Symbol4, new { htmlAttributes = new { @class = "form-control symbol" } })
                     @Html.ValidationMessageFor(model => model.Symbol4, "", new { @class = "text-danger" })
                     <div class="list-group results">
@@ -266,7 +269,7 @@
         <div class="form-row align-items-end">
             <div class="form-group col-md-3">
                 @Html.LabelFor(model => model.Symbol5, htmlAttributes: new { @class = "control-label" })
-                <div class="">
+                <div class="symbolInput">
                     @Html.EditorFor(model => model.Symbol5, new { htmlAttributes = new { @class = "form-control symbol" } })
                     @Html.ValidationMessageFor(model => model.Symbol5, "", new { @class = "text-danger" })
                     <div class="list-group results" id="result5">
@@ -323,8 +326,8 @@
 
             <div class="form-group col-md-3">
                 <div class="input-group-append">
-                    <input id="sum1" name="sum1" class="form-control" readonly type="number"/>
-                        
+                    <input id="sum1" name="sum1" class="form-control" readonly type="number" />
+
                     <span class="input-group-text">%</span>
                 </div>
             </div>
@@ -350,16 +353,25 @@
 
         <div class="form-group">
             <div class="col-md-11 text-right">
-                <input type="submit" value="開始回測" class="btn btn-primary" id="btnSubmit"/>
+                <input type="submit" value="開始回測" class="btn btn-primary" id="btnSubmit" />
             </div>
         </div>
     }
-</div>
-<button class="btn btn-success" id="btnJSON">測試json</button>
-<h5>@ViewBag.Results</h5>
-   
+</div>   
     <h5 class="text-danger">@ViewBag.Nodata</h5>
     <h5 class="text-danger">@ViewBag.NoSymbol</h5>
+
+@foreach(var symbol in results)
+            {
+    for(int i = 0; i < symbol.Date.Count; i++)
+                {
+                    <h5>@symbol.Date[i]</h5>
+                }
+            }
+
+@*<div id="resultArea">
+    @Html.Action("GetBacktest")
+</div>*@
 
 
 
@@ -407,29 +419,20 @@
             };
         });
 
+        //計算及驗證佔比
+        $('#btnSubmit').click(() => {
+            var sum1 = $('#Slice1').val() + $('#Slice4').val() + $('#Slice7').val() + $('#Slice10').val() + $('#Slice13').val();
+            
+
+        });
         function setValue(evt) {
             var selectedValue = evt.target.id;
             var id = "#" + selectedValue;
-            $(id).parent().prev().prev().val(selectedValue);
+            $(id).closest('.symbolInput').find('.symbol').val(selectedValue);
             $('.results').hide();
         }
 
-            $.ajax({
-                type: "get",
-                url: @Url.Action("Input"),
-                
-                success: function (data) {
-                    console.log(data);
-                    //let i;
-                    //for (i = 0; i < data['Data'].length; i++) {
-                    //    doughnutData.push(data['Data'][i]);
-                    //    doughnutLabels.push(data['Labels'][i]);
-                    //}
-                }
-            });
-
-
-
+       
             
        
     </script>

@@ -40,10 +40,10 @@
         </button>
         <div class="form-inline text-right">
             @*<form class="form-inline my-2 my-lg-0" method="post">*@
-                <input class="form-control mr-sm-2" type="search" placeholder="證券代號" id="searchBox">
-                <div class="list-group" id="results">
-                </div>
-                <a class="btn btn-outline-success my-2 my-sm-0" href="#" id="searchLink">搜尋</a>
+            <input class="form-control mr-sm-2" type="search" placeholder="證券代號" id="searchBox">
+            <div class="list-group" id="results">
+            </div>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="#" id="searchLink">搜尋</a>
             @*</form>*@
         </div>
         <ul class="navbar-nav px-3">
@@ -151,23 +151,25 @@
             </div>
         </div>
     </div>
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://kit.fontawesome.com/dc63e28641.js" crossorigin="anonymous"></script>
     <script src="~/Scripts/AMWP.js"></script>
     <script>
-        
+
         $('#searchBox').on('input', function (evt) {
-            $('#results').empty();  
+            $('#results').empty();
             console.log("aaa");
             var id = evt.target.id;
-            id = "#" + id + " ~div";    
-            var query = $(this).val();  
-            if (query !== '') {         
+            id = "#" + id + " ~div";
+            var query = $(this).val();
+            if (query !== '') {
                 $.ajax({
                     url: '/Securities/SearchSymbol',
-                    data: { query: query },   
+                    data: { query: query },
                     success: function (data) {
                         // 將查詢結果顯示在頁面上
                         $.each(data, function (index, item) {
@@ -182,12 +184,12 @@
             $('#searchBox').val(selectedValue);
             $('#searchLink').attr("href", "/Performance/Display?symbol=" + selectedValue);
             console.log(selectedValue);
-            $('#results').hide(); 
+            $('#results').hide();
         }
-        
+
     </script>
 
-   
+
     @RenderSection("scripts", required: false)
 
 </body>

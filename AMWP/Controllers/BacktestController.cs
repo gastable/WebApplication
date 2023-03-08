@@ -23,7 +23,7 @@ namespace AMWP.Controllers{
         }
 
         [HttpPost]
-        public JsonResult Input(Backtest backtests)
+        public ActionResult Input(Backtest backtests)
         {
             DateTime startDate = Convert.ToDateTime((backtests.StartYear-1) + "-12-01");
             DateTime endDate = Convert.ToDateTime(backtests.EndYear + "-12-31");
@@ -97,11 +97,13 @@ namespace AMWP.Controllers{
                 }
                 ViewBag.Nodata = backtests.StartYear+"年至" + backtests.EndYear+"年，無"+ msg + "的市場數據，請調整查詢年份";
             }
-           
+
+            ViewBag.Result = results;
+            ViewBag.Source = backtests;
             ViewBag.StartYear=backtests.StartYear;
             ViewBag.EndYear=backtests.EndYear;
-            //return View(backtests);
-            return Json(results, JsonRequestBehavior.AllowGet);
+           
+            return View(backtests);
         }
 
         

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center alert alert-info">我的購物車</h2>
+
+<div id="myCart">
+   
+
+</div>
+<hr />
+<div class="text-right">
+    <button class="bi bi-cart-check text-info"><i></i> 更新購物車</button>
+    <button class="bi bi-cart-x text-warning"><i></i> 清空購物車</button>
+    <button class="bi bi-cash-coin text-success"><i></i> 確定結帳</button>
+
+</div>
+<div>
+    <a class="btn btn-primary" href="@Url.Action("Index")"><i class="bi bi-reply-fill"></i>返回商品列表
+    </a>
+</div>
+
+@section scripts{
+    <script>
+        var cart = [];
+
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+
+            let cartList = "";
+            for (let item of cart) { 
+
+            cartList+=` <div class="media p-4 mb-3 border-bottom border-dark">
+                        <img src="/Products/GetImage/${item.PID}" class="mr-3" width="200">
+                        <div class="media-body">
+                            <h3 class="mt-0"><strong>${item.PName}</strong></h5>
+                            <h4>
+                                <span>數量：<input id="Text1" type="text" value="${item.Amount}" style="width:50px" class="text-center"/></span>
+                                <span>價格：$${item.Price}</span>
+                            </h4>
+                            <h4 class="text-right"><strong>小計：<span class="text-danger">$${item.Amount * item.Price}<span></strong></h4>
+                            <p class="text-right mt-2"><button class="btn btn-danger"><i class="bi bi-trash3-fill"></i> 移除商品</button></p>
+                        </div>
+                    </div>`
+            }
+
+            $('#myCart').html(cartList);
+
+        }
+        else {
+            $('#myCart').html(`<h3>目前購物車內沒有任何商品</h3>`);
+        }
+
+    </script>
+    }
+

@@ -30,5 +30,10 @@ namespace MCSDD10.Controllers
 
             return View(product);
         }
+
+        public ActionResult MyCart()
+        {
+            return View();
+        }
     }
 }

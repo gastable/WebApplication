@@ -2,39 +2,83 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int j = 0;
+
 }
+@*helper的寫法:在View裡寫函數，用於重覆使用的複雜判斷式*@
+@helper IsActive(int j)
+    {
+        if (j == 0)
+        {
+            @:active
+        }
+    }
 
+<div id="adForProducts" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#adForProducts" data-slide-to="0" class="active"></li>
+        @for (int i = 1; i < Model.Count(); i++)
+        {
+            <li data-target="#adForProducts" data-slide-to="@i"></li>
+        }
+    </ol>
+    <div class="carousel-inner">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+        @foreach (var item in Model)
+            {
+                <div class="carousel-item @IsActive(j)" data-interval="5000">
+                    <img src="@Url.Action("GetImage", "Products", new { id = item.ProductID })" class="d-block w-100" sytle="height:200px"/>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="text-truncate text-dark">@item.ProductName</h5>
+                        <p class="text-truncate text-dark">@item.Description</p>  @*文字截斷在container的寬度*@
+                    </div>
+                </div>
+                j++;
+            }
+    </div>
+    <button class="carousel-control-prev" type="button" data-target="#adForProducts" data-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </button>
+    <button class="carousel-control-next text-dark" type="button" data-target="#adForProducts" data-slide="next">
+        <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </button>
 </div>
+
 <div class="row">
     @foreach (var item in Model)
     {
+        <div class="col-lg-3 p-1">
+            <div class="card border-info h-100">
+                <a class="" href="@Url.Action("Display", new {id=item.ProductID})">
+                    <img src="@Url.Action("GetImage","Products", new {id=item.ProductID})" class="img-fluid pt-2" />
+                    <div class="card-body">
+                        <input type="hidden"value="@item.ProductID" class="PID" />
+                        <h5><strong class="text-primary PName">@item.ProductName</strong></h5>
+                        @*用自創屬性放price的原始資料，而不是helper顯示出來的text*@
+                        <h4 class="text-danger text-right Price" p="@item.UnitPrice">
+                            @Html.DisplayFor(modelItem => item.UnitPrice)
 
-
-        <a class="card border-info col-lg-3" href="@Url.Action("Display", new {id=item.ProductID})">
-            <img src="@Url.Action("GetImage","Products", new {id=item.ProductID})" class="img-fluid pt-2"/>
-            <div class="card-body">
-                <h5><strong class="text-primary">@item.ProductName</strong></h5>
-               
-                <h4 class="text-danger text-right">
-                    @Html.DisplayFor(modelItem => item.UnitPrice)
-
-                </h4>
+                        </h4>
+                    </div>
+                </a>
+                <div class="card-footer mb-2 mt-auto">
+                    <button class="btn btn-success btn-block addCart" href="https://go.microsoft.com/fwlink/?LinkId=301870">加入購物車 <i class="bi bi-cart-check"></i></button>
+                </div>
             </div>
-            
-            <div class="card-footer mb-2">
-                <button class="btn btn-success btn-block" href="https://go.microsoft.com/fwlink/?LinkId=301870">加入購物車 <i class="bi bi-cart-check"></i></button>
-            </div>
-        </a>
+        </div>
+
     }
 </div>
 
-<span id="MyCart" class=" border rounded-pill rounded-lg shadow text-center">
-    <i class="bi bi-cart4 text-primary"></i>
+<span id="MyCart" class="">
+
+    
+    <a href="@Url.Action("MyCart")">
+        <i class="bi bi-cart4 text-primary"></i>
+        <span class="badge badge-light text-light bg-danger rounded-circle" id="cartBadge"></span>
+    </a>
 </span>
 
 
@@ -47,9 +91,77 @@
             height:150px;
             width:150px;
             position:fixed;
-            right:100px;
+            right:50px;
             bottom:50px;
             font-size:5rem;
         }
+        #cartBadge {
+            position: absolute;
+            top: 20px;
+            right: 70px;
+            font-size: 1.5rem;
+        }
     </style>
+    }
+@section scripts{
+    <script>
+        var cart = [];  //購物車陣例
+
+        //先檢查localStorage的購物車
+        if (localStorage.getItem("cart")) {
+            cart = JSON.parse(localStorage.getItem("cart"));
+        }
+        $('#cartBadge').text(cart.length);
+
+        $('.addCart').click(function () {
+            let product = $(this).closest('.card');
+            /*找離點到元素最近的.card，再從card去find下面的元素*/ 
+            let newPID = product.find('.PID').val();
+
+            let foundItem = cart.find(item => item.PID == newPID);
+            if (foundItem === undefined) {
+                setCart(product);
+            }
+            else {
+                foundItem.Amount += 1;
+                alert("商品數量已更新");
+            }
+
+
+            //太多判斷式
+            //if (cart.length > 0) {
+            //    for (let i in cart) {
+            //        if (cart[i]["PID"] == newPID) {
+            //            //代表商品已在購物車中，因此數量加1
+            //            cart[i]["Amount"] += 1;
+            //            alert("商品數量已更新");
+            //            break;
+            //        }
+            //        else if (cart.length-1==i) {
+            //            setCart(product);
+            //        }
+            //    }
+            //}
+            //else {
+            //    setCart(product);
+            //}
+
+            //呼叫localStorage物件的setItem方法(key的名稱,值)來儲存商品，放入前先用JSON.stringify將cart轉成json
+            localStorage.setItem("cart", JSON.stringify(cart));
+        });
+
+        //因為重覆寫，把程式碼寫成函式
+        function setCart(product) {
+            let newItem = {
+                PID: product.find('.PID').val(),
+                PName: product.find('.PName').text(),
+                Price: product.find('.Price').attr("p"),
+                Amount: 1
+            };
+            cart.push(newItem);
+            $('#cartBadge').text(cart.length);
+            alert("商品已加入購物車")
+        };
+
+    </script>
     }

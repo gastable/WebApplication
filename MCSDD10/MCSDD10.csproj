@@ -327,6 +327,20 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="SourcePhotos\P001.jpg" />
+    <Content Include="SourcePhotos\P002.jpg" />
+    <Content Include="SourcePhotos\P003.jpg" />
+    <Content Include="SourcePhotos\P004.jpg" />
+    <Content Include="SourcePhotos\P005.jpg" />
+    <Content Include="SourcePhotos\P006.jpg" />
+    <Content Include="SourcePhotos\P007.jpg" />
+    <Content Include="SourcePhotos\P008.jpg" />
+    <Content Include="SourcePhotos\P009.jpg" />
+    <Content Include="SourcePhotos\P010.jpg" />
+    <Content Include="SourcePhotos\P011.jpg" />
+    <Content Include="SourcePhotos\P012.jpg" />
+    <Content Include="SourcePhotos\P013.jpg" />
+    <Content Include="SourcePhotos\產品資料.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -370,6 +384,7 @@
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Home\Display.cshtml" />
+    <Content Include="Views\Home\MyCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
