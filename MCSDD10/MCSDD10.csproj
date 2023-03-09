@@ -374,7 +374,6 @@
     <Content Include="Views\HomeManager\Login.cshtml" />
     <Content Include="Views\HomeManager\Index.cshtml" />
     <Content Include="Views\Members\Create.cshtml" />
-    <Content Include="Views\Members\Delete.cshtml" />
     <Content Include="Views\Members\_Details.cshtml" />
     <Content Include="Views\Members\_Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />

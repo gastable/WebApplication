@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            @Html.ActionLink("釣具商城", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("鍋具商城", "Login", "HomeManager", new { area = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,7 +22,7 @@
             <div class="collapse navbar-collapse" id="mainMenu">
                 <ul class="navbar-nav mr-auto w-100">
                     <li class="nav-item">
-                        @Html.ActionLink("客戶管理", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                        @Html.ActionLink("客戶管理", "Index", "Members", new { area = "" }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("商品管理", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
@@ -47,7 +47,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>&copy; @DateTime.Now.Year - 我愛背鍋股份有限公司</p>
         </footer>
     </div>
 

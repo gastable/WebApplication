@@ -55,16 +55,23 @@ namespace AMWP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
         {
+            Boolean acntExists = db.Members.ToList().Exists(m => m.Account.Equals(members.Account));
+            if (acntExists)
+            {
+                ViewBag.SignUp = "已有會員使用本帳號，請更換帳號！";
+                ViewBag.CCYID = db.Currencies.ToList();
+                return View(members);
+            }
             if (ModelState.IsValid)
             {
                 db.Members.Add(members);
                 db.SaveChanges();
-                TempData["SignUpOK"] = "註冊成功，請依您的帳號密碼登入本站！";
+                TempData["SignUp"] = "註冊成功，請依您的帳號密碼登入本站！";
                 return RedirectToAction("Login","MemberLogin");
             }
-
-            ViewBag.CCYID = db.Currencies.ToList();
-            return View(members);
+                ViewBag.CCYID = db.Currencies.ToList();
+                return View(members);  
+            
         }
 
         // GET: Members/Edit/5

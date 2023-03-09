@@ -18,7 +18,7 @@
     }*@
 <div class="">
     <div class="row justify-content-around align-items-center">
-        <div class="row col-md-6 mt-3 mb-3 shadow justify-content-around align-items-center rounded-lg">
+        <div class="row col-md-6 my-3 shadow justify-content-around align-items-center rounded-lg pb-3">
                 <h5 class="text-center col-md-12">各類資產淨值</h5>
             <div class="col-md-6 mt-3">
                @Html.Action("_GetAssetList")
@@ -28,7 +28,7 @@
                 <div class="text-center">資產佔比</div>
             </div>
         </div>
-        <div class="row col-md-6 mt-3 mb-3 shadow justify-content-around align-items-center rounded">
+        <div class="row col-md-6 my-3 shadow justify-content-around align-items-center rounded pb-3">
             <h5 class="text-center col-md-12">證券配置</h5>
 
             <div class="col-md-6">
@@ -42,13 +42,16 @@
         </div>
 
     </div>
-
     <div>
-        <div>
-            <canvas id="secValueLineChart" aria-label="資產股價圖" role="img"></canvas>
+        <div class="h4 text-center">帳戶證券淨值圖</div>
+        <div class="mt-3">
+            <canvas id="secValueLineChart" role="img"></canvas>
 
         </div>
     </div>
+   
+       
+    
 </div>
 
 

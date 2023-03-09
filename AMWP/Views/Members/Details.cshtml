@@ -5,63 +5,65 @@
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h2>Details</h2>
+<h3 class="alert alert-info text-center">會員資料</h3>
 
-<div>
-    <h4>Members</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Account)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Account)
-        </dd>
+    <div class="container">
+        <div class="form-group row align-items-baseline">
+            <div class="col-md-5 text-md-right">
+                @Html.DisplayNameFor(model => model.Account)
+            </div>
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.Account)
+            </div>
+        </div>
+        
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
+        <div>
             @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        </div>
 
-        <dd>
+        <div>
             @Html.DisplayFor(model => model.Name)
-        </dd>
+        </div>
 
-        <dt>
+        <div>
             @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
+        </div>
 
-        <dd>
+        <div>
             @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
+        </div>
 
-        <dt>
+        <div>
             @Html.DisplayNameFor(model => model.Status)
-        </dt>
+        </div>
 
-        <dd>
+        <div>
             @Html.DisplayFor(model => model.Status)
-        </dd>
+        </div>
 
-        <dt>
+        <div>
             @Html.DisplayNameFor(model => model.Currencies.Name)
-        </dt>
+        </div>
 
-        <dd>
+        <div>
             @Html.DisplayFor(model => model.Currencies.Name)
-        </dd>
+        </div>
 
-    </dl>
-</div>
+    </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.MemID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section CSS{
+    <style>
+        .alert-info {
+            color: #0c5460;
+            background-color: #acf2d4;
+            border-color: #bee5eb;
+        }
+    </style>
+}

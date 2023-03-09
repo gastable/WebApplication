@@ -122,14 +122,8 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Details", "Members", new {id=Session["mem"],ccy=Session["CCY"]!=null? Session["CCY"]:"USD"})">
+                                <a class="nav-link" href="@Url.Action("Edit", "Members", new {id=Session["mem"],ccy=Session["CCY"]!=null? Session["CCY"]:"USD"})">
                                     會員資料管理
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-
-                                    Social engagement
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -11,47 +11,97 @@
 
 </div>
 <hr />
-<div class="text-right">
-    <button class="bi bi-cart-check text-info"><i></i> 更新購物車</button>
-    <button class="bi bi-cart-x text-warning"><i></i> 清空購物車</button>
-    <button class="bi bi-cash-coin text-success"><i></i> 確定結帳</button>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-primary" href="@Url.Action("Index")">
+            <i class="bi bi-reply-fill"></i>返回商品列表
+        </a>
+    </div>
+    <div class="text-right col ml-auto">
+        <button class="btn btn-info" id="updateCart"><i class="bi bi-cart-check"></i> 更新購物車</button>
+        <button class="btn btn-warning" id="clearCart"><i class="bi bi-cart-x "></i> 清空購物車</button>
+        <button class="btn btn-success"><i class="bi bi-cash-coin "></i> 確定結帳</button>
 
+    </div>
 </div>
-<div>
-    <a class="btn btn-primary" href="@Url.Action("Index")"><i class="bi bi-reply-fill"></i>返回商品列表
-    </a>
-</div>
+
+
 
 @section scripts{
     <script>
+        //自訂貨幣物件
+        let toNTD = new Intl.NumberFormat('zh-TW', {
+            style: 'currency',
+            currency:'NTD'
+        });
+
+        
         var cart = [];
 
-        if (localStorage.getItem("cart")) {
-            cart = JSON.parse(localStorage.getItem("cart"));
-
-            let cartList = "";
-            for (let item of cart) { 
-
-            cartList+=` <div class="media p-4 mb-3 border-bottom border-dark">
+        let initCart = function () {
+            if (localStorage.getItem("cart") && localStorage.getItem("cart").length>2) {
+                cart = JSON.parse(localStorage.getItem("cart"));
+                let cartList = "";
+                let c = 0;   //要標示項目序號及當索引，c從0開始，所以項目序號用++c(先加再指定)
+                let total = 0;
+                for (let item of cart) {
+                    total += item.Amount * item.Price;
+                    cartList += ` <div class="media p-4 mb-3 border-bottom border-dark">
+                        <h2 style="font-size:2.5rem" class="align-self-center text-black-50 mr-5">${++c}</h2>
                         <img src="/Products/GetImage/${item.PID}" class="mr-3" width="200">
                         <div class="media-body">
                             <h3 class="mt-0"><strong>${item.PName}</strong></h5>
                             <h4>
-                                <span>數量：<input id="Text1" type="text" value="${item.Amount}" style="width:50px" class="text-center"/></span>
-                                <span>價格：$${item.Price}</span>
+                                <span>數量：<input type="text" id="${item.PID}" value="${item.Amount}" style="width:50px" class="text-center"/></span>
+                                < span > 價格：$${toNTD.format(item.Price)}</span>
                             </h4>
-                            <h4 class="text-right"><strong>小計：<span class="text-danger">$${item.Amount * item.Price}<span></strong></h4>
-                            <p class="text-right mt-2"><button class="btn btn-danger"><i class="bi bi-trash3-fill"></i> 移除商品</button></p>
+                            <hr/>
+                            <h4 class="text-right"><strong>小計：<span class="text-danger">${toNTD.format(item.Amount * item.Price)}<span></strong></h4>
+                            <p class="text-right mt-2"><button class="btn btn-danger" id="${c}" title="btnDelete"><i class="bi bi-trash3-fill" title="btnDelete"></i> 移除商品</button></p>
                         </div>
                     </div>`
+                }
+
+                $('#myCart').html(cartList);
+                $('#myCart').append(`<h3 class="text-right">總計金額：<strong class="text-danger">${toNTD.format(total)}</strong></h3>`);
+
+
             }
+            else {
+                $('#myCart').html(`<h2 class="text-danger text-center">目前購物車內沒有任何商品</h3>`);
+            }
+        };
+        initCart(); //因為也把函式做成物件，呼叫時一定要在初始化的下方
+        //清空購物車
+        $('#clearCart').click(() => {
+            if (confirm('確定清空購物車？')) {
+                cart = [];
+                localStorage.removeItem("cart");
+                initCart();
+            };
+        });
 
-            $('#myCart').html(cartList);
+        //更新購物車
+        $('#updateCart').click(() => {
+            for (var item of cart) {
+                item.Amount = $('#' + item.PID).val();
+                
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            initCart();
+        });
 
-        }
-        else {
-            $('#myCart').html(`<h3>目前購物車內沒有任何商品</h3>`);
-        }
+
+        //移除單一品項
+        $('#myCart').click(evt => {
+            if (evt.target.title=="btnDelete") {
+                if (confirm('確定移除此商品？')) {
+                    cart.splice(evt.target.id - 1, 1);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    initCart();
+                }
+            }
+        });
 
     </script>
     }

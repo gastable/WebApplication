@@ -18,7 +18,7 @@ namespace MCSDD10.Controllers
         private MCSDD10Context db = new MCSDD10Context();
         SetData sd = new SetData();
 
-        int pageSize = 3; //每頁幾筆資料
+        int pageSize = 10; //每頁幾筆資料
         // GET: Members
         public ActionResult Index(int page=1)
         {

@@ -12,7 +12,7 @@
     }
     string selected = "";
     List<TimeSeriesByYears> results = ViewBag.Result;
-    List<Backtest> inputs = ViewBag.Source;
+    //List<Backtest> inputs = ViewBag.Source;
 }
 <h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
 <div>
@@ -76,7 +76,7 @@
                     <select id="Slice1" name="Slice1" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i" @(Convert.ToInt32(inputs[0].Slice1) ==i ? "selected" : "")>@i</option>
+                            <option value="@i" )>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -357,21 +357,22 @@
             </div>
         </div>
     }
-</div>   
-    <h5 class="text-danger">@ViewBag.Nodata</h5>
-    <h5 class="text-danger">@ViewBag.NoSymbol</h5>
-
-@foreach(var symbol in results)
-            {
-    for(int i = 0; i < symbol.Date.Count; i++)
-                {
-                    <h5>@symbol.Date[i]</h5>
-                }
-            }
-
+</div>
+<h5 class="text-danger">@ViewBag.Nodata</h5>
+<h5 class="text-danger">@ViewBag.NoSymbol</h5>
+@if (ViewBag.Result != null)
+{
+    foreach (var symbol in results)
+    {
+        for (int i = 0; i < symbol.Date.Count; i++)
+        {
+            <h5>@symbol.Date[i]</h5>
+        }
+    }
+}
 @*<div id="resultArea">
-    @Html.Action("GetBacktest")
-</div>*@
+        @Html.Action("GetBacktest")
+    </div>*@
 
 
 
@@ -418,23 +419,34 @@
                 });
             };
         });
-
-        //計算及驗證佔比
-        $('#btnSubmit').click(() => {
-            var sum1 = $('#Slice1').val() + $('#Slice4').val() + $('#Slice7').val() + $('#Slice10').val() + $('#Slice13').val();
-            
-
-        });
+        //symbol搜尋結果選單
         function setValue(evt) {
             var selectedValue = evt.target.id;
             var id = "#" + selectedValue;
             $(id).closest('.symbolInput').find('.symbol').val(selectedValue);
             $('.results').hide();
         }
+       
+        //計算及驗證佔比
+        $('#btnSubmit').click(evt => {
+            var sum1 = parseInt($('#Slice1 option').filter(':selected').val()) +
+                parseInt($('#Slice4 option').filter(':selected').val()) +
+                parseInt($('#Slice7 option').filter(':selected').val()) +
+                parseInt($('#Slice10 option').filter(':selected').val()) +
+                parseInt($('#Slice13 option').filter(':selected').val());
+            $('#sum1').val(sum1);
+            if ((sum1 != 0) || (sum != 100)) {
+                alert("不是100");
+                evt.preventDefault();
+            }
 
+
+        });
        
-            
-       
+
+
+
+
     </script>
 
 }

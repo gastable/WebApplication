@@ -279,6 +279,7 @@
     <Content Include="Models\AMWPModel.edmx.diagram">
       <DependentUpon>AMWPModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Photos\Homeimage.jpg" />
     <Content Include="Scripts\AMWP.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
