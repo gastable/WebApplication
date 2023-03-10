@@ -43,7 +43,6 @@ namespace AMWP.Controllers
             DateTime dataFirstDate;
             DateTime newStartDate;
             List<TimeSeriesByYears> results = new List<TimeSeriesByYears>();
-            
 
             var queriedTable = db.Monthly.Join(db.Securities, m => m.SecID, s => s.SecID, (m, s) => new { Symbol = s.Symbol, Date = m.Date, Close = m.Close, AdjClose = m.AdjClose }).ToList();
 
@@ -61,13 +60,26 @@ namespace AMWP.Controllers
                         noSymbols.Add(item);
                 }
             }
+
+            //沒交易資料的給錯誤訊息，直接踢回
+            if (noSymbols.Count != 0)
+            {
+                string msg = "";
+                foreach (var item in noSymbols)
+                {
+                    msg += item + ",";
+                }
+                ViewBag.NoSymbol = "查無" + msg + "的市場數據，請確認是否輸入錯誤代號";
+                return View(backtests);
+            }
+
             //有市場資料的再分查詢區間內是否有資料，並找出最晚的開始日期，再去取資料
             if (newSymbols.Count != 0)
             {
                 foreach (var item in newSymbols)
                 {
                     dataFirstDate = queriedTable.Where(t => t.Symbol == item).OrderBy(t => t.Date).FirstOrDefault().Date;
-                    if (dataFirstDate != null)
+                    if (dataFirstDate < endDate)
                     {
                         firstDates.Add(dataFirstDate);
                     }
@@ -77,24 +89,17 @@ namespace AMWP.Controllers
                     }
                 }
 
-                newStartDate = firstDates.Max(t => t.Date);
-                foreach (var item in newSymbols)
+                if (!firstDates.IsNullOrEmpty())
                 {
-                    GetAssets ga = new GetAssets();
-                    results.Add(ga.GetTimeSeriesByYears(item, newStartDate, endDate));
+                    newStartDate = firstDates.Max(t => t.Date);
+                    foreach (var item in newSymbols)
+                    {
+                        GetAssets ga = new GetAssets();
+                        results.Add(ga.GetTimeSeriesByYears(item, newStartDate, endDate));
+                    }
                 }
+            }
 
-            }
-            //沒交易資料的給錯誤訊息
-            if (noSymbols.Count != 0)
-            {
-                string msg = "";
-                foreach (var item in noSymbols)
-                {
-                    msg += item + ",";
-                }
-                ViewBag.NoSymbol = "查無" + msg + "的市場數據，請確認是否輸入錯誤代號";
-            }
             //有交易資料但不在區間的給錯誤訊息
             if (noDatas.Count != 0)
             {
@@ -113,6 +118,9 @@ namespace AMWP.Controllers
             return View(backtests);
             //return Json(results, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
     }
 }

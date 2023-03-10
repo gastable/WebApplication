@@ -27,7 +27,7 @@
         @foreach (var item in Model)
             {
                 <div class="carousel-item @IsActive(j)" data-interval="5000">
-                    <img src="@Url.Action("GetImage", "Products", new { id = item.ProductID })" class="d-block w-100" sytle="height:200px"/>
+                    <img src="@Url.Action("GetImage", "Products", new { id = item.ProductID })" class="d-block w-100" style="height:400px"/>
                     <div class="carousel-caption d-none d-md-block">
                         <h5 class="text-truncate text-dark">@item.ProductName</h5>
                         <p class="text-truncate text-dark">@item.Description</p>  @*文字截斷在container的寬度*@

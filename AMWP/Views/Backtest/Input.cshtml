@@ -17,7 +17,7 @@
 <h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
 <div>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "inputForm" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-row align-items-end">
@@ -358,8 +358,10 @@
         </div>
     }
 </div>
+<h5 class="text-danger">@ViewBag.Test</h5>
 <h5 class="text-danger">@ViewBag.Nodata</h5>
 <h5 class="text-danger">@ViewBag.NoSymbol</h5>
+
 @if (ViewBag.Result != null)
 {
     foreach (var symbol in results)
@@ -398,8 +400,7 @@
     <script>
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink5 ').addClass('active');
-
-        // 當用戶輸入時，使用Ajax向控制器發送請求
+        
         $('.symbol').on('input', function (evt) {
             $('.results').empty();
             var id = evt.target.id;
@@ -410,24 +411,30 @@
                     url: '/Securities/SearchSymbol',
                     async: false,
                     data: { query: query },
-                    success: function (data) {
-                        // 將查詢結果顯示在頁面上
+                    success: function (data) {                        
                         $.each(data, function (index, item) {
                             $(id).append('<button class="list-group-item list-group-item-action" onclick="setValue(event)" id="' + item + '">' + item + '</button>');
                         });
                     }
                 });
             };
+
         });
+
         //symbol搜尋結果選單
         function setValue(evt) {
-            var selectedValue = evt.target.id;
-            var id = "#" + selectedValue;
-            $(id).closest('.symbolInput').find('.symbol').val(selectedValue);
-            $('.results').hide();
+            $("#" + evt.target.id).closest('.symbolInput').find('.symbol').val(evt.target.id);
+            $('.results').empty();
         }
-       
-        //計算及驗證佔比
+
+        //$('.symbol').blur(() => {
+        //    if (!$('.results').focus()) {
+        //        console.log("aaa");
+        //    $('.results').empty();
+
+        //    }
+        //});
+        計算及驗證佔比
         $('#btnSubmit').click(evt => {
             var sum1 = parseInt($('#Slice1 option').filter(':selected').val()) +
                 parseInt($('#Slice4 option').filter(':selected').val()) +
@@ -439,13 +446,7 @@
                 alert("不是100");
                 evt.preventDefault();
             }
-
-
         });
-       
-
-
-
 
     </script>
 
