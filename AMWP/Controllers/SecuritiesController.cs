@@ -15,6 +15,7 @@ using ServiceStack;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class SecuritiesController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
@@ -24,6 +25,15 @@ namespace AMWP.Controllers
         public ActionResult Index()
         {
             var securities = db.Securities.Include(s => s.Countries).Include(s => s.Currencies).Include(s => s.SecTypes);
+            return View(securities.ToList());
+        }
+
+        [LoginCheck(type = 2)]
+        public ActionResult MemberIndex(string secType)
+        {
+            var securities = db.Securities.Include(s => s.Countries).Include(s => s.Currencies).Include(s => s.SecTypes).Where(s=>s.TypeID==secType);
+            ViewBag.TypeName=db.SecTypes.Find(secType).Name;
+            ViewBag.TypeID= secType.ToUpper();
             return View(securities.ToList());
         }
 
@@ -186,6 +196,7 @@ namespace AMWP.Controllers
             return RedirectToAction("Index");
         }
 
+        [LoginCheck(type = 2)]
         public JsonResult SearchSymbol(string query)
         {
             query += "%";

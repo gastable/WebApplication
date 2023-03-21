@@ -50,6 +50,7 @@ namespace AMWP.Controllers
             return View();
         }
 
+        [LoginCheck]
         public ActionResult Logout()
         {
             Session["admin"] = null;  //記錄為登出狀態

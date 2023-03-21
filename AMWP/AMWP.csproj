@@ -162,7 +162,9 @@
     <Compile Include="Controllers\CurrenciesController.cs" />
     <Compile Include="Controllers\DailyController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginCheck.cs" />
     <Compile Include="Controllers\ManagementsController.cs" />
     <Compile Include="Controllers\MemberCashController.cs" />
     <Compile Include="Controllers\MemberLoginController.cs" />
@@ -225,6 +227,7 @@
     <Compile Include="Models\Monthly.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Portfolios.cs" />
     <Compile Include="Models\Properties.cs">
       <DependentUpon>AMWPModel.tt</DependentUpon>
     </Compile>
@@ -507,9 +510,21 @@
     <Content Include="Views\Properties\_Edit.cshtml" />
     <Content Include="Views\Backtest\_searchSymbol.cshtml" />
     <Content Include="Views\DashBoard\_GetAssetList.cshtml" />
+    <Content Include="Views\Demo\Dashboard.cshtml" />
+    <Content Include="Views\Demo\DisplayCash.cshtml" />
+    <Content Include="Views\Demo\DisplayProperties.cshtml" />
+    <Content Include="Views\Demo\DisplaySecOrders.cshtml" />
+    <Content Include="Views\Demo\_GetAssetList.cshtml" />
+    <Content Include="Views\Demo\_GetMemberSecList.cshtml" />
+    <Content Include="Views\Demo\_GetSecTypeList.cshtml" />
+    <Content Include="Views\Members\MemberEdit.cshtml" />
+    <Content Include="Views\Performance\Index.cshtml" />
+    <Content Include="Views\Securities\MemberIndex.cshtml" />
+    <Content Include="Views\Securities\TestIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\LoginCheck\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

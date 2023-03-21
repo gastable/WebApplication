@@ -1,15 +1,6 @@
 ﻿@using System.Data;
 @model System.Data.DataTable
-@{
-    int memberID = 24;
-    string CCY = "USD";
-    if (Session["mem"] != null)
-    {
-        memberID = Convert.ToInt32(Session["mem"]);
-        CCY = Convert.ToString(Session["CCY"]);
-    };
 
-}
 
 <table class="table table-sm text-center">
     <thead class="thead">
@@ -18,50 +9,33 @@
                 類別
             </th>
             <th>
-                現值(@CCY)
+                現值(@Convert.ToString(Session["CCY"]))
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-                <a class="btn btn-cash btn-sm" href="@Url.Action("Display", "MemberCash", new { id = Session["mem"] != null ? Session["mem"] : 24, ccy = Session["CCY"] != null ? Session["CCY"] : "USD" })">現金</a>
+                <a class="btn btn-cash btn-sm" href="@Url.Action("Display", "MemberCash", new { id = Convert.ToInt32(Session["mem"]), ccy = Convert.ToString(Session["CCY"]) })">現金</a>
             </td>
             <td class="align-middle">
-                @{ if (Convert.ToDouble(TempData["CashSum"]) == 0)
-                    {
-                        <button class="btn bi-cash-coin text-primary btn-lg"></button>
-                    }
-                    else
-                    {
                         @TempData["CashSum"]
-                    }
-                }
             </td>
         </tr>
         <tr>
             <td>
-                <a class="btn btn-securities btn-sm" href="@Url.Action("DisplaySecOrders", "MemberSecurities", new { id = Session["mem"] != null ? Session["mem"] : 24, ccy = Session["CCY"] != null ? Session["CCY"] : "USD" })">證券</a>
+                <a class="btn btn-securities btn-sm" href="@Url.Action("DisplaySecOrders", "MemberSecurities", new { id = Convert.ToInt32(Session["mem"]), ccy = Convert.ToString(Session["CCY"]) })">證券</a>
             </td>
             <td class="align-middle">
-                @{ if (Convert.ToDouble(TempData["SecSum"]) == 0)
-                    {
-                        <button class="btn bi-plus-circle text-primary btn-lg"></button>
-                    }
-                    else
-                    {
                         @TempData["SecSum"]
-                    }
-                }
-
             </td>
         </tr>
         <tr>
             <td>
-                <a class="btn btn-property btn-sm" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:24,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">房產</a>
+                <a class="btn btn-property btn-sm" href="@Url.Action("Display","MemberProperties",new { id = Convert.ToInt32(Session["mem"]), ccy = Convert.ToString(Session["CCY"]) })">房產</a>
             </td>
             <td class="align-middle">
-                <a class="btn bi-house-add text-primary btn-lg">新增</a>
+                        @TempData["PropertySum"]
             </td>
         </tr>
     </tbody>

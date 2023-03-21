@@ -13,15 +13,16 @@
 <div class="container" id="container">
     <div class="text-center">
         <h4 id="title">歷史表現</h4>
-    <div class="btn-group" id="btngroup">
-        <button class="btn btn-outline-secondary" value="0">1個月</button>
-        <button class="btn btn-outline-secondary" value="1">3個月</button>
-        <button class="btn btn-outline-secondary" value="2">6個月</button>
-        <button class="btn btn-outline-secondary" value="3">年度迄今</button>
-        <button class="btn btn-outline-secondary" value="4">1年</button>
-        <button class="btn btn-outline-secondary active" value="5">5年</button>
-        <button class="btn btn-outline-secondary" value="6">最長</button>
-    </div> 
+        <div class="btn-group" id="btngroup">
+            <button class="btn btn-outline-secondary" value="0">1個月</button>
+            <button class="btn btn-outline-secondary" value="1">3個月</button>
+            <button class="btn btn-outline-secondary" value="2">6個月</button>
+            <button class="btn btn-outline-secondary" value="3">年度迄今</button>
+            <button class="btn btn-outline-secondary" value="4">1年</button>
+            <button class="btn btn-outline-secondary active" value="5">5年</button>
+            <button class="btn btn-outline-secondary" value="6">最長</button>
+        </div>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Performance", new {symbol=ViewBag.symbol,order="Symbol"})">查看成交資訊</a>
         <canvas id="lineChart" aria-label="" role="img">
         </canvas>
     </div>
@@ -56,7 +57,10 @@
 
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.1/math.min.js" integrity="sha512-WwbnWc5N0epFy5Ba2RfPttV7TvJX8/OfdXyAzmCrzdhcpAsO8jfo/IOJIW6gzgXcGiPyv5w2d2vnWgHV/IXCGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>    
+    <script> 
+        $('#sidebarMenu .nav-link').removeClass('active');
+        $('#navLink2').addClass('active');
+
         //取得網址CCY參數
         const url = window.location.href;
         const queryArr1 = url.split('?'); 
@@ -209,7 +213,7 @@
                                              <td>${cagr}%</td>
                                              <td>${std}%</td>`
             );
-            $('#title').html(`<h4>歷史表現-${symbolstr}</h4>`);
+            $('#title').html(`<h4>歷史表現-${symbolstr.toUpperCase() }</h4>`);
         };
        
         //改變資料區間

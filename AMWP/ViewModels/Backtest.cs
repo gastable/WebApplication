@@ -18,9 +18,8 @@ namespace AMWP.ViewModels
         public int EndYear { get; set; }
 
         [DisplayName("起始資金")]
-        [DefaultValue(10000)]
-        [Range(0,float.MaxValue)]
-        public decimal InitAmount { get; set; }
+        [Range(0,double.MaxValue)]
+        public double InitAmount { get; set; }
         
         [DisplayName("證券#1")]        
         public string Symbol1 { get; set; }

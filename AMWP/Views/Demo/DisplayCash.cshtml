@@ -1,0 +1,168 @@
+﻿
+@using System.Data;
+
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "會員現金庫存";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    int memberID = 24;
+    string CCY = "USD";
+    double sum = 0;
+
+
+}
+
+<h4 class="text-danger text-center">@ViewBag.CashMsg</h4>
+<div class="row justify-content-around align-items-center ">
+    <div class="col-md-8">
+        <h3 class="text-center mb-3">會員現金庫存</h3>
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>
+                        貨幣
+                    </th>
+                    <th>
+                        金額
+                    </th>
+                    <th>
+                        現值(@CCY)
+                    </th>
+                    <th class="text-danger">
+                        @TempData["cash"]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in Model.Rows)
+                {
+
+                    <tr>
+                        <td>
+                            @row["Name"]
+                        </td>
+                        <td>
+                            @Math.Round(Convert.ToDouble(@row["Amount"]), 2)
+                        </td>
+                        <td>
+                            @Math.Round(Convert.ToDouble(@row["ToCCY"]), 2)
+                        </td>
+                        <td>
+                            <span data-toggle="tooltip" data-placement="top" title="修改金額">
+                                <a class="btn bi-pencil-fill text-info" href="@Url.Action("Login", "MemberLogin")"></a>
+                            </span>
+                            <span data-toggle="tooltip" data-placement="top" title="清空貨幣">
+                                <a class="btn bi-trash3-fill text-danger" href="@Url.Action("Login", "MemberLogin")"></a>
+                            </span>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        總計
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @foreach (DataRow row in Model.Rows)
+                        {
+                            sum += @Math.Round(Convert.ToDouble(@row["ToCCY"]), 2);
+                        }
+                        @(Session["cashSum"] = sum)
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+        <canvas id="pieChart"></canvas>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $('#sidebarMenu .nav-link').removeClass('active');
+        $('#navLink3').addClass('active');
+        
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        var pieChart;
+        var pieData=[];
+        var pieLabels = [];
+        var id =@Html.Raw(memberID);
+        function getMemberSecPie(id) {
+            $.ajax({
+                type: "get",
+                url: 'http://localhost:56540/Demo/GetMemberCashPie/24',
+                async: false,
+                success: function (data) {
+                    for (let i = 0; i < data['Data'].length; i++) {
+                            pieData.push(data['Data'][i]);
+                            pieLabels.push(data['Labels'][i]);
+                    }
+                }
+            });
+        };
+        getMemberSecPie(id);
+
+
+        data = {
+            labels: pieLabels,
+            datasets: [{
+                label: ['現值'],
+                data: pieData,
+                backgroundColor: ["#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7", "#fd7f6f", "#7eb0d5"],
+            }]
+        };
+       
+
+        config = {
+            type: "pie",
+            data,
+            options: {
+                maintainAspectRatio: true,
+                plugins: {
+                    datalabels: {
+                        align: 'center',
+                        formatter: (value, context) => {
+                            const datapoints = context.chart.config.data.datasets[0].data;
+                            const totalvalue = datapoints.reduce((total, datapoint) => total + datapoint,
+                                0);
+                            const percentageValue = (value / totalvalue * 100).toFixed(2);
+                            const display = [`${percentageValue}%`]
+                            return display;
+                        },
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        };
+        pieChart = new Chart(document.getElementById("pieChart"),
+            config);
+
+    </script>
+}
+
+
+
+

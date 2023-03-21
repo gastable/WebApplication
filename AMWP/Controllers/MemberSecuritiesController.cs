@@ -1,6 +1,7 @@
 ﻿using AMWP.Models;
 using AMWP.ViewModels;
 using Newtonsoft.Json;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type =2)]
     public class MemberSecuritiesController : Controller
     {
         AMWPEntities db = new AMWPEntities();
@@ -107,14 +109,17 @@ namespace AMWP.Controllers
             Chart doughnutChart = new Chart();
             List<string> labels = new List<string>();
             List<double> data = new List<double>();
+            List<string> typeIds= new List<string>();
 
             foreach (DataRow row in ms.Rows)
             {
                 labels.Add(Convert.ToString(row["Name"]));
                 data.Add(Math.Round(Convert.ToDouble(row["Value"]) , 2));
+                typeIds.Add(Convert.ToString(row["TypeID"]));
             };
             doughnutChart.Labels = labels;
             doughnutChart.Data = data;
+            doughnutChart.Data3 = typeIds;
             return Json(doughnutChart, JsonRequestBehavior.AllowGet);
 
         }

@@ -3,16 +3,21 @@
     ViewBag.Title = "會員資產管理";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 
+    int memberID = 24;
+    string CCY = "USD";
 
+    
 }
-
+@*@if(Session["mem"] == null) {
+    <h3 class="alert alert-info text-center">展示畫面</h3>
+    }*@
 <h5>@ViewBag.TypeID</h5>
 <div class="">
     <div class="row justify-content-around align-items-center">
         <div class="row col-md-6 my-3 shadow justify-content-around align-items-center rounded-lg pb-3">
-                <h5 class="text-center col-md-12">各類資產淨值</h5>
+            <h5 class="text-center col-md-12">各類資產淨值</h5>
             <div class="col-md-6 mt-3">
-               @Html.Action("_GetAssetList")
+                @Html.Action("_GetAssetList")
             </div>
             <div class="col-md-6">
                 <canvas id="assetTypeDoughnut" aria-label="資產佔比" role="img"></canvas>
@@ -23,7 +28,7 @@
             <h5 class="text-center col-md-12">證券配置</h5>
 
             <div class="col-md-6">
-                @Html.Action("_GetSecTypeList", "MemberSecurities")
+                @Html.Action("_GetSecTypeList")
             </div>
             <div class="col-md-6">
                 <canvas id="secAllocDoughnut"></canvas>
@@ -40,22 +45,22 @@
 
         </div>
     </div>
-   
-       
-    
+
+
+
 </div>
 
 
 @section CSS{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
-   
+
 }
 
 @section scripts{
     <script>
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink1').addClass('active');
-        var id =@Convert.ToInt32(Session["mem"]);
+        var id =@Html.Raw(memberID);
         //CircleChart(canvasId,chartType,dataLegend,dataset,tooltipON)
         const chartType1 = 'doughnut'
         const dataLegend1 = ['現金', '證券', '房產'];
@@ -73,7 +78,7 @@
         function getMemberSecDough(id) {
             $.ajax({
                 type: "get",
-                url: 'http://localhost:56540/MemberSecurities/GetSecTypeDoughnutChart/'+id,
+                url: 'http://localhost:56540/Demo/GetSecTypeDoughnutChart/24',
                 async: false,
                 success: function (data) {
                     let i;
@@ -87,14 +92,14 @@
             });
         };
         console.log(color2);
-        
+
         getMemberSecDough(id);
         const dataLegend2 = doughnutLabels;
         const dataset2 = doughnutData;
         circleChart('secAllocDoughnut', 'doughnut', dataLegend2, dataset2, color2);
-        
-       
-       
+
+
+
         //圓形圖
             function circleChart(id, chartType, types, assetNets,color) {
                 const data = {
@@ -152,7 +157,7 @@
         function GetValueLineChart(id) {
             $.ajax({
                 type: "get",
-                url: 'http://localhost:56540/MemberSecurities/GetValueLineChart/'+id,
+                url: 'http://localhost:56540/Demo/GetValueLineChart/24',
                 async: false,
                 success: function (data) {
                     for (let i = 0; i < data['Data'].length; i++) {

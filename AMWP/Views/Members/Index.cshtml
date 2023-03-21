@@ -7,7 +7,7 @@
 <h3 class="alert alert-info text-center">會員列表</h3>
 
 <div class="row">
-    <h4 class="col-md-8 text-right text-danger">@TempData["Status"]</h4>
+    <h4 class="col-md-8 text-right text-danger" id="msg">@TempData["Status"]</h4>
     @*<div class="col-md-4 text-right mb-3">
         @Html.ActionLink("新增會員", "Create", null, new { @class = "btn btn-primary" })
     </div>*@
@@ -87,6 +87,9 @@
         $('#navbar .nav-item').removeClass('active');
         $('#navItem2').addClass('active');
 
+        $(document).click(function () {
+            $('#msg').hide();
+        });
        
 
     </script>

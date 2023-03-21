@@ -10,10 +10,12 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type =2)]
     public class CashController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
 
+        [LoginCheck]
         // GET: Cash
         public ActionResult Index()
         {

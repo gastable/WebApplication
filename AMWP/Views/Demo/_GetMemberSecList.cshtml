@@ -43,7 +43,7 @@
                 報酬率
             </th>
             <th>
-                現值(@Convert.ToString(Session["CCY"]))
+                現值(@Html.Raw(CCY))
             </th>
             <th>
                 佔比
@@ -55,7 +55,7 @@
         {
             <tr>
                 <td>
-                    <a class="btn btn-@row["TypeID"] btn-sm" href="@Url.Action("Display", "Performance", new { id = Session["mem"],symbol =@row["Symbol"] })">@row["Symbol"]</a>
+                    <a class="btn btn-@row["TypeID"] btn-sm" href="@Url.Action("Display", "Performance", new { id = Session["mem"] != null ? Session["mem"] :memberID,symbol =@row["Symbol"] })">@row["Symbol"]</a>
                 </td>
                 <td>
                     @Math.Round(Convert.ToDouble(row["Share"]), 2)
@@ -111,6 +111,7 @@
     </tfoot>
 
 </table>
+
 
 
 

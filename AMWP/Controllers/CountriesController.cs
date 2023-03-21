@@ -10,6 +10,7 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class CountriesController : Controller
     {
         private AMWPEntities db = new AMWPEntities();

@@ -10,7 +10,7 @@ namespace AMWP.Models
         public List<string> Labels { get; set; }
         public List<double> Data { get; set; }
         public List<double> Data2 { get; set; }
-        public List<double> Data3 { get; set; }
+        public List<string> Data3 { get; set; }
 
 
     }

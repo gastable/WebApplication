@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AMWP.Models.Securities>
+
+@{
+    ViewBag.Title = "MemberIndex";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+}
+
+<h3 class="alert alert-@ViewBag.TypeID text-center">@ViewBag.TypeName 證券列表</h3>
+
+
+<table class="table table-striped table-hover text-center">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Symbol)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Countries.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currencies.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecTypes.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a class="btn btn-@item.TypeID btn-sm" href="@Url.Action("Display", "Performance", new { symbol =item.Symbol })">
+                    @Html.DisplayFor(modelItem => item.Symbol)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Countries.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currencies.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecTypes.Name)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.SecID }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.SecID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.SecID })
+                </td>*@
+        </tr>
+    }
+
+</table>
+
+<div class="text-right">
+        @Html.ActionLink("返回儀表板", "Dashboard", "Dashboard", null, new { @class = "btn btn-property" })
+</div>

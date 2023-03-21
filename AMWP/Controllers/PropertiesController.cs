@@ -11,10 +11,12 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type = 2)]
     public class PropertiesController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
 
+        [LoginCheck]
         // GET: Properties
         public ActionResult Index()
         {
@@ -22,6 +24,7 @@ namespace AMWP.Controllers
             return View(properties.ToList());
         }
 
+        [LoginCheck]
         // GET: Properties/Details/5
         public ActionResult Details(int? id=9)
         {

@@ -11,6 +11,7 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class CurrenciesController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
@@ -118,8 +119,6 @@ namespace AMWP.Controllers
             }
             return RedirectToAction("Index");
         }
-
-
 
         protected override void Dispose(bool disposing)
         {

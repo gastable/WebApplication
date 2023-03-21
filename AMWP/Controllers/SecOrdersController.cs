@@ -10,10 +10,12 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type = 2)]
     public class SecOrdersController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
 
+        [LoginCheck]
         // GET: SecOrders
         public ActionResult Index()
         {
@@ -21,6 +23,7 @@ namespace AMWP.Controllers
             return View(secOrders.ToList());
         }
 
+        [LoginCheck]
         // GET: SecOrders/Details/5
         public ActionResult Details(long? id)
         {

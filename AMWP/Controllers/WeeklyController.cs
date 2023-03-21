@@ -12,6 +12,7 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class WeeklyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();

@@ -11,8 +11,14 @@
         memberID = Convert.ToInt32(Session["mem"]);
     }
     string selected = "";
-    List<TimeSeriesByYears> results = ViewBag.Result;
-    //List<Backtest> inputs = ViewBag.Source;
+
+    List<TimeSeriesByYears> results = ViewBag.Results;
+    List<double> Values1 = ViewBag.Values1;
+    List<double> Values2 = ViewBag.Values2;
+    List<double> Values3 = ViewBag.Values3;
+    
+    
+
 }
 <h3 class="alert alert-info text-center mb-4">投資組合回測</h3>
 <div>
@@ -50,9 +56,10 @@
             </div>
             <div class="form-group col-md-4 row align-items-baseline">
                 @Html.LabelFor(model => model.InitAmount, htmlAttributes: new { @class = "control-label col text-right" })
-                <div class="col text-left">
-                    <input id="InitAmount" name="InitAmount" type="text" class="form-control" value="10000" />
+                <div class="col text-center input-group-append">
+                    <input id="InitAmount" name="InitAmount" type="text" class="form-control" value="10" />
                     @Html.ValidationMessageFor(model => model.InitAmount, "", new { @class = "text-danger" })
+                    <span class="input-group-text">萬元</span>
                 </div>
             </div>
         </div>
@@ -67,7 +74,6 @@
 
                     </div>
                 </div>
-
             </div>
 
             <div class="form-group col-md-3">
@@ -76,7 +82,8 @@
                     <select id="Slice1" name="Slice1" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i" )>@i</option>
+                            selected = ((((Backtest)ViewBag.Source)!=null) && (i == ((Backtest)ViewBag.Source).Slice1) )? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -90,7 +97,8 @@
                     <select id="Slice2" name="Slice2" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice2)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -104,7 +112,8 @@
                     <select id="Slice3" name="Slice3" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice3)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -129,7 +138,8 @@
                     <select id="Slice4" name="Slice4" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice4)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -142,7 +152,8 @@
                     <select id="Slice5" name="Slice5" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice5)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -155,7 +166,8 @@
                     <select id="Slice6" name="Slice6" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice6)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -180,7 +192,8 @@
                     <select id="Slice7" name="Slice7" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice7)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -193,7 +206,8 @@
                     <select id="Slice8" name="Slice8" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice8)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -206,7 +220,8 @@
                     <select id="Slice9" name="Slice9" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice9)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -231,7 +246,8 @@
                     <select id="Slice10" name="Slice10" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice10)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -244,7 +260,8 @@
                     <select id="Slice11" name="Slice11" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice11)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -257,7 +274,8 @@
                     <select id="Slice12" name="Slice12" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice12)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -283,7 +301,8 @@
                     <select id="Slice13" name="Slice13" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice13)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -296,7 +315,8 @@
                     <select id="Slice14" name="Slice14" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice14)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -309,7 +329,8 @@
                     <select id="Slice15" name="Slice15" class="form-control">
                         @for (int i = 0; i <= 100; i = i + 5)
                         {
-                            <option value="@i">@i</option>
+                            selected = ((((Backtest)ViewBag.Source) != null) && (i == ((Backtest)ViewBag.Source).Slice15)) ? "selected" : "";
+                            <option value="@i" @selected>@i</option>
                         }
                     </select>
                     <span class="input-group-text">%</span>
@@ -317,7 +338,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="form-row align-items-center">
             <div class="form-group col-md-3 text-center">
@@ -349,35 +369,65 @@
             </div>
         </div>
 
-
-
         <div class="form-group">
-            <div class="col-md-11 text-right">
+            <div class="col-md-12 text-right">
                 <input type="submit" value="開始回測" class="btn btn-primary" id="btnSubmit" />
             </div>
         </div>
     }
 </div>
-<h5 class="text-danger">@ViewBag.Test</h5>
-<h5 class="text-danger">@ViewBag.Nodata</h5>
-<h5 class="text-danger">@ViewBag.NoSymbol</h5>
+<div class="card" id="msgArea">
+    <div class="card-header text-center">注意事項</div>
+    <div class="card-body">
+        <ul id="msgs">
+        </ul>
+    </div>
+</div>
 
-@if (ViewBag.Result != null)
+
+          
+@if (ViewBag.NoSymbol != null || ViewBag.Nodata != null || ViewBag.HasData != null)
 {
-    foreach (var symbol in results)
+    <div class="card" id="goodMsg">
+        <div class="card-header text-center">注意事項</div>
+        <div class="card-body">
+            <ul>
+                <li class="@ViewBag.Color">@ViewBag.NoSymbol@ViewBag.Nodata@ViewBag.HasData</li>
+            </ul>
+        </div>
+    </div>
+
+}
+@if (ViewBag.Nodata == null)
+{
+    if (ViewBag.Results != null)
     {
-        for (int i = 0; i < symbol.Date.Count; i++)
-        {
-            <h5>@symbol.Date[i]</h5>
-        }
+        <div id="chartArea">
+            <div>
+                <canvas id="lineChart" aria-label="" role="img">
+                </canvas>
+            </div>
+            <div class="table-responsive m-3">
+                <table class="table text-center" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>投資組合</th>
+                            <th>期初資金</th>
+                            <th>期末資金</th>
+                            <th>總報酬率</th>
+                            <th>年化報酬率</th>
+                            <th>標準差</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
     }
 }
-@*<div id="resultArea">
-        @Html.Action("GetBacktest")
-    </div>*@
-
-
-
 
 
 @section CSS{
@@ -393,14 +443,20 @@
             background-color: #dabef5;
             border-color: #bee5eb;
         }
+
+        #msgArea {
+            display: none;
+        }
     </style>
 }
 
 @section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.1/math.min.js" integrity="sha512-WwbnWc5N0epFy5Ba2RfPttV7TvJX8/OfdXyAzmCrzdhcpAsO8jfo/IOJIW6gzgXcGiPyv5w2d2vnWgHV/IXCGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
         $('#sidebarMenu .nav-link').removeClass('active');
         $('#navLink5 ').addClass('active');
-        
+
         $('.symbol').on('input', function (evt) {
             $('.results').empty();
             var id = evt.target.id;
@@ -411,14 +467,13 @@
                     url: '/Securities/SearchSymbol',
                     async: false,
                     data: { query: query },
-                    success: function (data) {                        
+                    success: function (data) {
                         $.each(data, function (index, item) {
                             $(id).append('<button class="list-group-item list-group-item-action" onclick="setValue(event)" id="' + item + '">' + item + '</button>');
                         });
                     }
                 });
             };
-
         });
 
         //symbol搜尋結果選單
@@ -427,27 +482,233 @@
             $('.results').empty();
         }
 
-        //$('.symbol').blur(() => {
-        //    if (!$('.results').focus()) {
-        //        console.log("aaa");
-        //    $('.results').empty();
+        //計算及驗證佔比
+        var sum1 = 0, sum2 = 0, sum3 = 0, count = 0;
+        var sumCk1 = 0, sumCk2 = 0, sumCk3 = 0, sumCk4 = 0, sumCk5 = 0;
+        var sumIDs = ["#sum1", "#sum2", "#sum3"];
+        var symbols = ["#Symbol1", "#Symbol2", "#Symbol3", "#Symbol4", "#Symbol5"];
+        var team1 = ["#Slice1", "#Slice2", "#Slice3"];
+        var team2 = ["#Slice4", "#Slice5", "#Slice6"];
+        var team3 = ["#Slice7", "#Slice8", "#Slice9"];
+        var team4 = ["#Slice10", "#Slice11", "#Slice12"];
+        var team5 = ["#Slice13", "#Slice14", "#Slice15"];
+        var prfloId1 = ["#Slice1", "#Slice4", "#Slice7", "#Slice10", "#Slice13"];
+        var prfloId2 = ["#Slice2", "#Slice5", "#Slice8", "#Slice11", "#Slice14"];
+        var prfloId3 = ["#Slice3", "#Slice6", "#Slice9", "#Slice12", "#Slice15"];
+        var teams = [team1, team2, team3, team4, team5];
+        var sliceIds = [prfloId1, prfloId2, prfloId3];
+        var sums = [sum1, sum2, sum3];
+        var sumCks = [sumCk1, sumCk2, sumCk3, sumCk4, sumCk5]
 
-        //    }
-        //});
-        計算及驗證佔比
-        $('#btnSubmit').click(evt => {
-            var sum1 = parseInt($('#Slice1 option').filter(':selected').val()) +
-                parseInt($('#Slice4 option').filter(':selected').val()) +
-                parseInt($('#Slice7 option').filter(':selected').val()) +
-                parseInt($('#Slice10 option').filter(':selected').val()) +
-                parseInt($('#Slice13 option').filter(':selected').val());
-            $('#sum1').val(sum1);
-            if ((sum1 != 0) || (sum != 100)) {
-                alert("不是100");
+        //送出前檢查
+        $('#btnSubmit').click(function (evt) {
+            var startYear = parseInt($('#StartYear option').filter(':selected').val());
+            var endYear = parseInt($('#EndYear option').filter(':selected').val());
+            var amount = parseFloat($('#InitAmount').val());
+            $('#goodMsg,#chartArea').hide();
+            $('#msgs').empty();
+            $('input,select').css("border-color", "#ced4da").css("border-width", "thin");
+            $('#msgArea').slideDown(500);
+
+            //檢查年度
+            if (startYear > endYear) {
                 evt.preventDefault();
-            }
+                $('#StartYear').css("border-color", "red").css("border-width", "medium");
+                $('#EndYear').css("border-color", "red").css("border-width", "medium");
+                $('#msgs').append(`<li class="text-danger">開始年度不得晚於結束年度</li>`);
+            };
+            //檢查起始資金
+            if (amount < 1) {
+                evt.preventDefault();
+                $('#InitAmount').css("border-color", "red").css("border-width", "medium");
+                $('#msgs').append(`<li class="text-danger">起始金額建議為1萬元以上</li>`);
+            };
+            //檢查證券佔比
+            count = 0;
+            for (var i = 0; i < 3; i++) {
+                sums[i] = 0;
+                for (var item of sliceIds[i]) {
+                    sums[i] += parseInt($(item + ' option').filter(':selected').val());
+                };
+                $(sumIDs[i]).val(sums[i]);
+
+                if (!(sums[i] == 0 || sums[i] == 100)) {
+                    $(sumIDs[i]).css("border-color", "red").css("border-width", "medium");
+                    count++;
+                };
+            };
+            if (count > 0) {
+                evt.preventDefault();
+                $('#msgs').append(`<li class="text-danger">投資組合證券佔比總和應為100%</li>`);
+            };
+            //檢查有佔比無symbol
+            for (var i = 0; i < 5; i++) {
+                sumCks[i] = 0;
+                for (var item of teams[i]) {
+                    sumCks[i] += parseInt($(item + ' option').filter(':selected').val());
+                }
+
+                if (($(symbols[i]).val() == "") && (sumCks[i] > 0)) {
+                    evt.preventDefault();
+                    $(symbols[i]).css("border-color", "red").css("border-width", "medium");
+                    $('#msgs').append(`<li class="text-danger">未輸入證券#${i + 1}，無法分配佔比</li>`);
+                };
+            };
         });
 
+        var dates = [];
+        var closes1 = [];
+        var closes2 = [];
+        var closes3 = [];
+        var dataset1;
+        var dataset2;
+        var dataset3;
+
+        @if (ViewBag.Nodata == null)
+        {
+            if(ViewBag.Results != null)
+            {
+                foreach (var item in results[0].Date)
+                {
+                    @:dates.push("@item");
+                }
+             }
+        }
+
+        var data = {
+            labels: dates,
+            datasets: []
+        };
+
+        var config = {
+            type: 'line',
+            data,
+            options: {
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                animation: false,
+                scales: {
+                    x: { grid: { drawOnChartArea: false } },
+                    y: {
+                        beginAtZero: false,
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = 'pointer';
+                        },
+                        onLeave: (event, chartElement) => {
+                            event.native.target.style.cursor = 'default';
+                        }
+                    }
+                }
+            }
+        };
+        var lineChart = new Chart(document.getElementById("lineChart"),
+            config);
+
+        //計算資產表現數據
+        var initAmount = 0;
+        var finalAmount = 0;
+        var returnAry = []; //報酬
+        var cagr; //年化報酬率
+        var std;  //標準差
+        var gross; //總報酬率
+        var stdi = 52; //標準差乘數
+
+
+
+        function getPerformance(closes,dataset) {
+            initAmount = closes[0];
+            finalAmount = closes[closes.length - 1];
+            cagr = getCAGR(dates, closes).toFixed(2);
+            gross = getGrossReturn(closes).toFixed(2);
+            
+
+            //從價格陣列換算報酬率陣列
+            var i = 0;
+            $.each(closes, function (key, value) {
+                if (i >= 1) {
+                    value = (closes[i] - closes[i - 1]) / closes[i - 1];
+                    returnAry.push(value);
+                }
+                i++;
+            });
+            std = math.round((math.std(returnAry) * math.sqrt(stdi)) * 100, 2);
+
+            //畫表格
+            $('#dataTable tbody').append(`<tr>
+                                            <td>${dataset.label}</td>
+                                            <td>${initAmount}</td>
+                                             <td>${finalAmount}</td>
+                                             <td>${gross}%</td>
+                                             <td>${cagr}%</td>
+                                             <td>${std}%</td>
+                                             </tr>
+                                            `
+            );
+        };
+        //找最大跌幅
+        //var maxV = 0;
+        //var minV = 0;
+        //function getMaxDropDown(closes) {
+        //    for (var item of closes) {
+        //        if (item > maxV) {
+        //            maxV = item;
+        //        }
+        //        if (item < minV) {
+        //            minV = item;
+        //        }
+        //    }
+        //};
+
+         @if (ViewBag.Nodata == null)
+          {
+            if(ViewBag.Results != null)
+            {
+                if (Convert.ToDouble(Values1[0]) != 0)
+                {
+                    foreach (var item in Values1)
+                    {
+                        @:closes1.push(@Convert.ToInt32(item));
+                    }
+                        @:dataset1 = { label: ["投資組合#1"], data: closes1, borderColor: 'rgb(54, 162, 235)', backgroundColor: 'rgb(54, 162, 235)', borderWidth: 1, pointRadius: 0, };
+                        @:data.datasets.push(dataset1);
+                        @:lineChart.update();
+                        @:getPerformance(closes1, dataset1);
+                 }
+
+                 if (Convert.ToDouble(Values2[0]) != 0)
+                 {
+                     foreach (var item in Values2)
+                     {
+                    @:closes2.push(@Convert.ToInt32(item));
+                     }
+                     @:dataset2 = { label: ["投資組合#2"], data: closes2, borderColor: 'rgb(255, 99, 132)', backgroundColor: 'rgb(255, 99, 132)', borderWidth: 1, pointRadius: 0 };
+                     @:data.datasets.push(dataset2);
+                     @:lineChart.update();
+                     @:getPerformance(closes2, dataset2);
+                 }
+
+                 if (Convert.ToDouble(Values3[0]) != 0)
+                 {
+                     foreach (var item in Values3)
+                     {
+                    @:closes3.push(@Convert.ToInt32(item));
+                     }
+                     @:dataset3 = { label: ["投資組合#3"], data: closes3, borderColor: 'rgb(255, 205, 86)', backgroundColor: 'rgb(255, 205, 86)', borderWidth: 1, pointRadius: 0 };
+                     @:data.datasets.push(dataset3);
+                     @:lineChart.update();
+                     @:getPerformance(closes3, dataset3);
+                 }
+            }
+          }
+
+        
     </script>
 
 }

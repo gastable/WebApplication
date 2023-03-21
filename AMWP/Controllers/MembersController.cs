@@ -13,18 +13,20 @@ using Microsoft.Ajax.Utilities;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type = 2)]
     public class MembersController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
         SetData sd = new SetData();
 
+        [LoginCheck]
         // GET: Members
         public ActionResult Index()
         {
             var members = db.Members.Include(m => m.Currencies);
             return View(members.ToList());
         }
-
+        [LoginCheck]
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,6 +42,7 @@ namespace AMWP.Controllers
             return View(members);
         }
 
+        [LoginCheck(flag =false)]
         // GET: Members/Create
         public ActionResult Create()
         {
@@ -51,6 +54,7 @@ namespace AMWP.Controllers
         // POST: Members/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [LoginCheck(flag = false)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
@@ -73,7 +77,7 @@ namespace AMWP.Controllers
                 return View(members);  
             
         }
-
+        [LoginCheck]
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -93,6 +97,7 @@ namespace AMWP.Controllers
         // POST: Members/Edit/5
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [LoginCheck]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
@@ -103,10 +108,42 @@ namespace AMWP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CCYID = db.Currencies.ToList();
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult MemberEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Members members = db.Members.Find(id);
+            if (members == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
             return View(members);
         }
 
+        // POST: Members/Edit/5
+        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
+        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MemberEdit([Bind(Include = "MemID,Account,Password,Name,CreatedDate,Status,CCYID")] Members members)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(members).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CCYID = new SelectList(db.Currencies, "CCYID", "Name", members.CCYID);
+            return View(members);
+        }
+        [LoginCheck]
         // GET: Members/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -123,7 +160,7 @@ namespace AMWP.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [LoginCheck]
         public ActionResult ChangeStatus(int? id)
         {
             if (id == null)

@@ -1,0 +1,102 @@
+﻿@model AMWP.Models.Members
+
+@{
+    ViewBag.Title = "會員資料管理";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+
+}
+
+<h3 class="alert alert-info text-center">會員資料管理</h3>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container form">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MemID)
+
+        <div class="form-group row align-items-baseline">
+            <div class="col-md-5 text-md-right">
+                @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-7">
+                @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row align-items-baseline">
+            <div class="col-md-5 text-md-right">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-7">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row align-items-baseline">
+            <div class="col-md-5 text-md-right">
+                @Html.LabelFor(model => model.CCYID, "預設貨幣", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-7">
+                @Html.DropDownList("CCYID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CCYID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row align-items-baseline">
+            <div class="col-md-5 text-md-right">
+                @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-7">
+                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Status)
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-8 text-right">
+                <input type="submit" value="確定修改" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("返回會員列表", "Index", null, new { @class = "btn btn-info" })
+    </div>*@
+@section CSS{
+    <style>
+        .alert-info {
+            color: #0c5460;
+            background-color: #acf2d4;
+            border-color: #bee5eb;
+        }
+    </style>
+}
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#sidebarMenu .nav-link').removeClass('active');
+    $('#navLink9').addClass('active');
+    </script>
+}

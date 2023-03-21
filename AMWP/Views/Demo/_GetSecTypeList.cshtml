@@ -1,6 +1,11 @@
 ﻿@using System.Data;
 @model System.Data.DataTable
+@{
+    int memberID = 24;
+    string CCY = "USD";
+    
 
+}
 <table class="table table-sm text-center">
     <thead class="thead">
         <tr>
@@ -9,7 +14,7 @@
             </th>
 
             <th>
-                現值(@Convert.ToString(Session["CCY"]))
+                現值(@CCY)
             </th>
         </tr>
     </thead>
@@ -28,3 +33,4 @@
         }
     </tbody>
 </table>
+

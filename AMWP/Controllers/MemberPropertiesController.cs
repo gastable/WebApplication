@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type = 2)]
     public class MemberPropertiesController : Controller
     {
         AMWPEntities db = new AMWPEntities();

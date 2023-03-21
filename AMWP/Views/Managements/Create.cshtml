@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 <hr />
-<h4>新增帳號管理紀錄</h4>
+<h4 class="alert alert-info text-center">新增帳號管理紀錄</h4>
 
 
 @using (Html.BeginForm())
@@ -70,9 +70,19 @@
 }
 
 <div>
-    @Html.ActionLink("返回會員帳號列表", "Index", null, new {@class="btn btn-info"})
+    @Html.ActionLink("返回會員帳號列表", "Index", null, new { @class = "btn btn-info" })
 </div>
 
+@section CSS{
+    <style>
+        .alert-info {
+            color: #0c5460;
+            background-color: #acf2d4;
+            border-color: #bee5eb;
+        }
+       
+    </style>
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

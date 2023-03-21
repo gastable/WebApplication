@@ -34,7 +34,7 @@
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark fixed-top flex-md-nowrap py-1 shadow">
-        <a class="navbar-brand col-md-2 col-lg-1 mr-0 px-3" href="/Home/Index">會員資產管理</a>
+        <a class="navbar-brand col-md-2 col-lg-1 mr-0 px-3" href="/MemberLogin/Login">會員資產管理</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -68,25 +68,25 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active h6" id="navLink1" href="@Url.Action("Dashboard", "Dashboard", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link active h6" id="navLink1" href="@(Session["mem"]==null? Url.Action("Dashboard", "Demo"):Url.Action("Dashboard", "Dashboard", new { id = Session["mem"],ccy=Session["CCY"] }))">
                                 <i class="bi bi-graph-up-arrow"></i>
                                 資產儀表板
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link h6" id="navLink2" href="@Url.Action("DisplaySecOrders","MemberSecurities", new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link h6" id="navLink2" href="@(Session["mem"]==null? Url.Action("DisplaySecOrders", "Demo"):Url.Action("DisplaySecOrders", "MemberSecurities", new { id = Session["mem"],ccy=Session["CCY"] }))">
                                 <i class="bi bi-bank"></i>
                                 證券資產
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" id="navLink3" href="@Url.Action("Display","MemberCash",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" id="navLink3" href="@(Session["mem"]==null? Url.Action("DisplayCash", "Demo"):Url.Action("Display", "MemberCash", new { id = Session["mem"],ccy=Session["CCY"] }))">
                                 <i class="bi bi-coin"></i>
                                 現金
                             </a>
                         </li>
                         <li class="nav-item h6">
-                            <a class="nav-link" id="navLink4" href="@Url.Action("Display","MemberProperties",new { id = Session["mem"]!=null? Session["mem"]:DemoID,ccy=Session["CCY"]!=null? Session["CCY"]:"USD" })">
+                            <a class="nav-link" id="navLink4" href="@(Session["mem"]==null? Url.Action("DisplayProperties", "Demo"):Url.Action("Display", "MemberProperties", new { id = Session["mem"],ccy=Session["CCY"] }))">
                                 <i class="bi bi-houses"></i>
                                 房產與貸款
                             </a>
@@ -97,12 +97,13 @@
                                 投資組合回測
                             </a>
                         </li>
-                        <li class="nav-item h6">
-                            <a class="nav-link" id="navLink6" href="#">
+                        @*<li class="nav-item h6">
+                            <a class="nav-link" id="#">
                                 <i class="bi bi-calculator"></i>
                                 財務目標分析
                             </a>
-                        </li>
+                        </li>*@
+                      
                     </ul>
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -113,7 +114,7 @@
                         @if (Session["mem"] == null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/MemberLogin/Login">
+                                <a class="nav-link" href="/MemberLogin/Login" id="navLink8">
                                     <span data-feather="file-text"></span>
                                     <i class="bi bi-box-arrow-in-right"></i>登入會員帳號
                                 </a>
@@ -122,7 +123,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Edit", "Members", new {id=Session["mem"],ccy=Session["CCY"]!=null? Session["CCY"]:"USD"})">
+                                <a class="nav-link" id="navLink9" href="@Url.Action("MemberEdit", "Members", new {id=Session["mem"],ccy=Session["CCY"]!=null? Session["CCY"]:"USD"})">
                                     會員資料管理
                                 </a>
                             </li>
@@ -156,7 +157,7 @@
 
         $('#searchBox').on('input', function (evt) {
             $('#results').empty();
-            console.log("aaa");
+            
             var id = evt.target.id;
             id = "#" + id + " ~div";
             var query = $(this).val();
@@ -171,13 +172,14 @@
                         });
                     }
                 });
+                $('#searchLink').attr("href", "/Performance/Display?symbol=" + query);
             };
         });
         function setValue(evt) {
             var selectedValue = evt.target.id;
             $('#searchBox').val(selectedValue);
             $('#searchLink').attr("href", "/Performance/Display?symbol=" + selectedValue);
-            console.log(selectedValue);
+            /*console.log(selectedValue);*/
             $('#results').hide();
         }
 

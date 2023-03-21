@@ -4,9 +4,10 @@
     ViewBag.Title = "會員登入";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
-<hr />
-<h3 class="alert alert-info text-center">會員登入</h3>
+@*<hr />*@
+@*<h3 class="alert alert-info text-center">會員登入</h3>*@
 <h4 class="text-danger text-center">@TempData["SignUp"]</h4>
+<h4 class="text-primary text-center">@ViewBag.Msg</h4>
 
 @using (Html.BeginForm())
 {
@@ -41,10 +42,16 @@
                 <input type="submit" value="登入" class="btn btn-primary" />
                 @Html.ActionLink("不是會員？", "Create", "Members", null, new { @class = "btn btn-link" })
             </div>
+            
         </div>
     </div>
 }
 
-@section Scripts {
+@section scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#sidebarMenu .nav-link').removeClass('active');
+    $('#navLink8').addClass('active');
+
+    </script>
 }

@@ -11,6 +11,7 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class DailyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
@@ -188,8 +189,6 @@ namespace AMWP.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        
 
         protected override void Dispose(bool disposing)
         {

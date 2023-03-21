@@ -2,10 +2,11 @@
 
 @{
     ViewBag.Title = "會員資料管理";
-    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+   
 
 }
 
+    <hr />
 <h3 class="alert alert-info text-center">會員資料管理</h3>
 
 
@@ -14,7 +15,6 @@
     @Html.AntiForgeryToken()
 
 <div class="container form">
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.MemID)
 
@@ -81,9 +81,9 @@
 </div>
 }
 
-@*<div>
+<div>
     @Html.ActionLink("返回會員列表", "Index", null, new { @class = "btn btn-info" })
-</div>*@
+</div>
 @section CSS{
     <style>
         .alert-info {

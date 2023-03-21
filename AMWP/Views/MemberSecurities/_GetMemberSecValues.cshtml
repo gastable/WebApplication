@@ -1,19 +1,14 @@
 ﻿@using System.Data;
 @model System.Data.DataTable
 @{
-    int memberID = 24;
-    string CCY = "USD";
+    
     string[] dates = new string[Model.Rows.Count];
     int[] values = new int[Model.Rows.Count];
-    if (Session["mem"] != null)
-    {
-        memberID = Convert.ToInt32(Session["mem"]);
-        CCY = Convert.ToString(Session["CCY"]);
-    };
+   
     foreach(DataRow row in Model.Rows)
     {
         dates=dates.Append(Convert.ToString(row["Date"])).ToArray();
         values=values.Append(Convert.ToInt32(row["Value"])).ToArray();
     }
-    Console.WriteLine(dates);
+    
 }

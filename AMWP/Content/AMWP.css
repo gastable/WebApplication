@@ -1,50 +1,60 @@
-﻿.btn-securities {
+﻿.btn-securities, .alert-securities {
     color: #212529;
     background-color: #bd7ebe;
     border-color: #bd7ebe;
 }
 
-.btn-property {
+.btn-property, .alert-property {
     color: #212529;
     background-color: #b2e061;
     border-color: #b2e061;
 }
 
-.btn-cash {
+.btn-cash, .alert-cash {
     color: #212529;
     background-color: #ffb55a;
     border-color: #ffb55a;
 }
 
-.btn-AOA {
+.btn-AOA, .alert-AOA {
     color: #212529;
     background-color: #f59b9b;
     border-color: #f59b9b;
 }
-
-.btn-STK {
+.btn-AOR, .alert-AOR {
     color: #212529;
-    background-color: #b3f67c;
-    border-color: #b3f67c;
+    background-color: #ffb55a;
+    border-color: #ffb55a;
 }
 
-.btn-AOR {
-    color: #212529;
-    background-color: #f7f472;
-    border-color: #f7f472;
-}
-
-.btn-BND {
+.btn-BND, .alert-BND {
     color: #212529;
     background-color: #8cd9f5;
     border-color: #8cd9f5;
 }
 
-.btn-RET {
+.btn-GLD, .alert-GLD {
+    color: #212529;
+    background-color: #f7f472;
+    border-color: #f7f472;
+}
+
+.btn-RET, .alert-RET {
     color: #212529;
     background-color: #df95f7;
     border-color: #df95f7;
 }
+
+.btn-STK, .alert-STK {
+    color: #212529;
+    background-color: #b3f67c;
+    border-color: #b3f67c;
+}
+
+
+
+
+
 
 .btn-sm {
     padding: 0.25rem 0.5rem;
@@ -52,4 +62,3 @@
     line-height: 1.5;
     border-radius: 0.2rem;
 }
-

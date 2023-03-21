@@ -11,6 +11,7 @@ using AMWP.Models;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck]
     public class MonthlyController : Controller
     {
         private AMWPEntities db = new AMWPEntities();

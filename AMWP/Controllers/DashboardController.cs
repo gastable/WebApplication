@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace AMWP.Controllers
 {
+    [LoginCheck(type = 2)]
     public class DashboardController : Controller
     {
         private AMWPEntities db = new AMWPEntities();
@@ -24,14 +25,13 @@ namespace AMWP.Controllers
         public ActionResult _GetAssetList(int id = 24)
         {
             GetAssets ga = new GetAssets();
-            //GetAssets ga2 = new GetAssets();
-
             double sumPV = ga.GetTotalSecValue(id);
             double cashSum = ga.GetTotalCash(id);
-
+            double ppySum = ga.GetTotalProValue(id);
+            
             TempData["SecSum"] = sumPV;
             TempData["CashSum"] = cashSum;
-
+            TempData["PropertySum"] = ppySum;
             return PartialView();
         }
     }

@@ -58,7 +58,7 @@ namespace AMWP.Models
 
         [DisplayName("每月還款日")]
         [Required(ErrorMessage = "請填寫每月還款日")]
-        [Range(1, 31, ErrorMessage = "還款日需介於1-31")]
+        [Range(1, 28, ErrorMessage = "還款日需介於1-28")]
         public short PayDay { get; set; }
 
         [DisplayName("貸款幣別")]

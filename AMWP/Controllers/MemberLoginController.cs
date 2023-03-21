@@ -14,6 +14,7 @@ namespace AMWP.Controllers
         AMWPEntities db = new AMWPEntities();
         public ActionResult Login()
         {
+            ViewBag.Msg = "請登入會員，使用更強大的專屬功能！";
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace AMWP.Controllers
             rd.Close();      //關閉讀取器，連帶關閉連線
             return View();
         }
-
+        [LoginCheck(type = 2)]
         public ActionResult Logout()
         {
             Session["mem"] = null;  //記錄為訪客狀態
@@ -64,7 +65,7 @@ namespace AMWP.Controllers
             Session["cashSum"] = null;
             Session["pptySum"] = null;
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Login","MemberLogin");
         }
     }
 }
